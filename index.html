@@ -1,9 +1,2062 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-<meta charset="UTF-8">
-<meta http-equiv="refresh" content="0;url=Resumen%20completo%20CS.html">
-<title>Consultorios Serranos</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Consultorios Serranos · Sistema Integrado</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700;800&family=Source+Serif+4:ital,wght@0,300;0,400;0,600;1,400&family=IM+Fell+English+SC&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --ivory:      #f5f0e6;
+            --ivory-dark: #ede6d4;
+            --ivory-mid:  #f0e9d8;
+            --ink:        #111111;
+            --ink-soft:   #2a2a2a;
+            --ink-muted:  #555555;
+            --ink-light:  #888888;
+            --rule:       #bbb09a;
+            --rule-dark:  #7a7060;
+            --accent:     #7a3a18;
+            --danger:     #8b1a1a;
+            --warning:    #7a5c10;
+            --success:    #1a5c2a;
+            --info:       #1a3060;
+            --card-bg:    #faf7f0;
+            --shadow-sm:  0 1px 3px rgba(0,0,0,0.08);
+            --shadow-md:  0 2px 8px rgba(0,0,0,0.10);
+            --radius-lg:  4px;
+            --radius-md:  3px;
+            --radius-sm:  2px;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Source Serif 4', Georgia, serif;
+            background: var(--ivory);
+            color: var(--ink);
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+        .page-wrap { max-width: 1640px; margin: 0 auto; padding: 28px 24px; }
+
+        /* ── HEADER — masthead estilo diario ── */
+        .main-header {
+            background: var(--ivory);
+            border-top: 5px solid var(--ink);
+            border-bottom: 3px double var(--ink);
+            padding: 24px 0 20px;
+            margin-bottom: 24px;
+            display: flex;
+            align-items: flex-end;
+            justify-content: space-between;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+        .logo-area h1 {
+            font-family: 'Playfair Display', Georgia, serif;
+            font-size: 3rem;
+            font-weight: 800;
+            color: var(--ink);
+            letter-spacing: -1px;
+            line-height: 1;
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+        .logo-icon {
+            width: 52px; height: 52px;
+            background: var(--ink);
+            display: flex; align-items: center; justify-content: center;
+            font-size: 1.4rem;
+            color: var(--ivory);
+        }
+        .subtitle {
+            font-family: 'Source Serif 4', serif;
+            color: var(--ink-muted);
+            margin-top: 6px;
+            font-size: 0.9rem;
+            font-style: italic;
+            display: flex; align-items: center; gap: 8px;
+            border-top: 1px solid var(--rule);
+            padding-top: 6px;
+        }
+        .header-meta { text-align: right; }
+        .header-badge {
+            display: inline-flex; align-items: center; gap: 8px;
+            border: 1px solid var(--ink);
+            color: var(--ink);
+            padding: 5px 14px;
+            font-size: 0.78rem;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+            font-family: 'Source Serif 4', serif;
+        }
+        .apertura-chip {
+            display: inline-flex; align-items: center; gap: 6px;
+            border: 1px solid var(--rule-dark);
+            color: var(--accent);
+            padding: 4px 12px;
+            font-size: 0.78rem;
+            font-weight: 600;
+            margin-top: 6px;
+            text-transform: uppercase;
+            letter-spacing: 0.4px;
+        }
+
+        /* ── NAV — secciones estilo diario ── */
+        .nav-tabs {
+            display: flex;
+            background: var(--ink);
+            padding: 0;
+            margin-bottom: 24px;
+            flex-wrap: wrap;
+            border: none;
+            gap: 0;
+        }
+        .nav-tab {
+            padding: 11px 20px;
+            border: none;
+            background: transparent;
+            font-family: 'Source Serif 4', serif;
+            font-weight: 600;
+            font-size: 0.82rem;
+            color: #ccc;
+            cursor: pointer;
+            transition: all 0.15s;
+            display: flex;
+            align-items: center;
+            gap: 7px;
+            white-space: nowrap;
+            border-right: 1px solid #333;
+            text-transform: uppercase;
+            letter-spacing: 0.4px;
+        }
+        .nav-tab i { font-size: 0.9rem; }
+        .nav-tab:hover { background: #222; color: white; }
+        .nav-tab.active { background: var(--ivory); color: var(--ink); font-weight: 700; }
+        .content-pane { display: none; }
+        .content-pane.active { display: block; animation: fadeIn 0.2s ease; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+        /* ── GRID ── */
+        .grid-2 { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; }
+        .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+        .grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; }
+
+        /* ── CARDS ── */
+        .card {
+            background: var(--card-bg);
+            padding: 22px 24px;
+            border: 1px solid var(--rule);
+            transition: box-shadow 0.2s;
+        }
+        .card:hover { box-shadow: var(--shadow-md); }
+        .card-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; padding-bottom: 10px; border-bottom: 2px solid var(--ink); }
+        .card-title {
+            font-family: 'Playfair Display', serif;
+            font-weight: 700;
+            font-size: 1.05rem;
+            color: var(--ink);
+            display: flex; align-items: center; gap: 10px;
+        }
+        .card-title i { font-size: 1rem; }
+
+        /* ── BADGES ── */
+        .badge { padding: 3px 10px; font-size: 0.7rem; font-weight: 700; letter-spacing: 0.5px; display: inline-flex; align-items: center; gap: 5px; text-transform: uppercase; border: 1px solid; }
+        .badge-danger  { background: #f9e8e8; color: var(--danger);  border-color: #d9a0a0; }
+        .badge-success { background: #e8f4eb; color: var(--success); border-color: #90c4a0; }
+        .badge-warning { background: #f9f3e0; color: var(--warning); border-color: #d4b870; }
+        .badge-info    { background: #e8edf9; color: var(--info);    border-color: #90a8d4; }
+        .badge-accent  { background: #f9f0e8; color: var(--accent);  border-color: #d4a078; }
+        .badge-purple  { background: #f0eef9; color: #4a2580;        border-color: #b0a0d4; }
+        .badge-neutral { background: var(--ivory-mid); color: var(--ink-muted); border-color: var(--rule); }
+
+        /* ── TABLES ── */
+        .table-responsive { overflow-x: auto; }
+        .table { width: 100%; border-collapse: collapse; }
+        .table th {
+            text-align: left;
+            padding: 9px 10px;
+            font-family: 'Source Serif 4', serif;
+            font-weight: 600;
+            color: var(--ivory);
+            background: var(--ink);
+            font-size: 0.72rem;
+            text-transform: uppercase;
+            letter-spacing: 0.7px;
+        }
+        .table td { padding: 11px 10px; border-bottom: 1px solid var(--ivory-dark); font-size: 0.88rem; color: var(--ink-soft); }
+        .table tr:last-child td { border-bottom: none; }
+        .table tr:hover td { background: var(--ivory-mid); }
+
+        /* ── KANBAN ── */
+        .kanban { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+        .kanban-col { background: var(--ivory-mid); border: 1px solid var(--rule); padding: 16px; }
+        .kanban-col-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 0.78rem; font-weight: 700; text-transform: uppercase;
+            letter-spacing: 1px; margin-bottom: 14px;
+            display: flex; align-items: center; gap: 8px;
+            padding-bottom: 8px;
+            border-bottom: 2px solid currentColor;
+        }
+        .col-confirmed .kanban-col-title { color: var(--success); }
+        .col-progress  .kanban-col-title { color: var(--warning); }
+        .col-pending   .kanban-col-title { color: var(--danger); }
+        .kanban-card {
+            background: var(--card-bg);
+            padding: 11px 14px;
+            margin-bottom: 10px;
+            border: 1px solid var(--rule);
+            border-left: 4px solid transparent;
+            transition: transform 0.15s;
+        }
+        .kanban-card:hover { transform: translateX(3px); }
+        .col-confirmed .kanban-card { border-left-color: var(--success); }
+        .col-progress  .kanban-card { border-left-color: var(--warning); }
+        .col-pending   .kanban-card { border-left-color: var(--danger); }
+        .kanban-card .prof-name     { font-family: 'Playfair Display', serif; font-weight: 700; font-size: 0.87rem; color: var(--ink); }
+        .kanban-card .prof-specialty{ font-size: 0.78rem; color: var(--ink-muted); margin-top: 2px; }
+        .kanban-card .prof-note     { font-size: 0.73rem; margin-top: 6px; padding: 4px 8px; background: var(--ivory-dark); color: var(--ink-muted); font-style: italic; }
+        .pulse { display: inline-block; width: 8px; height: 8px; border-radius: 50%; }
+        .pulse-green  { background: var(--success); animation: pulse 2s infinite; }
+        .pulse-yellow { background: var(--warning); animation: pulse 2s infinite; }
+        .pulse-red    { background: var(--danger); }
+        @keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: 0.4; } }
+
+        /* ── TIMELINE ── */
+        .timeline { position: relative; padding-left: 28px; }
+        .timeline::before { content: ''; position: absolute; left: 10px; top: 8px; bottom: 8px; width: 2px; background: var(--rule-dark); }
+        .tl-item { position: relative; margin-bottom: 22px; }
+        .tl-item:last-child { margin-bottom: 0; }
+        .tl-dot { position: absolute; left: -24px; top: 4px; width: 14px; height: 14px; border: 2px solid var(--rule-dark); background: var(--ivory); }
+        .tl-dot.done   { background: var(--success); border-color: var(--success); }
+        .tl-dot.active { background: var(--warning); border-color: var(--warning); animation: tlpulse 2s infinite; }
+        .tl-dot.pending{ background: var(--ivory-dark); border-color: var(--rule); }
+        @keyframes tlpulse { 0%,100% { opacity:1; } 50% { opacity:0.5; } }
+        .tl-month { font-size: 0.7rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.8px; color: var(--ink-light); margin-bottom: 2px; }
+        .tl-title { font-family: 'Playfair Display', serif; font-weight: 700; font-size: 0.92rem; color: var(--ink); }
+        .tl-desc  { font-size: 0.82rem; color: var(--ink-muted); margin-top: 2px; font-style: italic; }
+
+        /* ── SWOT ── */
+        .swot-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+        .swot-q { padding: 16px 18px; border: 1px solid var(--rule); }
+        .swot-q h4 { font-family: 'Playfair Display', serif; font-size: 0.85rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 10px; display: flex; align-items: center; gap: 8px; padding-bottom: 6px; border-bottom: 1px solid currentColor; }
+        .swot-q ul { padding-left: 16px; }
+        .swot-q li { padding: 3px 0; font-size: 0.85rem; }
+        .swot-s { background: #eaf4ec; } .swot-s h4 { color: var(--success); }
+        .swot-w { background: #f4eaea; } .swot-w h4 { color: var(--danger); }
+        .swot-o { background: #eaedf4; } .swot-o h4 { color: var(--info); }
+        .swot-t { background: #f4f2ea; } .swot-t h4 { color: var(--warning); }
+
+        /* ── STAT CARDS ── */
+        .stat-card {
+            background: var(--card-bg);
+            padding: 20px;
+            text-align: center;
+            border: 1px solid var(--rule);
+            border-top: 4px solid var(--ink);
+        }
+        .stat-number { font-family: 'Playfair Display', serif; font-size: 2.4rem; font-weight: 800; color: var(--ink); line-height: 1; }
+        .stat-label  { font-size: 0.72rem; color: var(--ink-muted); margin-top: 6px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; }
+        .stat-sub    { font-size: 0.7rem;  color: var(--ink-light); margin-top: 4px; font-style: italic; }
+
+        /* ── PROGRESS ── */
+        .progress-wrap { background: var(--ivory-dark); height: 12px; overflow: hidden; margin: 10px 0; border: 1px solid var(--rule); }
+        .progress-fill {
+            height: 100%;
+            background: var(--ink);
+            display: flex; align-items: center; justify-content: flex-end;
+            padding-right: 8px;
+            font-size: 0.65rem; font-weight: 700; color: var(--ivory);
+            transition: width 0.5s ease;
+        }
+
+        /* ── CHECKLIST ── */
+        .checklist-item {
+            display: flex; align-items: flex-start; gap: 12px;
+            padding: 10px 6px;
+            border-bottom: 1px solid var(--ivory-dark);
+            cursor: pointer;
+            transition: background 0.1s;
+        }
+        .checklist-item:last-child { border-bottom: none; }
+        .checklist-item:hover { background: var(--ivory-mid); }
+        .check-box {
+            width: 20px; height: 20px;
+            border: 2px solid var(--rule-dark);
+            display: flex; align-items: center; justify-content: center;
+            color: transparent; transition: all 0.2s; flex-shrink: 0; margin-top: 2px;
+        }
+        .checklist-item.completed .check-box { background: var(--ink); border-color: var(--ink); color: var(--ivory); }
+        .checklist-item.completed .check-text { text-decoration: line-through; color: var(--ink-light); }
+
+        /* ── SIMULATOR ── */
+        .sim-result { background: var(--ivory-mid); padding: 22px 24px; margin-top: 18px; border: 1px solid var(--rule); border-top: 3px solid var(--ink); }
+        .sim-big    { font-family: 'Playfair Display', serif; font-size: 2.2rem; font-weight: 800; line-height: 1; color: var(--ink); }
+        .sim-label  { font-size: 0.72rem; color: var(--ink-muted); margin-top: 4px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.4px; }
+        .metric-row { display: flex; justify-content: space-between; align-items: center; padding: 9px 0; border-bottom: 1px dashed var(--rule); }
+        .metric-row:last-child { border-bottom: none; }
+        .form-group { margin-bottom: 16px; }
+        .form-label { font-size: 0.72rem; font-weight: 700; color: var(--ink-muted); margin-bottom: 5px; display: block; text-transform: uppercase; letter-spacing: 0.5px; }
+        .form-control {
+            width: 100%; padding: 9px 12px;
+            border: 1px solid var(--rule-dark);
+            font-family: 'Source Serif 4', serif; font-size: 0.9rem;
+            background: var(--ivory); color: var(--ink);
+            transition: border 0.2s;
+        }
+        .form-control:focus { outline: none; border-color: var(--ink); }
+        .btn {
+            padding: 10px 22px; font-family: 'Source Serif 4', serif;
+            font-weight: 700; font-size: 0.85rem;
+            border: 2px solid var(--ink); cursor: pointer; transition: all 0.15s;
+            display: inline-flex; align-items: center; gap: 8px;
+            text-transform: uppercase; letter-spacing: 0.5px;
+        }
+        .btn-primary { background: var(--ink); color: var(--ivory); }
+        .btn-primary:hover { background: #333; }
+        .btn-sm { background: var(--ivory); color: var(--ink-muted); border: 1px solid var(--rule-dark); padding: 7px 14px; font-size: 0.77rem; }
+        .btn-sm:hover { background: var(--ivory-dark); color: var(--ink); border-color: var(--ink); }
+
+        /* ── INFO BOX ── */
+        .info-box { padding: 12px 16px; margin-top: 12px; display: flex; gap: 12px; align-items: flex-start; border-left: 4px solid; }
+        .info-box i { margin-top: 2px; flex-shrink: 0; }
+        .info-warning { background: #f9f3e0; border-color: var(--warning); color: var(--warning); }
+        .info-success { background: #eaf4ec; border-color: var(--success); color: var(--success); }
+        .info-info    { background: #eaedf4; border-color: var(--info);    color: var(--info); }
+        .info-accent  { background: #f9f0e8; border-color: var(--accent);  color: var(--accent); }
+
+        /* ── OOSS ── */
+        .ooss-option {
+            border: 1px solid var(--rule);
+            padding: 18px 20px;
+            cursor: pointer;
+            transition: all 0.15s;
+        }
+        .ooss-option:hover    { border-color: var(--ink); background: var(--ivory-mid); }
+        .ooss-option.selected { border-color: var(--ink); border-left: 5px solid var(--ink); background: var(--ivory-mid); }
+        .ooss-option h4 { font-family: 'Playfair Display', serif; font-weight: 700; font-size: 0.95rem; margin-bottom: 8px; }
+        .ooss-option ul { padding-left: 18px; font-size: 0.83rem; color: var(--ink-muted); }
+        .ooss-option li { padding: 2px 0; }
+
+        /* ── FOOTER ── */
+        .dashboard-footer {
+            margin-top: 40px; padding: 16px 0;
+            border-top: 3px double var(--ink);
+            display: flex; justify-content: space-between;
+            color: var(--ink-muted); font-size: 0.78rem;
+            flex-wrap: wrap; gap: 12px; font-style: italic;
+        }
+
+        /* ── PENDIENTES ── */
+        .pend-item {
+            display: flex; align-items: flex-start; gap: 12px;
+            padding: 11px 8px; border-bottom: 1px solid var(--ivory-dark);
+            transition: background 0.1s;
+        }
+        .pend-item:last-child { border-bottom: none; }
+        .pend-item:hover { background: var(--ivory-mid); }
+        .pend-item.done .pend-title { text-decoration: line-through; color: var(--ink-light); }
+        .pend-item.done { opacity: 0.55; }
+        .pend-check {
+            margin-top: 3px; width: 18px; height: 18px; flex-shrink: 0;
+            accent-color: var(--ink); cursor: pointer;
+        }
+        .pend-body { flex: 1; }
+        .pend-title { font-size: 0.9rem; color: var(--ink-soft); line-height: 1.4; }
+        .pend-title[contenteditable="true"]:focus { background: #fffff8; outline: 1px dashed var(--rule-dark); }
+        .pend-meta { margin-top: 4px; font-size: 0.75rem; color: var(--ink-light); font-style: italic; display: flex; gap: 6px; align-items: center; flex-wrap: wrap; }
+
+        /* ── EDITABLE ── */
+        [contenteditable]:focus {
+            outline: 2px dashed var(--rule-dark);
+            outline-offset: 2px;
+            background: #fffff8 !important;
+        }
+        [contenteditable]:hover { cursor: text; }
+        .edit-hint { font-size: 0.65rem; color: var(--ink-light); font-style: italic; margin-left: 6px; vertical-align: middle; opacity: 0.7; }
+
+        /* ── SAVE BAR ── */
+        .save-bar {
+            position: fixed; bottom: 0; left: 0; right: 0; z-index: 1000;
+            background: var(--ink); color: var(--ivory);
+            display: flex; align-items: center; justify-content: space-between;
+            padding: 10px 20px; font-size: 0.82rem; font-family: 'Source Serif 4', serif;
+            transform: translateY(100%); transition: transform 0.25s ease;
+        }
+        .save-bar.visible { transform: translateY(0); }
+        .save-bar .save-status { display: flex; align-items: center; gap: 8px; }
+        .save-dot { width: 7px; height: 7px; border-radius: 50%; background: #f59e0b; display: inline-block; }
+        .save-dot.saved { background: #6ee7b7; }
+        .save-actions { display: flex; gap: 10px; }
+        .save-btn { background: var(--ivory); color: var(--ink); border: none; padding: 6px 16px; font-family: inherit; font-weight: 700; font-size: 0.8rem; cursor: pointer; text-transform: uppercase; letter-spacing: 0.4px; }
+        .save-btn:hover { background: #e8e3d8; }
+        .reset-btn { background: transparent; color: #f87171; border: 1px solid #f87171; padding: 5px 12px; font-family: inherit; font-size: 0.78rem; cursor: pointer; }
+        .reset-btn:hover { background: rgba(248,113,113,0.1); }
+
+        /* ── HAMBURGER ── */
+        .hamburger-btn {
+            display: none; background: none; border: none; cursor: pointer;
+            padding: 8px; color: var(--ink); font-size: 1.4rem;
+        }
+        .nav-overlay {
+            display: none; position: fixed; inset: 0; z-index: 900;
+            background: rgba(0,0,0,0.5);
+        }
+        .nav-drawer {
+            position: fixed; top: 0; left: -280px; bottom: 0; width: 280px; z-index: 950;
+            background: var(--ink); transition: left 0.25s ease;
+            overflow-y: auto; padding: 20px 0;
+        }
+        .nav-drawer.open { left: 0; }
+        .nav-overlay.open { display: block; }
+        .drawer-header {
+            padding: 0 20px 18px; border-bottom: 1px solid #333;
+            margin-bottom: 10px; display: flex; align-items: center; justify-content: space-between;
+        }
+        .drawer-title { color: var(--ivory); font-family: 'Playfair Display', serif; font-size: 1.1rem; font-weight: 700; }
+        .drawer-close { background: none; border: none; color: #aaa; font-size: 1.2rem; cursor: pointer; }
+        .drawer-close:hover { color: white; }
+        .drawer-tab {
+            display: flex; align-items: center; gap: 12px;
+            padding: 14px 20px; color: #ccc; font-family: 'Source Serif 4', serif;
+            font-size: 0.9rem; cursor: pointer; border: none; background: none;
+            width: 100%; text-align: left; transition: background 0.15s;
+            border-left: 3px solid transparent;
+        }
+        .drawer-tab:hover { background: #1a1a1a; color: white; }
+        .drawer-tab.active { background: #222; color: var(--ivory); border-left-color: var(--ivory); font-weight: 600; }
+        .drawer-tab i { width: 20px; text-align: center; font-size: 1rem; }
+
+        /* ── RESPONSIVE ── */
+        @media (max-width: 1200px) {
+            .grid-4 { grid-template-columns: repeat(2, 1fr); }
+            .grid-3 { grid-template-columns: repeat(2, 1fr); }
+            .kanban { grid-template-columns: 1fr; }
+        }
+        @media (max-width: 768px) {
+            .grid-2, .grid-3, .grid-4 { grid-template-columns: 1fr; }
+            .main-header { flex-direction: column; align-items: flex-start; }
+            .logo-area h1 { font-size: 1.8rem; }
+            .swot-grid { grid-template-columns: 1fr; }
+            .nav-tabs { display: none; }
+            .hamburger-btn { display: flex; align-items: center; }
+            .page-wrap { padding: 16px 14px; }
+            .card { padding: 16px; }
+            .stat-number { font-size: 1.8rem; }
+            .sim-big { font-size: 1.6rem; }
+        }
+
+        /* ── CONSULTORIO BOXES ── */
+        .plano { display: flex; gap: 14px; justify-content: center; margin: 16px 0; flex-wrap: wrap; }
+        .c-box {
+            background: var(--ivory-mid);
+            border: 2px solid var(--ink);
+            padding: 16px 20px;
+            text-align: center;
+            min-width: 140px;
+            transition: background 0.15s;
+        }
+        .c-box:hover { background: var(--ivory-dark); }
+        .c-box .medida { font-family: 'Playfair Display', serif; font-weight: 800; color: var(--ink); font-size: 1.05rem; margin-top: 6px; }
+        .c-box small { color: var(--ink-muted); font-size: 0.75rem; font-style: italic; }
+
+        /* ── SPECIALTY TAGS ── */
+        .specialty-cloud { display: flex; flex-wrap: wrap; gap: 8px; margin: 14px 0; }
+        .sp-tag { padding: 5px 12px; font-size: 0.78rem; font-weight: 600; display: inline-flex; align-items: center; gap: 5px; border: 1px solid; text-transform: uppercase; letter-spacing: 0.3px; }
+        .sp-confirmed   { background: #eaf4ec; color: var(--success); border-color: #90c4a0; }
+        .sp-pending     { background: #f4eaea; color: var(--danger);  border-color: #d0a0a0; }
+        .sp-negotiation { background: #f9f3e0; color: var(--warning); border-color: #d4b870; }
+        .sp-new         { background: #f0eef9; color: #4a2580;        border-color: #b0a0d4; }
+
+        /* ── SECTION DIVIDER ── */
+        .section-divider { height: 1px; background: var(--rule); margin: 18px 0; }
+        .mb-20 { margin-bottom: 20px; }
+        .mt-16 { margin-top: 16px; }
+        .text-muted { color: var(--ink-muted); font-size: 0.85rem; font-style: italic; }
+        strong { color: var(--ink); }
+    </style>
 </head>
-<body></body>
+<body>
+<div class="page-wrap">
+
+    <!-- HEADER -->
+    <div class="main-header">
+        <div class="logo-area" style="display:flex;align-items:center;gap:18px;">
+            <!-- Logo real — guardar imagen como logo.png en la misma carpeta -->
+            <img src="logo.png" alt="Policlínica Serrano" style="width:82px;height:82px;flex-shrink:0;object-fit:contain;" onerror="this.style.display='none'">
+            <div>
+                <h1 style="font-size:2.4rem;">Policlínica Serrano</h1>
+                <div class="subtitle">
+                    <i class="fas fa-map-pin"></i> Sierra de los Padres · Mar del Plata
+                    &nbsp;·&nbsp; <span id="current-date"></span>
+                </div>
+            </div>
+        </div>
+        <div class="header-meta">
+            <div class="header-badge"><i class="fas fa-stethoscope"></i> Policonsultorio ambulatorio · 2 consultorios</div>
+            <div style="margin-top: 6px;">
+                <div class="apertura-chip"><i class="fas fa-calendar-star"></i> Apertura estimada: Diciembre 2026</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- NAV -->
+    <!-- Hamburger (solo mobile) -->
+    <button class="hamburger-btn" onclick="openDrawer()" aria-label="Menú">
+        <i class="fas fa-bars"></i>&nbsp; Secciones
+    </button>
+
+    <!-- Nav desktop -->
+    <div class="nav-tabs">
+        <button class="nav-tab active" data-tab="resumen"><i class="fas fa-home"></i> Resumen</button>
+        <button class="nav-tab" data-tab="competencia"><i class="fas fa-chess"></i> Estrategia Concepción</button>
+        <button class="nav-tab" data-tab="especialidades"><i class="fas fa-stethoscope"></i> Especialidades & RRHH</button>
+        <button class="nav-tab" data-tab="simulador"><i class="fas fa-calculator"></i> Simulador Financiero</button>
+        <button class="nav-tab" data-tab="habilitacion"><i class="fas fa-clipboard-list"></i> Habilitación</button>
+        <button class="nav-tab" data-tab="estrategia"><i class="fas fa-bullhorn"></i> Marketing & Estrategia</button>
+        <button class="nav-tab" data-tab="ooss"><i class="fas fa-id-card-alt"></i> Obras Sociales</button>
+        <button class="nav-tab" data-tab="pendientes" style="position:relative;"><i class="fas fa-tasks"></i> Pendientes <span style="position:absolute;top:6px;right:6px;width:8px;height:8px;background:#bf6450;border-radius:50%;display:inline-block;"></span></button>
+    </div>
+
+    <!-- Drawer mobile -->
+    <div class="nav-overlay" id="navOverlay" onclick="closeDrawer()"></div>
+    <div class="nav-drawer" id="navDrawer">
+        <div class="drawer-header">
+            <span class="drawer-title">Consultorios Serranos</span>
+            <button class="drawer-close" onclick="closeDrawer()"><i class="fas fa-times"></i></button>
+        </div>
+        <button class="drawer-tab active" data-tab="resumen" onclick="goTab('resumen')"><i class="fas fa-home"></i> Resumen</button>
+        <button class="drawer-tab" data-tab="competencia" onclick="goTab('competencia')"><i class="fas fa-chess"></i> Estrategia Concepción</button>
+        <button class="drawer-tab" data-tab="especialidades" onclick="goTab('especialidades')"><i class="fas fa-stethoscope"></i> Especialidades & RRHH</button>
+        <button class="drawer-tab" data-tab="simulador" onclick="goTab('simulador')"><i class="fas fa-calculator"></i> Simulador Financiero</button>
+        <button class="drawer-tab" data-tab="habilitacion" onclick="goTab('habilitacion')"><i class="fas fa-clipboard-list"></i> Habilitación</button>
+        <button class="drawer-tab" data-tab="estrategia" onclick="goTab('estrategia')"><i class="fas fa-bullhorn"></i> Marketing & Estrategia</button>
+        <button class="drawer-tab" data-tab="ooss" onclick="goTab('ooss')"><i class="fas fa-id-card-alt"></i> Obras Sociales</button>
+        <button class="drawer-tab" data-tab="pendientes" onclick="goTab('pendientes')"><i class="fas fa-tasks"></i> Pendientes ●</button>
+    </div>
+
+    <!-- ==================== PANE 1: RESUMEN ==================== -->
+    <div class="content-pane active" id="resumen">
+
+        <!-- KPIs -->
+        <div class="grid-4 mb-20">
+            <div class="stat-card">
+                <div class="stat-number">3</div>
+                <div class="stat-label">Profesionales confirmados</div>
+                <div class="stat-sub">Trauma · Kinesio · Oftalmología</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">2</div>
+                <div class="stat-label">Consultorios físicos</div>
+                <div class="stat-sub">4 turnos diarios · 16h/día</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" style="color: var(--warning);">7</div>
+                <div class="stat-label">Especialidades pendientes</div>
+                <div class="stat-sub">Clínica Médica y Pediatría = críticas</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" style="color: var(--accent);">Dic</div>
+                <div class="stat-label">Apertura estimada</div>
+                <div class="stat-sub">2026 · Sierra de los Padres</div>
+            </div>
+        </div>
+
+        <div class="grid-2">
+            <div class="card">
+                <div class="card-title"><i class="fas fa-info-circle"></i> Resumen Ejecutivo</div>
+                <p class="mb-20"><strong>Consultorios Serranos</strong> es un policonsultorio ambulatorio con <strong>2 consultorios físicos</strong> que operan en dos turnos diarios (4 turnos totales por día), capitalizando las debilidades del competidor local.</p>
+                <div class="plano">
+                    <div class="c-box">
+                        <i class="fas fa-door-open" style="font-size: 20px; color: var(--primary);"></i>
+                        <div style="font-weight: 600; margin-top: 6px;">Consultorio 1</div>
+                        <div class="medida">CA9 · 2.50m</div>
+                        <small>Mañana 9-13h / Tarde 13-17h</small>
+                    </div>
+                    <div class="c-box">
+                        <i class="fas fa-door-open" style="font-size: 20px; color: var(--primary);"></i>
+                        <div style="font-weight: 600; margin-top: 6px;">Consultorio 2</div>
+                        <div class="medida">CA12/13 · 2.50m</div>
+                        <small>Mañana 9-13h / Tarde 13-17h</small>
+                    </div>
+                </div>
+                <div class="info-box info-success">
+                    <i class="fas fa-bullseye" style="color: var(--success);"></i>
+                    <div><strong>Propuesta de valor:</strong> "Especialistas cerca tuyo. Evitá viajar a la ciudad. Seguimiento real, no una hora por semana."</div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-title"><i class="fas fa-road"></i> Timeline hacia la apertura</div>
+                <div class="timeline">
+                    <div class="tl-item">
+                        <div class="tl-dot done"></div>
+                        <div class="tl-month">Completado</div>
+                        <div class="tl-title">Análisis de mercado y modelo financiero</div>
+                        <div class="tl-desc">Análisis competitivo completo, grilla de especialidades, simulador.</div>
+                    </div>
+                    <div class="tl-item">
+                        <div class="tl-dot done"></div>
+                        <div class="tl-month">Completado</div>
+                        <div class="tl-title">Reclutamiento inicial</div>
+                        <div class="tl-desc">Dr. Soule (Trauma), Dra. Andrade (Kinesio), Oftalmología confirmados.</div>
+                    </div>
+                    <div class="tl-item">
+                        <div class="tl-dot active"></div>
+                        <div class="tl-month">En curso · Jul–Ago 2026</div>
+                        <div class="tl-title">Cerrar reclutamiento crítico</div>
+                        <div class="tl-desc">Clínica Médica, Pediatría, Cardiología, Imágenes (Marcelo).</div>
+                    </div>
+                    <div class="tl-item">
+                        <div class="tl-dot pending"></div>
+                        <div class="tl-month">Sep 2026</div>
+                        <div class="tl-title">Habilitación municipal</div>
+                        <div class="tl-desc">Trámite con Dr. Ivan Soule. Inspección edilicia.</div>
+                    </div>
+                    <div class="tl-item">
+                        <div class="tl-dot pending"></div>
+                        <div class="tl-month">Oct–Nov 2026</div>
+                        <div class="tl-title">Preparación operativa</div>
+                        <div class="tl-desc">Sistema de turnos, branding, convenios OOSS, capacitación secretaria.</div>
+                    </div>
+                    <div class="tl-item">
+                        <div class="tl-dot pending"></div>
+                        <div class="tl-month">Dic 2026</div>
+                        <div class="tl-title">🎉 Apertura oficial</div>
+                        <div class="tl-desc">Jornada de salud comunitaria de lanzamiento.</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="grid-3">
+            <div class="card">
+                <div class="card-title"><i class="fas fa-clock"></i> Horarios</div>
+                <table class="table">
+                    <tr><td>Lun–Vie</td><td><strong>09:00–13:00 · 13:00–17:00</strong></td></tr>
+                    <tr><td>Turnos/día</td><td><strong>4</strong> (2 cons. × 2 turnos)</td></tr>
+                    <tr><td>Horas atención/día</td><td><strong>16 horas</strong></td></tr>
+                    <tr><td>Personal admin</td><td><strong>1 Secretaria</strong> full-time</td></tr>
+                    <tr><td>Pacientes/hora</td><td>Mín 1 · Máx 5</td></tr>
+                    <tr><td>Valor consulta</td><td>$30.000 – $50.000</td></tr>
+                </table>
+                <div style="margin-top: 12px; display: flex; gap: 8px; flex-wrap: wrap;">
+                    <span class="badge badge-accent"><i class="far fa-calendar-alt"></i> 20 días/mes</span>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-title"><i class="fas fa-chart-line"></i> Proyección Financiera</div>
+                <div class="metric-row"><span>Gastos fijos/mes</span><strong>$2.300.000</strong></div>
+                <div class="metric-row"><span>Alquiler</span><span>$400.000</span></div>
+                <div class="metric-row"><span>Secretaria (c/cargas)</span><span>$1.800.000</span></div>
+                <div class="metric-row"><span>Servicios</span><span>$100.000</span></div>
+                <div class="section-divider"></div>
+                <div class="metric-row"><span>Escenario regular (mes 4+)</span><strong style="color:var(--success)">+$2.300.000</strong></div>
+                <div class="metric-row"><span>Punto equilibrio mes 1-3</span><span>~3 pac/hora</span></div>
+                <div class="metric-row"><span>ROI estimado</span><span>12–18 meses</span></div>
+            </div>
+            <div class="card">
+                <div class="card-title"><i class="fas fa-tasks"></i> Estado general</div>
+                <div style="margin-bottom: 4px; display: flex; justify-content: space-between; font-size: 0.82rem;">
+                    <span class="text-muted">Progreso global</span><strong>42%</strong>
+                </div>
+                <div class="progress-wrap">
+                    <div class="progress-fill" style="width: 42%;">42%</div>
+                </div>
+                <ul style="list-style: none; margin-top: 16px;">
+                    <li style="padding: 6px 0;"><i class="fas fa-check-circle" style="color:var(--success); width:18px;"></i> Análisis de mercado</li>
+                    <li style="padding: 6px 0;"><i class="fas fa-check-circle" style="color:var(--success); width:18px;"></i> Modelo financiero</li>
+                    <li style="padding: 6px 0;"><i class="fas fa-check-circle" style="color:var(--success); width:18px;"></i> Local comercial OK</li>
+                    <li style="padding: 6px 0;"><i class="fas fa-spinner fa-spin" style="color:var(--warning); width:18px;"></i> Reclutamiento (3/10 confirmados)</li>
+                    <li style="padding: 6px 0;"><i class="fas fa-spinner fa-spin" style="color:var(--warning); width:18px;"></i> Charla Imágenes (Marcelo)</li>
+                    <li style="padding: 6px 0;"><i class="far fa-circle" style="color:var(--text-muted); width:18px;"></i> Habilitación municipal (con Dr. Soule)</li>
+                    <li style="padding: 6px 0;"><i class="far fa-circle" style="color:var(--text-muted); width:18px;"></i> Sistema de turnos online</li>
+                    <li style="padding: 6px 0;"><i class="far fa-circle" style="color:var(--text-muted); width:18px;"></i> Decisión obras sociales</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- ==================== PANE 2: ESTRATEGIA CONCEPCIÓN ==================== -->
+    <div class="content-pane" id="competencia">
+        <div class="card mb-20">
+            <div class="card-header">
+                <div class="card-title"><i class="fas fa-chess-king"></i> Estrategia frente a Consultorio Concepción</div>
+                <span class="badge badge-warning"><i class="fas fa-question-circle"></i> Decisión pendiente</span>
+            </div>
+            <div class="grid-2">
+                <div class="ooss-option" id="opt-competir" onclick="toggleEstrategia('competir')">
+                    <h4 style="color: var(--danger);"><i class="fas fa-swords"></i> Opción A: Competir directamente</h4>
+                    <ul>
+                        <li>Captar sus pacientes insatisfechos</li>
+                        <li>Campaña diferenciada en misma zona</li>
+                        <li>Explotar sus debilidades (Clínica 1h/sem, sin Pediatría extendida)</li>
+                        <li>Riesgo: guerra de precios o reacción agresiva</li>
+                    </ul>
+                </div>
+                <div class="ooss-option selected" id="opt-absorber" onclick="toggleEstrategia('absorber')">
+                    <h4 style="color: var(--primary);"><i class="fas fa-handshake"></i> Opción B: Absorción / Alianza ← Tu plan actual</h4>
+                    <ul>
+                        <li>Sumar sus profesionales al equipo CS</li>
+                        <li>Eliminar la competencia absorbiendo la oferta</li>
+                        <li>Posible derivación cruzada mientras se consolida</li>
+                        <li>Requiere: charla directa con dueños/responsables</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="info-box info-accent mt-16">
+                <i class="fas fa-lightbulb"></i>
+                <div><strong>Próximo paso sugerido:</strong> Iniciar conversación informal con la conducción de Concepción para testear apertura a una alianza o absorción. Ir sin propuesta cerrada, más en modo "charla de vecinos del sector".</div>
+            </div>
+        </div>
+
+        <div class="card mb-20">
+            <div class="card-title"><i class="fas fa-microscope"></i> Radiografía de Concepción</div>
+            <div style="margin-top: 16px;">
+                <div class="swot-grid">
+                    <div class="swot-q swot-s">
+                        <h4><i class="fas fa-plus-circle"></i> Sus fortalezas</h4>
+                        <ul>
+                            <li>Horario extendido 13–20h lun–vie</li>
+                            <li>Modelo policonsultorio familiar</li>
+                            <li>Nicho: psicología agrícola</li>
+                            <li>Médico de familia 4 días</li>
+                            <li>Posicionado en la zona</li>
+                        </ul>
+                    </div>
+                    <div class="swot-q swot-w">
+                        <h4><i class="fas fa-minus-circle"></i> Sus debilidades (explotables)</h4>
+                        <ul>
+                            <li><strong>Clínica solo 1h/semana</strong> (seguimiento nulo)</li>
+                            <li>Pediatría solo 2h (lunes)</li>
+                            <li>Sin guardia / sábados débiles</li>
+                            <li>Faltan Gineco, Trauma, Cardio, Lab</li>
+                            <li>Imagen desprolija, errores de tipeo</li>
+                            <li>Sin turnos online</li>
+                        </ul>
+                    </div>
+                    <div class="swot-q swot-o">
+                        <h4><i class="fas fa-arrow-up-right-dots"></i> Oportunidades para CS</h4>
+                        <ul>
+                            <li>Clínico médico <strong>todos los días</strong></li>
+                            <li>Pediatría con horario extendido</li>
+                            <li>Turnos online profesionales</li>
+                            <li>Imágenes portátiles (Marcelo)</li>
+                            <li>Especialidades faltantes (Gineco, Cardio)</li>
+                        </ul>
+                    </div>
+                    <div class="swot-q swot-t">
+                        <h4><i class="fas fa-shield-halved"></i> En caso de competir: neutralizar</h4>
+                        <ul>
+                            <li>Mayor disponibilidad horaria</li>
+                            <li>Branding profesional vs imagen desprolija</li>
+                            <li>Médico de familia + clínico diario</li>
+                            <li>Campaña digital segmentada</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="grid-2">
+            <div class="card">
+                <div class="card-title"><i class="fas fa-table"></i> Horarios fragmentados (ellos)</div>
+                <table class="table">
+                    <thead><tr><th>Día</th><th>Debilidad clave</th><th>Impacto</th></tr></thead>
+                    <tbody>
+                        <tr><td>Lunes</td><td>Pediatría solo 16–18h (2h)</td><td><span class="badge badge-warning">Medio</span></td></tr>
+                        <tr><td>Jueves</td><td><strong>Clínica 18–19h (1h)</strong></td><td><span class="badge badge-danger">Alto</span></td></tr>
+                        <tr><td>Viernes</td><td>Fonoaudiología solo 9–11h</td><td><span class="badge badge-neutral">Bajo</span></td></tr>
+                        <tr><td>Sábado</td><td>Solo 9–13h, sin clínico ni pediatría</td><td><span class="badge badge-danger">Alto</span></td></tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="card">
+                <div class="card-title"><i class="fas fa-bullhorn"></i> Mensaje diferenciador (si se compite)</div>
+                <div style="margin: 14px 0; display: flex; flex-wrap: wrap; gap: 8px;">
+                    <span class="badge badge-success">Clínico lun–vie</span>
+                    <span class="badge badge-success">Pediatría extendida</span>
+                    <span class="badge badge-success">Turnos online</span>
+                    <span class="badge badge-purple">Imágenes portátiles</span>
+                </div>
+                <div class="info-box info-info">
+                    <i class="fas fa-quote-left"></i>
+                    <em>"No espere una hora a la semana. Atiéndase hoy con seguimiento real."</em>
+                </div>
+                <div class="info-box info-warning" style="margin-top: 10px;">
+                    <i class="fas fa-clock"></i>
+                    <div>Si se decide competir: actuar con branding y digital <strong>antes de diciembre</strong> para posicionarse primero.</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ==================== PANE 3: ESPECIALIDADES Y RRHH ==================== -->
+    <div class="content-pane" id="especialidades">
+
+        <div class="card mb-20">
+            <div class="card-header">
+                <div class="card-title"><i class="fas fa-calendar-week"></i> Grilla semanal · 2 consultorios · 4 turnos/día</div>
+                <span class="badge badge-info">10 especialidades + Imágenes</span>
+            </div>
+            <div class="table-responsive">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Día</th>
+                            <th>C1 · Mañana (9–13h)</th>
+                            <th>C1 · Tarde (13–17h)</th>
+                            <th>C2 · Mañana (9–13h)</th>
+                            <th>C2 · Tarde (13–17h)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr><td><strong>Lunes</strong></td><td>Cardiología</td><td>Traumatología ✓</td><td>Kinesiología ✓</td><td>Clínica Médica ⚠️</td></tr>
+                        <tr><td><strong>Martes</strong></td><td>Kinesiología ✓</td><td>Clínica Médica ⚠️</td><td>Pediatría ⚠️</td><td>Gastroenterología</td></tr>
+                        <tr><td><strong>Miércoles</strong></td><td>Pediatría ⚠️</td><td>Gastroenterología</td><td>Gineco/Obstetricia</td><td>Nutricionista</td></tr>
+                        <tr><td><strong>Jueves</strong></td><td>Gineco/Obstetricia</td><td>Nutricionista</td><td>Cardiología</td><td>Traumatología ✓</td></tr>
+                        <tr><td><strong>Viernes</strong></td><td>Clínica Médica 2 ⚠️</td><td>Pediatría 2 ⚠️</td><td>Oftalmología ✓</td><td><em style="color:var(--text-muted);">Imágenes (a demanda)</em></td></tr>
+                    </tbody>
+                </table>
+            </div>
+            <div style="margin-top: 14px; display: flex; gap: 8px; flex-wrap: wrap;">
+                <span class="sp-tag sp-confirmed"><i class="fas fa-check"></i> Confirmado</span>
+                <span class="sp-tag sp-pending"><i class="fas fa-exclamation-triangle"></i> Crítico / pendiente</span>
+                <span class="sp-tag sp-new"><i class="fas fa-camera"></i> Imágenes portátiles (charla pendiente)</span>
+            </div>
+        </div>
+
+        <!-- KANBAN -->
+        <div class="card mb-20">
+            <div class="card-header">
+                <div class="card-title"><i class="fas fa-user-md"></i> Estado de reclutamiento</div>
+                <div style="display:flex;gap:8px;flex-wrap:wrap;" id="kanban-badges">
+                    <span class="badge badge-success" id="kb-confirmed">— confirmados</span>
+                    <span class="badge badge-warning" id="kb-progress">— en charla</span>
+                    <span class="badge badge-danger"  id="kb-pending">— pendientes</span>
+                </div>
+            </div>
+            <div class="kanban" id="kanban-board">
+                <div class="kanban-col col-confirmed" id="col-confirmed">
+                    <div class="kanban-col-title"><span class="pulse pulse-green"></span> Confirmados</div>
+                </div>
+                <div class="kanban-col col-progress" id="col-progress">
+                    <div class="kanban-col-title"><span class="pulse pulse-yellow"></span> En charla</div>
+                </div>
+                <div class="kanban-col col-pending" id="col-pending">
+                    <div class="kanban-col-title"><span class="pulse pulse-red"></span> Pendientes</div>
+                </div>
+            </div>
+            <div class="info-box info-warning mt-16">
+                <i class="fas fa-exclamation-triangle"></i>
+                <div><strong>Crítico:</strong> Clínica Médica y Pediatría son los pilares de diferenciación frente a Concepción. Sin ellos, la propuesta de valor se debilita significativamente.</div>
+            </div>
+        </div>
+
+        <!-- Imágenes -->
+        <div class="card">
+            <div class="card-title"><i class="fas fa-x-ray" style="color: var(--info);"></i> Servicio de Imágenes · Marcelo</div>
+            <div style="margin-top: 14px;" class="grid-2">
+                <div>
+                    <p class="text-muted" style="margin-bottom: 12px;">Técnico en imágenes jubilado, residente en Sierra de los Padres. Cuenta con equipos portátiles propios y actualmente trabaja a domicilio en la zona.</p>
+                    <div class="metric-row"><span>Modalidad propuesta</span><strong>A demanda o con turno (a definir)</strong></div>
+                    <div class="metric-row"><span>Espacio</span><strong>CS le ofrece consultorio</strong></div>
+                    <div class="metric-row"><span>Equipamiento</span><strong>Propio (portátil)</strong></div>
+                    <div class="metric-row"><span>Estado</span><span class="badge badge-warning">Charla pendiente</span></div>
+                </div>
+                <div>
+                    <div class="info-box info-success">
+                        <i class="fas fa-star"></i>
+                        <div><strong>Diferenciador clave:</strong> Imágenes portátiles in situ es una ventaja enorme. La competencia no lo tiene y evita que los pacientes viajen a MdP para ecografías o radiografías.</div>
+                    </div>
+                    <div class="info-box info-info" style="margin-top: 10px;">
+                        <i class="fas fa-lightbulb"></i>
+                        <div><strong>Sugerencia para la charla:</strong> Ofrecerle un modelo con porcentaje de la consulta (sin costo fijo para él) a cambio de días asignados. Evitar exclusividad para darle flexibilidad.</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ==================== PANE 4: SIMULADOR ==================== -->
+    <div class="content-pane" id="simulador">
+
+        <!-- Sub-tabs simulador -->
+        <div style="display:flex; gap:8px; margin-bottom:20px;">
+            <button class="btn btn-primary" id="stab-global" onclick="switchSimTab('global')" style="border-radius:12px;"><i class="fas fa-globe"></i> Simulación global</button>
+            <button class="btn btn-sm" id="stab-esp" onclick="switchSimTab('esp')" style="border-radius:12px;"><i class="fas fa-stethoscope"></i> Por especialidad</button>
+        </div>
+
+        <!-- TAB GLOBAL -->
+        <div id="sim-tab-global">
+        <div class="card mb-20">
+            <div class="card-header">
+                <div class="card-title"><i class="fas fa-sliders-h"></i> Parámetros de simulación</div>
+            </div>
+            <div class="grid-3" style="margin-bottom: 20px;">
+                <div class="form-group">
+                    <label class="form-label">Pacientes por hora</label>
+                    <select class="form-control" id="sim-pacientes" onchange="calcularSimulacion()">
+                        <option value="1">1 (mínimo)</option>
+                        <option value="2">2</option>
+                        <option value="3" selected>3 (regular)</option>
+                        <option value="4">4</option>
+                        <option value="5">5 (máximo)</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Valor consulta promedio</label>
+                    <select class="form-control" id="sim-valor" onchange="calcularSimulacion()">
+                        <option value="30000">$30.000</option>
+                        <option value="35000">$35.000</option>
+                        <option value="40000" selected>$40.000</option>
+                        <option value="45000">$45.000</option>
+                        <option value="50000">$50.000</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Período</label>
+                    <select class="form-control" id="sim-periodo" onchange="calcularSimulacion()">
+                        <option value="1-3">Meses 1–3 (90% prof / 10% admin)</option>
+                        <option value="4+" selected>Meses 4+ (80% prof / 20% admin)</option>
+                    </select>
+                </div>
+            </div>
+            <div class="sim-result" id="sim-resultados"></div>
+        </div>
+        </div>
+
+        <!-- TAB POR ESPECIALIDAD -->
+        <div id="sim-tab-esp" style="display:none;">
+        <div class="card mb-20">
+            <div class="card-header">
+                <div class="card-title"><i class="fas fa-stethoscope"></i> Simulación por especialidad</div>
+                <div style="display:flex; gap:8px; flex-wrap:wrap; align-items:center;">
+                    <select class="form-control" id="esp-periodo" onchange="calcularEsp()" style="width:auto; border-radius:10px; font-size:0.82rem; padding:7px 12px;">
+                        <option value="1-3">Meses 1–3 (10% admin)</option>
+                        <option value="4+" selected>Meses 4+ (20% admin)</option>
+                    </select>
+                    <button class="btn btn-sm" onclick="resetEsp()" style="border-radius:10px;"><i class="fas fa-undo"></i> Restablecer</button>
+                </div>
+            </div>
+            <div class="table-responsive">
+                <table class="table" id="esp-table">
+                    <thead>
+                        <tr>
+                            <th>Especialidad</th>
+                            <th>Estado</th>
+                            <th>Pac/h</th>
+                            <th>Valor consulta</th>
+                            <th>Horas/sem</th>
+                            <th>Pac/mes</th>
+                            <th>Ingreso bruto</th>
+                            <th>Para profesional</th>
+                            <th>Para admin</th>
+                        </tr>
+                    </thead>
+                    <tbody id="esp-tbody"></tbody>
+                    <tfoot id="esp-tfoot"></tfoot>
+                </table>
+            </div>
+            <div class="sim-result" id="esp-resultado" style="margin-top:16px;"></div>
+        </div>
+        </div>
+
+        <div class="grid-3">
+            <div class="card">
+                <div class="card-title"><i class="fas fa-chart-pie"></i> Escenarios predefinidos</div>
+                <div style="background: #fee2e2; padding: 16px; border-radius: 12px; margin-bottom: 10px;">
+                    <strong>🔴 Malo</strong> (1–2 pac/h · $30–35k)<br>
+                    <small style="color: #991b1b;">Meses 1–3: pérdida $1.5M · Meses 4+: pérdida $0.7M</small>
+                </div>
+                <div style="background: #fef3c7; padding: 16px; border-radius: 12px; margin-bottom: 10px;">
+                    <strong>🟡 Regular</strong> (3 pac/h · $40–45k)<br>
+                    <small style="color: #92400e;">Meses 1–3: equilibrio · Meses 4+: <strong>+$2.3M</strong></small>
+                </div>
+                <div style="background: #d1fae5; padding: 16px; border-radius: 12px;">
+                    <strong>🟢 Bueno</strong> (4–5 pac/h · $45–50k)<br>
+                    <small style="color: #065f46;">Meses 1–3: +$1.5M · Meses 4+: <strong>+$5.3M</strong></small>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-title"><i class="fas fa-file-invoice"></i> Estructura de costos fijos</div>
+                <table class="table">
+                    <tr><td>Alquiler</td><td><strong>$400.000</strong></td></tr>
+                    <tr><td>Servicios</td><td><strong>$100.000</strong></td></tr>
+                    <tr><td>Secretaria (c/cargas sociales)</td><td><strong>$1.800.000</strong></td></tr>
+                    <tr><td><strong>TOTAL FIJOS</strong></td><td><strong style="color: var(--danger);">$2.300.000</strong></td></tr>
+                </table>
+                <div class="info-box info-info" style="margin-top: 12px;">
+                    <i class="fas fa-info-circle"></i>
+                    <div>Los profesionales cobran honorarios directamente (90/80%). CS retiene el % administrativo.</div>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-title"><i class="fas fa-hand-holding-usd"></i> Distribución de ingresos</div>
+                <div style="margin-bottom: 16px;">
+                    <div style="margin-bottom: 8px; font-weight: 600; font-size: 0.85rem;">Meses 1–3 (lanzamiento)</div>
+                    <div style="display: flex; border-radius: 8px; overflow: hidden; height: 28px;">
+                        <div style="background: var(--primary); width: 10%; display: flex; align-items: center; justify-content: center; color: white; font-size: 0.7rem; font-weight: 700;">10%</div>
+                        <div style="background: var(--primary-soft); width: 90%; display: flex; align-items: center; padding-left: 10px; font-size: 0.75rem; color: var(--primary); font-weight: 600;">90% profesionales</div>
+                    </div>
+                </div>
+                <div>
+                    <div style="margin-bottom: 8px; font-weight: 600; font-size: 0.85rem;">Meses 4+ (régimen regular)</div>
+                    <div style="display: flex; border-radius: 8px; overflow: hidden; height: 28px;">
+                        <div style="background: var(--primary); width: 20%; display: flex; align-items: center; justify-content: center; color: white; font-size: 0.7rem; font-weight: 700;">20%</div>
+                        <div style="background: var(--primary-soft); width: 80%; display: flex; align-items: center; padding-left: 10px; font-size: 0.75rem; color: var(--primary); font-weight: 600;">80% profesionales</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ==================== PANE 5: HABILITACIÓN ==================== -->
+    <div class="content-pane" id="habilitacion">
+        <div class="grid-2">
+            <div class="card">
+                <div class="card-title"><i class="fas fa-check-square"></i> Checklist interactiva</div>
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                    <span class="text-muted" id="hab-label">0 / 12 completados</span>
+                    <button class="btn btn-sm" onclick="marcarTodasHabilitacion()"><i class="fas fa-check-double"></i> Marcar todas</button>
+                </div>
+                <div class="progress-wrap">
+                    <div class="progress-fill" id="hab-progress" style="width: 0%;">0%</div>
+                </div>
+                <div id="checklist-container" style="margin-top: 16px;"></div>
+            </div>
+            <div class="card">
+                <div class="card-title"><i class="fas fa-ruler-combined"></i> Requisitos edilicios</div>
+                <div class="plano">
+                    <div class="c-box">
+                        <i class="fas fa-vector-square" style="color: var(--primary);"></i>
+                        <div style="font-weight: 600; margin-top: 6px;">Consultorio 1</div>
+                        <div class="medida">CA9 · 2.50m</div>
+                        <small>≥ 7.50m²</small>
+                    </div>
+                    <div class="c-box">
+                        <i class="fas fa-vector-square" style="color: var(--primary);"></i>
+                        <div style="font-weight: 600; margin-top: 6px;">Consultorio 2</div>
+                        <div class="medida">CA12/13 · 2.50m</div>
+                        <small>≥ 7.50m²</small>
+                    </div>
+                </div>
+                <ul style="list-style: none; margin-top: 16px;">
+                    <li style="padding: 9px 0; display: flex; gap: 10px; border-bottom: 1px solid var(--border-light);"><i class="fas fa-check-circle" style="color:var(--success); width:18px; margin-top:2px;"></i><span><strong>2 consultorios</strong> mín 7,50m² c/u, lado ≥2m</span></li>
+                    <li style="padding: 9px 0; display: flex; gap: 10px; border-bottom: 1px solid var(--border-light);"><i class="fas fa-check-circle" style="color:var(--success); width:18px; margin-top:2px;"></i><span>Aislación acústica (tabique hasta cielorraso)</span></li>
+                    <li style="padding: 9px 0; display: flex; gap: 10px; border-bottom: 1px solid var(--border-light);"><i class="fas fa-check-circle" style="color:var(--success); width:18px; margin-top:2px;"></i><span><strong>Baños propios en cada consultorio</strong> <span class="badge badge-success" style="font-size:0.7rem;">Mejor que el mínimo</span> — el plano muestra baño individual en CA9 y CA12/CA13, superando el requisito del reglamento (que solo exige 1 compartido)</span></li>
+                    <li style="padding: 9px 0; display: flex; gap: 10px; border-bottom: 1px solid var(--border-light);"><i class="fas fa-check-circle" style="color:var(--success); width:18px; margin-top:2px;"></i><span>Acceso directo desde cada consultorio → cumple Ginecología sin adaptaciones</span></li>
+                    <li style="padding: 9px 0; display: flex; gap: 10px; border-bottom: 1px solid var(--border-light);"><i class="fas fa-couch" style="color:var(--warning); width:18px; margin-top:2px;"></i><span>Sala de espera para mín 4 pacientes</span></li>
+                    <li style="padding: 9px 0; display: flex; gap: 10px;"><i class="fas fa-wind" style="color:var(--warning); width:18px; margin-top:2px;"></i><span>Luz y ventilación natural o artificial</span></li>
+                </ul>
+                <div class="section-divider"></div>
+                <p class="text-muted">Superficie total estimada: 2 consultorios (15m²) + espera (12m²) + baño (4m²) + circulación = <strong>~45–50m²</strong></p>
+            </div>
+        </div>
+        <div class="card" style="margin-top: 20px;">
+            <div class="card-header">
+                <div class="card-title"><i class="fas fa-certificate"></i> Trámite de habilitación</div>
+                <span class="badge badge-info"><i class="fas fa-user-md"></i> A gestionar con Dr. Ivan Soule</span>
+            </div>
+            <ol style="margin-left: 22px; line-height: 2.2; font-size: 0.9rem;">
+                <li>Solicitud por escrito al Colegio de Médicos (declaración jurada) — <strong>Art. 2</strong></li>
+                <li>Inspección por médico inspector — <strong>Art. 8</strong></li>
+                <li>Subsanar observaciones en el plazo otorgado</li>
+                <li>Aprobación por Mesa Directiva → Certificado personal e intransferible — <strong>Art. 7</strong></li>
+                <li>Exhibir certificado y títulos en consultorio — <strong>Art. 4</strong></li>
+                <li>Placa identificatoria discreta (acrílico/metal) — <strong>Art. 10</strong></li>
+            </ol>
+            <div class="info-box info-warning" style="margin-top: 16px;">
+                <i class="fas fa-exclamation-circle"></i>
+                <div><strong>Importante:</strong> Equipos de Radiofísica Sanitaria (incluye imágenes de Marcelo si aplica) requieren habilitación previa del Ministerio de Salud (Art. 9.2.d). El certificado es <strong>personal e intransferible</strong>. Cada profesional necesita la propia.</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ==================== PANE 6: MARKETING ==================== -->
+    <div class="content-pane" id="estrategia">
+        <div class="grid-2 mb-20">
+            <div class="card">
+                <div class="card-title"><i class="fas fa-bullseye"></i> Estrategia 1 · Posicionamiento</div>
+                <ul style="padding-left: 20px; line-height: 2; font-size: 0.9rem;">
+                    <li>"Especialistas cerca tuyo. Evitá viajar a la ciudad"</li>
+                    <li>Atención integral coordinada entre especialidades</li>
+                    <li>Horarios flexibles + eventual telemedicina</li>
+                    <li>Imágenes portátiles in situ (diferenciador único)</li>
+                    <li>Visitas domiciliarias para movilidad reducida</li>
+                </ul>
+            </div>
+            <div class="card">
+                <div class="card-title"><i class="fas fa-users"></i> Estrategia 2 · Comunidad</div>
+                <ul style="padding-left: 20px; line-height: 2; font-size: 0.9rem;">
+                    <li>Alianzas con farmacias, hoteles, escuelas de la zona</li>
+                    <li>Chequeos gratuitos en eventos locales</li>
+                    <li>Boca a oreja mediante atención excepcional</li>
+                    <li>Presencia en ferias y eventos tradicionales</li>
+                    <li>Médicos como referentes de la comunidad</li>
+                </ul>
+            </div>
+            <div class="card">
+                <div class="card-title"><i class="fas fa-globe"></i> Estrategia 3 · Presencia digital</div>
+                <ul style="padding-left: 20px; line-height: 2; font-size: 0.9rem;">
+                    <li>Google My Business optimizado (SEO local)</li>
+                    <li>Facebook: grupos de vecinos de la zona</li>
+                    <li>Instagram: contenido visual para familias</li>
+                    <li>Web profesional con turnos online</li>
+                    <li>WhatsApp Business para consultas rápidas</li>
+                </ul>
+            </div>
+            <div class="card">
+                <div class="card-title"><i class="fas fa-handshake"></i> Estrategia 4 · Logística y acuerdos</div>
+                <ul style="padding-left: 20px; line-height: 2; font-size: 0.9rem;">
+                    <li>Convenios con IOMA, PAMI, OSDE (pendiente decisión)</li>
+                    <li>Estacionamiento fácil y señalizado</li>
+                    <li>Sala de espera con WiFi y amenities</li>
+                    <li>Alianza o absorción con Consultorio Concepción</li>
+                </ul>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-title"><i class="fas fa-calendar-star"></i> Evento de lanzamiento · Jornada de Salud Comunitaria</div>
+            <div class="grid-3" style="margin-top: 16px; gap: 12px;">
+                <div style="background: var(--primary-soft); padding: 16px; border-radius: var(--radius-sm); display: flex; gap: 12px; align-items: center;">
+                    <i class="fas fa-heart" style="color: var(--primary); font-size: 1.4rem;"></i>
+                    <div><strong>Chequeos gratuitos</strong><br><small class="text-muted">Presión, glucemia, peso</small></div>
+                </div>
+                <div style="background: var(--primary-soft); padding: 16px; border-radius: var(--radius-sm); display: flex; gap: 12px; align-items: center;">
+                    <i class="fas fa-chalkboard-teacher" style="color: var(--primary); font-size: 1.4rem;"></i>
+                    <div><strong>Charlas breves</strong><br><small class="text-muted">De especialistas confirmados</small></div>
+                </div>
+                <div style="background: var(--primary-soft); padding: 16px; border-radius: var(--radius-sm); display: flex; gap: 12px; align-items: center;">
+                    <i class="fas fa-gift" style="color: var(--primary); font-size: 1.4rem;"></i>
+                    <div><strong>Sorteo de estudios</strong><br><small class="text-muted">Ecografías, análisis</small></div>
+                </div>
+                <div style="background: var(--primary-soft); padding: 16px; border-radius: var(--radius-sm); display: flex; gap: 12px; align-items: center;">
+                    <i class="fas fa-apple-alt" style="color: var(--primary); font-size: 1.4rem;"></i>
+                    <div><strong>Merienda saludable</strong><br><small class="text-muted">Ambiente familiar</small></div>
+                </div>
+                <div style="background: var(--primary-soft); padding: 16px; border-radius: var(--radius-sm); display: flex; gap: 12px; align-items: center;">
+                    <i class="fas fa-bullhorn" style="color: var(--primary); font-size: 1.4rem;"></i>
+                    <div><strong>Invitar a comercios y medios</strong><br><small class="text-muted">Prensa local · redes</small></div>
+                </div>
+                <div style="background: var(--primary-soft); padding: 16px; border-radius: var(--radius-sm); display: flex; gap: 12px; align-items: center;">
+                    <i class="fas fa-camera-retro" style="color: var(--primary); font-size: 1.4rem;"></i>
+                    <div><strong>Demo de Imágenes portátiles</strong><br><small class="text-muted">Marcelo en vivo (si confirmado)</small></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ==================== PANE 7: OBRAS SOCIALES ==================== -->
+    <div class="content-pane" id="ooss">
+        <div class="card mb-20">
+            <div class="card-header">
+                <div class="card-title"><i class="fas fa-id-card-alt"></i> Decisión de obras sociales</div>
+                <span class="badge badge-warning"><i class="fas fa-question-circle"></i> Pendiente de resolución</span>
+            </div>
+            <p class="text-muted" style="margin-bottom: 20px;">Tu enfoque: hablar con cada profesional individualmente para que elijan entre particular o OOSS, según su perfil y tolerancia al riesgo de demanda baja.</p>
+
+            <div class="swot-grid">
+                <div class="swot-q swot-o">
+                    <h4><i class="fas fa-thumbs-up"></i> Ventajas de OOSS</h4>
+                    <ul>
+                        <li>Cartera de pacientes garantizada</li>
+                        <li>Menor riesgo de demanda inicial</li>
+                        <li>Fidelización a largo plazo</li>
+                        <li>Permite llegar a pacientes sin efectivo</li>
+                        <li>PAMI: enorme base en SdP (adultos mayores)</li>
+                    </ul>
+                </div>
+                <div class="swot-q swot-w">
+                    <h4><i class="fas fa-thumbs-down"></i> Desventajas de OOSS</h4>
+                    <ul>
+                        <li>Cobro diferido: 60–90 días</li>
+                        <li>Aranceles bajos (brecha con particular)</li>
+                        <li>Burocracia: autorizaciones, auditorías</li>
+                        <li>Gestión administrativa compleja</li>
+                        <li>Dependencia de pago externo</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="grid-2">
+            <div class="card">
+                <div class="card-title"><i class="fas fa-balance-scale"></i> Opciones por perfil de profesional</div>
+                <div class="table-responsive">
+                    <table class="table">
+                        <thead><tr><th>Especialidad</th><th>Recomendación</th><th>Motivo</th></tr></thead>
+                        <tbody>
+                            <tr><td>Clínica Médica</td><td><span class="badge badge-info">OOSS + Particular</span></td><td>Alta demanda · PAMI ideal</td></tr>
+                            <tr><td>Pediatría</td><td><span class="badge badge-info">OOSS + Particular</span></td><td>IOMA familias · volumen garantizado</td></tr>
+                            <tr><td>Traumatología</td><td><span class="badge badge-success">Particular</span></td><td>Dr. Soule confirmado · demanda por referidos</td></tr>
+                            <tr><td>Kinesiología</td><td><span class="badge badge-success">Particular</span></td><td>Seguimiento prolongado · relación directa</td></tr>
+                            <tr><td>Cardiología</td><td><span class="badge badge-info">OOSS + Particular</span></td><td>Adultos mayores → PAMI/IOMA</td></tr>
+                            <tr><td>Ginecología</td><td><span class="badge badge-success">Particular</span></td><td>Pacientes jóvenes · ticket más alto</td></tr>
+                            <tr><td>Oftalmología</td><td><span class="badge badge-info">OOSS + Particular</span></td><td>PAMI tiene mucha demanda oftalmológica</td></tr>
+                            <tr><td>Imágenes (Marcelo)</td><td><span class="badge badge-neutral">A definir</span></td><td>Depende de habilitación Radiofísica</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-title"><i class="fas fa-tasks"></i> Próximos pasos (OOSS)</div>
+                <div style="margin-top: 4px;">
+                    <div class="checklist-item" onclick="this.classList.toggle('completed')">
+                        <div class="check-box"><i class="fas fa-check" style="font-size: 0.7rem;"></i></div>
+                        <div><div style="font-weight: 600; font-size: 0.87rem;">Charla individual con cada profesional</div><div class="text-muted" style="font-size: 0.78rem;">Particular vs OOSS · tolerancia al riesgo</div></div>
+                    </div>
+                    <div class="checklist-item" onclick="this.classList.toggle('completed')">
+                        <div class="check-box"><i class="fas fa-check" style="font-size: 0.7rem;"></i></div>
+                        <div><div style="font-weight: 600; font-size: 0.87rem;">Consultar aranceles actuales IOMA / PAMI / OSDE</div><div class="text-muted" style="font-size: 0.78rem;">Verificar viabilidad económica real</div></div>
+                    </div>
+                    <div class="checklist-item" onclick="this.classList.toggle('completed')">
+                        <div class="check-box"><i class="fas fa-check" style="font-size: 0.7rem;"></i></div>
+                        <div><div style="font-weight: 600; font-size: 0.87rem;">Definir rol de la secretaria en gestión OOSS</div><div class="text-muted" style="font-size: 0.78rem;">Autorizaciones, facturación, seguimiento</div></div>
+                    </div>
+                    <div class="checklist-item" onclick="this.classList.toggle('completed')">
+                        <div class="check-box"><i class="fas fa-check" style="font-size: 0.7rem;"></i></div>
+                        <div><div style="font-weight: 600; font-size: 0.87rem;">Evaluar incorporar software de gestión</div><div class="text-muted" style="font-size: 0.78rem;">Turnos + facturación + OOSS integrado</div></div>
+                    </div>
+                    <div class="checklist-item" onclick="this.classList.toggle('completed')">
+                        <div class="check-box"><i class="fas fa-check" style="font-size: 0.7rem;"></i></div>
+                        <div><div style="font-weight: 600; font-size: 0.87rem;">Tramitar empadronamiento (si se decide OOSS)</div><div class="text-muted" style="font-size: 0.78rem;">Proceso puede tomar 2–3 meses</div></div>
+                    </div>
+                </div>
+                <div class="info-box info-accent mt-16">
+                    <i class="fas fa-lightbulb"></i>
+                    <div><strong>Sugerencia:</strong> Arrancar con particular y sumar OOSS de forma gradual una vez consolidada la operación (mes 4+). Reduce complejidad inicial.</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- FOOTER -->
+    <!-- ==================== PANE 8: PENDIENTES ==================== -->
+    <div class="content-pane" id="pendientes">
+
+        <!-- Resumen contadores -->
+        <div class="grid-4 mb-20">
+            <div class="stat-card" style="border-top-color:var(--danger);">
+                <div class="stat-number" id="pend-count" style="color:var(--danger);">—</div>
+                <div class="stat-label">Tareas abiertas</div>
+            </div>
+            <div class="stat-card" style="border-top-color:var(--accent);">
+                <div class="stat-number" id="pend-critico" style="color:var(--accent);">—</div>
+                <div class="stat-label">Críticas / urgentes</div>
+            </div>
+            <div class="stat-card" style="border-top-color:var(--success);">
+                <div class="stat-number" id="pend-done" style="color:var(--success);">—</div>
+                <div class="stat-label">Completadas</div>
+            </div>
+            <div class="stat-card" style="border-top-color:var(--ink);">
+                <div class="stat-number" id="pend-pct" style="color:var(--ink);">—</div>
+                <div class="stat-label">Avance general</div>
+            </div>
+        </div>
+
+        <!-- Sección RRHH -->
+        <div class="card mb-20">
+            <div class="card-header">
+                <div class="card-title"><i class="fas fa-user-md"></i> RRHH — Profesionales</div>
+                <span class="badge badge-danger">Bloquea apertura</span>
+            </div>
+            <div id="pend-rrhh">
+                <div class="pend-item" data-prio="critico" data-pend-key="rrhh-1">
+                    <input type="checkbox" class="pend-check" data-pend-key="rrhh-1">
+                    <div class="pend-body">
+                        <div class="pend-title" contenteditable="true" data-save-key="pend-rrhh-1-t">Confirmar Clínica Médica — hablar con Dra. Wilant</div>
+                        <div class="pend-meta"><span class="badge badge-danger">CRÍTICO</span> Pilar diferenciador del proyecto</div>
+                    </div>
+                </div>
+                <div class="pend-item" data-prio="critico" data-pend-key="rrhh-2">
+                    <input type="checkbox" class="pend-check" data-pend-key="rrhh-2">
+                    <div class="pend-body">
+                        <div class="pend-title" contenteditable="true" data-save-key="pend-rrhh-2-t">Confirmar Pediatría — activar contactos de Clara</div>
+                        <div class="pend-meta"><span class="badge badge-danger">CRÍTICO</span> Segunda especialidad diferenciadora</div>
+                    </div>
+                </div>
+                <div class="pend-item" data-prio="alta" data-pend-key="rrhh-3">
+                    <input type="checkbox" class="pend-check" data-pend-key="rrhh-3">
+                    <div class="pend-body">
+                        <div class="pend-title" contenteditable="true" data-save-key="pend-rrhh-3-t">Cerrar negociación Cardiología</div>
+                        <div class="pend-meta"><span class="badge badge-warning">Alta</span> En charla activa</div>
+                    </div>
+                </div>
+                <div class="pend-item" data-prio="alta" data-pend-key="rrhh-4">
+                    <input type="checkbox" class="pend-check" data-pend-key="rrhh-4">
+                    <div class="pend-body">
+                        <div class="pend-title" contenteditable="true" data-save-key="pend-rrhh-4-t">Reunión con Marcelo — definir modalidad (a demanda vs. turno programado)</div>
+                        <div class="pend-meta"><span class="badge badge-warning">Alta</span> Imágenes portátiles · pendiente charla</div>
+                    </div>
+                </div>
+                <div class="pend-item" data-prio="alta" data-pend-key="rrhh-5">
+                    <input type="checkbox" class="pend-check" data-pend-key="rrhh-5">
+                    <div class="pend-body">
+                        <div class="pend-title" contenteditable="true" data-save-key="pend-rrhh-5-t">Tramitar habilitación Radiofísica Sanitaria para Marcelo (Art. 9.2.d)</div>
+                        <div class="pend-meta"><span class="badge badge-warning">Alta</span> Requerido para operar equipo de imágenes · Colegio de Médicos</div>
+                    </div>
+                </div>
+                <div class="pend-item" data-prio="normal" data-pend-key="rrhh-6">
+                    <input type="checkbox" class="pend-check" data-pend-key="rrhh-6">
+                    <div class="pend-body">
+                        <div class="pend-title" contenteditable="true" data-save-key="pend-rrhh-6-t">Confirmar Ginecología/Obstetricia — Dr. Medina (opción A)</div>
+                        <div class="pend-meta"><span class="badge badge-neutral">Normal</span></div>
+                    </div>
+                </div>
+                <div class="pend-item" data-prio="normal" data-pend-key="rrhh-7">
+                    <input type="checkbox" class="pend-check" data-pend-key="rrhh-7">
+                    <div class="pend-body">
+                        <div class="pend-title" contenteditable="true" data-save-key="pend-rrhh-7-t">Contactar opciones de Nutrición (2 candidatos en agenda)</div>
+                        <div class="pend-meta"><span class="badge badge-neutral">Normal</span></div>
+                    </div>
+                </div>
+                <div class="pend-item" data-prio="normal" data-pend-key="rrhh-8">
+                    <input type="checkbox" class="pend-check" data-pend-key="rrhh-8">
+                    <div class="pend-body">
+                        <div class="pend-title" contenteditable="true" data-save-key="pend-rrhh-8-t">Investigar candidato para Gastroenterología</div>
+                        <div class="pend-meta"><span class="badge badge-neutral">Normal</span></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Sección Habilitación -->
+        <div class="card mb-20">
+            <div class="card-header">
+                <div class="card-title"><i class="fas fa-clipboard-list"></i> Habilitación Municipal</div>
+                <span class="badge badge-warning">Con Iván Soule</span>
+            </div>
+            <div id="pend-hab">
+                <div class="pend-item" data-prio="critico" data-pend-key="hab-a1">
+                    <input type="checkbox" class="pend-check" data-pend-key="hab-a1">
+                    <div class="pend-body">
+                        <div class="pend-title" contenteditable="true" data-save-key="pend-hab-1-t">Reunión con Iván Soule para arrancar trámite de habilitación</div>
+                        <div class="pend-meta"><span class="badge badge-danger">CRÍTICO</span> Primer paso formal · depende de fecha de apertura</div>
+                    </div>
+                </div>
+                <div class="pend-item" data-prio="alta" data-pend-key="hab-a2">
+                    <input type="checkbox" class="pend-check" data-pend-key="hab-a2">
+                    <div class="pend-body">
+                        <div class="pend-title" contenteditable="true" data-save-key="pend-hab-2-t">Obtener planos y documentación del local (medidas oficiales)</div>
+                        <div class="pend-meta"><span class="badge badge-warning">Alta</span></div>
+                    </div>
+                </div>
+                <div class="pend-item" data-prio="alta" data-pend-key="hab-a3">
+                    <input type="checkbox" class="pend-check" data-pend-key="hab-a3">
+                    <div class="pend-body">
+                        <div class="pend-title" contenteditable="true" data-save-key="pend-hab-3-t">Certificado de habilitación eléctrica y gas</div>
+                        <div class="pend-meta"><span class="badge badge-warning">Alta</span></div>
+                    </div>
+                </div>
+                <div class="pend-item" data-prio="normal" data-pend-key="hab-a4">
+                    <input type="checkbox" class="pend-check" data-pend-key="hab-a4">
+                    <div class="pend-body">
+                        <div class="pend-title" contenteditable="true" data-save-key="pend-hab-4-t">Confeccionar cartelería obligatoria (horarios, matrícula, derechos del paciente)</div>
+                        <div class="pend-meta"><span class="badge badge-neutral">Normal</span></div>
+                    </div>
+                </div>
+                <div class="pend-item" data-prio="normal" data-pend-key="hab-a5">
+                    <input type="checkbox" class="pend-check" data-pend-key="hab-a5">
+                    <div class="pend-body">
+                        <div class="pend-title" contenteditable="true" data-save-key="pend-hab-5-t">Contratar seguro de responsabilidad civil del establecimiento</div>
+                        <div class="pend-meta"><span class="badge badge-neutral">Normal</span></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="grid-2 mb-20">
+        <!-- Obras Sociales -->
+        <div class="card">
+            <div class="card-header">
+                <div class="card-title"><i class="fas fa-id-card-alt"></i> Obras Sociales</div>
+            </div>
+            <div id="pend-ooss">
+                <div class="pend-item" data-prio="critico" data-pend-key="ooss-1">
+                    <input type="checkbox" class="pend-check" data-pend-key="ooss-1">
+                    <div class="pend-body">
+                        <div class="pend-title" contenteditable="true" data-save-key="pend-ooss-1-t">Decidir modelo: particular o con OOSS</div>
+                        <div class="pend-meta"><span class="badge badge-danger">CRÍTICO</span> Define toda la estrategia comercial</div>
+                    </div>
+                </div>
+                <div class="pend-item" data-prio="alta" data-pend-key="ooss-2">
+                    <input type="checkbox" class="pend-check" data-pend-key="ooss-2">
+                    <div class="pend-body">
+                        <div class="pend-title" contenteditable="true" data-save-key="pend-ooss-2-t">Si OOSS: iniciar gestión de convenio IOMA (prioridad zona)</div>
+                        <div class="pend-meta"><span class="badge badge-warning">Alta</span></div>
+                    </div>
+                </div>
+                <div class="pend-item" data-prio="alta" data-pend-key="ooss-3">
+                    <input type="checkbox" class="pend-check" data-pend-key="ooss-3">
+                    <div class="pend-body">
+                        <div class="pend-title" contenteditable="true" data-save-key="pend-ooss-3-t">Si OOSS: gestionar convenio PAMI</div>
+                        <div class="pend-meta"><span class="badge badge-warning">Alta</span></div>
+                    </div>
+                </div>
+                <div class="pend-item" data-prio="normal" data-pend-key="ooss-4">
+                    <input type="checkbox" class="pend-check" data-pend-key="ooss-4">
+                    <div class="pend-body">
+                        <div class="pend-title" contenteditable="true" data-save-key="pend-ooss-4-t">Charlar con cada profesional sobre su preferencia (particular vs OOSS)</div>
+                        <div class="pend-meta"><span class="badge badge-neutral">Normal</span></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Marketing -->
+        <div class="card">
+            <div class="card-header">
+                <div class="card-title"><i class="fas fa-bullhorn"></i> Marketing & Lanzamiento</div>
+            </div>
+            <div id="pend-mkt">
+                <div class="pend-item" data-prio="alta" data-pend-key="mkt-1">
+                    <input type="checkbox" class="pend-check" data-pend-key="mkt-1">
+                    <div class="pend-body">
+                        <div class="pend-title" contenteditable="true" data-save-key="pend-mkt-1-t">Crear perfil Google My Business (Policlínica Serrano)</div>
+                        <div class="pend-meta"><span class="badge badge-warning">Alta</span></div>
+                    </div>
+                </div>
+                <div class="pend-item" data-prio="alta" data-pend-key="mkt-2">
+                    <input type="checkbox" class="pend-check" data-pend-key="mkt-2">
+                    <div class="pend-body">
+                        <div class="pend-title" contenteditable="true" data-save-key="pend-mkt-2-t">Abrir Instagram y Facebook del consultorio</div>
+                        <div class="pend-meta"><span class="badge badge-warning">Alta</span></div>
+                    </div>
+                </div>
+                <div class="pend-item" data-prio="normal" data-pend-key="mkt-3">
+                    <input type="checkbox" class="pend-check" data-pend-key="mkt-3">
+                    <div class="pend-body">
+                        <div class="pend-title" contenteditable="true" data-save-key="pend-mkt-3-t">Landing page / web simple con especialidades, horarios y turnos</div>
+                        <div class="pend-meta"><span class="badge badge-neutral">Normal</span></div>
+                    </div>
+                </div>
+                <div class="pend-item" data-prio="normal" data-pend-key="mkt-4">
+                    <input type="checkbox" class="pend-check" data-pend-key="mkt-4">
+                    <div class="pend-body">
+                        <div class="pend-title" contenteditable="true" data-save-key="pend-mkt-4-t">Organizar Jornada de Salud Comunitaria para el lanzamiento (dic 2026)</div>
+                        <div class="pend-meta"><span class="badge badge-neutral">Normal</span></div>
+                    </div>
+                </div>
+                <div class="pend-item" data-prio="normal" data-pend-key="mkt-5">
+                    <input type="checkbox" class="pend-check" data-pend-key="mkt-5">
+                    <div class="pend-body">
+                        <div class="pend-title" contenteditable="true" data-save-key="pend-mkt-5-t">Alianzas con farmacias y comercios del pueblo (puntos de info)</div>
+                        <div class="pend-meta"><span class="badge badge-neutral">Normal</span></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        </div>
+
+        <!-- Financiero / Operativo -->
+        <div class="card mb-20">
+            <div class="card-header">
+                <div class="card-title"><i class="fas fa-calculator"></i> Financiero & Operativo</div>
+            </div>
+            <div id="pend-fin">
+                <div class="pend-item" data-prio="alta" data-pend-key="fin-1">
+                    <input type="checkbox" class="pend-check" data-pend-key="fin-1">
+                    <div class="pend-body">
+                        <div class="pend-title" contenteditable="true" data-save-key="pend-fin-1-t">Confirmar valor final del alquiler y condiciones de contrato</div>
+                        <div class="pend-meta"><span class="badge badge-warning">Alta</span></div>
+                    </div>
+                </div>
+                <div class="pend-item" data-prio="alta" data-pend-key="fin-2">
+                    <input type="checkbox" class="pend-check" data-pend-key="fin-2">
+                    <div class="pend-body">
+                        <div class="pend-title" contenteditable="true" data-save-key="pend-fin-2-t">Definir distribución de honorarios con cada profesional (porcentajes)</div>
+                        <div class="pend-meta"><span class="badge badge-warning">Alta</span></div>
+                    </div>
+                </div>
+                <div class="pend-item" data-prio="normal" data-pend-key="fin-3">
+                    <input type="checkbox" class="pend-check" data-pend-key="fin-3">
+                    <div class="pend-body">
+                        <div class="pend-title" contenteditable="true" data-save-key="pend-fin-3-t">Contratar secretaria / administrativa (inicio estimado nov 2026)</div>
+                        <div class="pend-meta"><span class="badge badge-neutral">Normal</span></div>
+                    </div>
+                </div>
+                <div class="pend-item" data-prio="normal" data-pend-key="fin-4">
+                    <input type="checkbox" class="pend-check" data-pend-key="fin-4">
+                    <div class="pend-body">
+                        <div class="pend-title" contenteditable="true" data-save-key="pend-fin-4-t">Definir sistema de turnos / software de gestión de consultorios</div>
+                        <div class="pend-meta"><span class="badge badge-neutral">Normal</span></div>
+                    </div>
+                </div>
+                <div class="pend-item" data-prio="normal" data-pend-key="fin-5">
+                    <input type="checkbox" class="pend-check" data-pend-key="fin-5">
+                    <div class="pend-body">
+                        <div class="pend-title" contenteditable="true" data-save-key="pend-fin-5-t">Estrategia Concepción: definir si absorber o competir con consultorios vecinos</div>
+                        <div class="pend-meta"><span class="badge badge-neutral">Normal</span></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Agregar tarea -->
+        <div class="card mb-20" style="border:2px dashed var(--rule);">
+            <div class="card-header" style="border-bottom:none;margin-bottom:8px;">
+                <div class="card-title" style="color:var(--ink-muted);"><i class="fas fa-plus-circle"></i> Nueva tarea</div>
+            </div>
+            <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:flex-end;">
+                <div style="flex:1;min-width:200px;">
+                    <label class="form-label">Descripción</label>
+                    <input type="text" id="new-pend-text" class="form-control" placeholder="Ej: Llamar a Dr. Pérez esta semana">
+                </div>
+                <div>
+                    <label class="form-label">Prioridad</label>
+                    <select id="new-pend-prio" class="form-control" style="width:130px;">
+                        <option value="critico">🔴 Crítico</option>
+                        <option value="alta">🟡 Alta</option>
+                        <option value="normal" selected>⚪ Normal</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="form-label">Sección</label>
+                    <select id="new-pend-sec" class="form-control" style="width:160px;">
+                        <option value="pend-rrhh">RRHH</option>
+                        <option value="pend-hab">Habilitación</option>
+                        <option value="pend-ooss">Obras Sociales</option>
+                        <option value="pend-mkt">Marketing</option>
+                        <option value="pend-fin">Financiero</option>
+                    </select>
+                </div>
+                <button class="btn btn-primary" onclick="addPendiente()" style="margin-bottom:0;white-space:nowrap;"><i class="fas fa-plus"></i> Agregar</button>
+            </div>
+        </div>
+
+    </div><!-- end pane pendientes -->
+
+    <div class="dashboard-footer">
+        <span><i class="far fa-folder-open"></i> Consultorios Serranos · Sistema Integrado · Actualizado junio 2026</span>
+        <span><i class="fas fa-map-marker-alt"></i> Sierra de los Padres, Mar del Plata · Apertura diciembre 2026</span>
+    </div>
+
+</div>
+
+<!-- Save bar -->
+<div class="save-bar" id="saveBar">
+    <div class="save-status">
+        <span class="save-dot" id="saveDot"></span>
+        <span id="saveMsg">Cambios sin guardar</span>
+    </div>
+    <div class="save-actions">
+        <button class="reset-btn" onclick="resetContent()"><i class="fas fa-undo"></i> Deshacer todo</button>
+        <button class="save-btn" onclick="saveContent()"><i class="fas fa-save"></i> Guardar</button>
+    </div>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        document.getElementById('current-date').textContent =
+            new Date().toLocaleDateString('es-AR', { year: 'numeric', month: 'long', day: 'numeric' });
+        initTabs();
+        initChecklist();
+        calcularSimulacion();
+    });
+
+    function initTabs() {
+        document.querySelectorAll('.nav-tab').forEach(tab => {
+            tab.addEventListener('click', () => {
+                const id = tab.getAttribute('data-tab');
+                document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+                document.querySelectorAll('.content-pane').forEach(p => p.classList.remove('active'));
+                tab.classList.add('active');
+                document.getElementById(id).classList.add('active');
+            });
+        });
+    }
+
+    const checklistItems = [
+        'Matriculación en Colegio de Médicos',
+        '2 consultorios ≥ 7.50m² c/u · lado ≥ 2m',
+        'Aislación acústica (tabique hasta cielorraso)',
+        '1 baño con inodoro y lavamanos',
+        'Baño con acceso directo para Ginecología',
+        'Sala de espera adecuada (mín 4 pacientes)',
+        'Luz y ventilación natural o artificial',
+        'Certificado de habilitación visible',
+        'Títulos y especialidades exhibidos',
+        'Placa identificatoria profesional',
+        'Habilitación Radiofísica Sanitaria (Imágenes · si aplica)',
+        'Cada profesional con habilitación propia'
+    ];
+
+    function initChecklist() {
+        const c = document.getElementById('checklist-container');
+        c.innerHTML = '';
+        checklistItems.forEach((item, i) => {
+            const div = document.createElement('div');
+            div.className = 'checklist-item' + (localStorage.getItem(`hab-${i}`) === 'true' ? ' completed' : '');
+            div.innerHTML = `<div class="check-box"><i class="fas fa-check" style="font-size:0.7rem;"></i></div><span class="check-text">${item}</span>`;
+            div.addEventListener('click', () => {
+                div.classList.toggle('completed');
+                localStorage.setItem(`hab-${i}`, div.classList.contains('completed'));
+                updateProgress();
+            });
+            c.appendChild(div);
+        });
+        updateProgress();
+    }
+
+    function updateProgress() {
+        const all = document.querySelectorAll('#checklist-container .checklist-item');
+        const done = document.querySelectorAll('#checklist-container .checklist-item.completed');
+        const pct = all.length ? Math.round(done.length / all.length * 100) : 0;
+        document.getElementById('hab-progress').style.width = pct + '%';
+        document.getElementById('hab-progress').textContent = pct + '%';
+        document.getElementById('hab-label').textContent = `${done.length} / ${all.length} completados`;
+    }
+
+    function marcarTodasHabilitacion() {
+        document.querySelectorAll('#checklist-container .checklist-item').forEach((el, i) => {
+            el.classList.add('completed');
+            localStorage.setItem(`hab-${i}`, true);
+        });
+        updateProgress();
+    }
+
+    function calcularSimulacion() {
+        const pac = parseInt(document.getElementById('sim-pacientes').value);
+        const val = parseInt(document.getElementById('sim-valor').value);
+        const per = document.getElementById('sim-periodo').value;
+        const horas = 10 * 4 * 4;
+        const totalPac = horas * pac;
+        const bruto = totalPac * val;
+        const pctA = per === '1-3' ? 0.10 : 0.20;
+        const pctP = 1 - pctA;
+        const adminI = bruto * pctA;
+        const profI = bruto * pctP;
+        const fijos = 2300000;
+        const neta = adminI - fijos;
+        const fmt = n => new Intl.NumberFormat('es-AR', { style: 'currency', currency: 'ARS', minimumFractionDigits: 0 }).format(n);
+        const color = neta >= 0 ? 'var(--success)' : 'var(--danger)';
+        document.getElementById('sim-resultados').innerHTML = `
+            <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:20px;">
+                <div><div class="sim-label">Horas atención/mes</div><div class="sim-big" style="color:var(--primary)">${horas}h</div></div>
+                <div><div class="sim-label">Pacientes totales/mes</div><div class="sim-big" style="color:var(--primary)">${totalPac}</div></div>
+                <div><div class="sim-label">Ingresos brutos</div><div class="sim-big" style="color:var(--primary)">${fmt(bruto)}</div></div>
+            </div>
+            <div class="metric-row"><span>Honorarios profesionales (${Math.round(pctP*100)}%)</span><strong>${fmt(profI)}</strong></div>
+            <div class="metric-row"><span>Retención administración (${Math.round(pctA*100)}%)</span><strong>${fmt(adminI)}</strong></div>
+            <div class="metric-row"><span>Gastos fijos</span><strong>-${fmt(fijos)}</strong></div>
+            <div class="metric-row" style="margin-top:8px;padding-top:12px;border-top:2px solid var(--border-light);">
+                <span style="font-weight:700;font-size:1rem;">Ganancia neta administración</span>
+                <strong style="font-size:1.3rem;color:${color};">${fmt(neta)}</strong>
+            </div>`;
+    }
+
+    function toggleEstrategia(tipo) {
+        document.getElementById('opt-competir').classList.toggle('selected', tipo === 'competir');
+        document.getElementById('opt-absorber').classList.toggle('selected', tipo === 'absorber');
+    }
+
+    window.calcularSimulacion = calcularSimulacion;
+    window.marcarTodasHabilitacion = marcarTodasHabilitacion;
+    window.toggleEstrategia = toggleEstrategia;
+
+    // ── SIMULADOR POR ESPECIALIDAD ──
+    const ESP_DEFAULT = [
+        { nombre: 'Cardiología',          estado: 'negotiation', pac: 3, valor: 45000, horas: 4 },
+        { nombre: 'Traumatología',         estado: 'confirmed',   pac: 4, valor: 40000, horas: 4 },
+        { nombre: 'Kinesiología',          estado: 'confirmed',   pac: 4, valor: 35000, horas: 4 },
+        { nombre: 'Clínica Médica',        estado: 'pending',     pac: 3, valor: 40000, horas: 8 },
+        { nombre: 'Pediatría',             estado: 'pending',     pac: 4, valor: 40000, horas: 8 },
+        { nombre: 'Gastroenterología',     estado: 'pending',     pac: 3, valor: 50000, horas: 4 },
+        { nombre: 'Ginecología/Obstetricia', estado: 'pending',   pac: 3, valor: 40000, horas: 4 },
+        { nombre: 'Nutrición',             estado: 'pending',     pac: 2, valor: 30000, horas: 4 },
+        { nombre: 'Oftalmología',          estado: 'confirmed',   pac: 3, valor: 42000, horas: 4 },
+        { nombre: 'Imágenes (Marcelo)',    estado: 'negotiation', pac: 2, valor: 35000, horas: 4 },
+    ];
+
+    let espData = JSON.parse(JSON.stringify(ESP_DEFAULT));
+
+    const estadoBadge = { confirmed: 'badge-success', negotiation: 'badge-warning', pending: 'badge-danger' };
+    const estadoLabel = { confirmed: 'Confirmado', negotiation: 'En charla', pending: 'Pendiente' };
+    const fmt = n => new Intl.NumberFormat('es-AR', { style: 'currency', currency: 'ARS', minimumFractionDigits: 0 }).format(n);
+
+    function renderEspTable() {
+        const per = document.getElementById('esp-periodo').value;
+        const pctA = per === '1-3' ? 0.10 : 0.20;
+        const pctP = 1 - pctA;
+        const tbody = document.getElementById('esp-tbody');
+        tbody.innerHTML = '';
+        let totBruto = 0, totAdmin = 0, totProf = 0;
+
+        espData.forEach((e, i) => {
+            const pacMes = e.pac * e.horas * 4;
+            const bruto  = pacMes * e.valor;
+            const admin  = bruto * pctA;
+            const prof   = bruto * pctP;
+            totBruto += bruto; totAdmin += admin; totProf += prof;
+
+            tbody.innerHTML += `<tr>
+                <td><strong>${e.nombre}</strong></td>
+                <td><span class="badge ${estadoBadge[e.estado]}" style="font-size:0.7rem;">${estadoLabel[e.estado]}</span></td>
+                <td><input type="number" min="1" max="5" value="${e.pac}"
+                    style="width:52px;padding:4px 6px;border:1.5px solid var(--border-light);border-radius:8px;font-size:0.85rem;text-align:center;"
+                    onchange="espData[${i}].pac=+this.value; calcularEsp()"></td>
+                <td><input type="number" min="20000" max="80000" step="1000" value="${e.valor}"
+                    style="width:90px;padding:4px 6px;border:1.5px solid var(--border-light);border-radius:8px;font-size:0.85rem;text-align:center;"
+                    onchange="espData[${i}].valor=+this.value; calcularEsp()"></td>
+                <td style="text-align:center;">${e.horas}h</td>
+                <td style="text-align:center;">${pacMes}</td>
+                <td style="font-weight:600;">${fmt(bruto)}</td>
+                <td style="color:var(--primary); font-weight:600;">${fmt(prof)}</td>
+                <td style="color:var(--text-muted);">${fmt(admin)}</td>
+            </tr>`;
+        });
+
+        const gastos = 2300000;
+        const neta = totAdmin - gastos;
+        const color = neta >= 0 ? 'var(--success)' : 'var(--danger)';
+
+        document.getElementById('esp-tfoot').innerHTML = `
+            <tr style="background:var(--primary-soft); font-weight:700;">
+                <td colspan="6">TOTALES</td>
+                <td>${fmt(totBruto)}</td>
+                <td style="color:var(--primary);">${fmt(totProf)}</td>
+                <td>${fmt(totAdmin)}</td>
+            </tr>`;
+
+        document.getElementById('esp-resultado').innerHTML = `
+            <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:16px;">
+                <div><div class="sim-label">Ingreso bruto total</div><div class="sim-big" style="color:var(--primary);">${fmt(totBruto)}</div></div>
+                <div><div class="sim-label">Gastos fijos</div><div class="sim-big" style="color:var(--danger);">-${fmt(gastos)}</div></div>
+                <div><div class="sim-label">Ganancia neta admin</div><div class="sim-big" style="color:${color};">${fmt(neta)}</div></div>
+            </div>
+            <div class="info-box ${neta >= 0 ? 'info-success' : 'info-warning'}">
+                <i class="fas fa-${neta >= 0 ? 'check-circle' : 'exclamation-triangle'}"></i>
+                <div>${neta >= 0 ? `<strong>Resultado positivo:</strong> la administración cubre gastos y genera ${fmt(neta)} de ganancia.` : `<strong>Resultado negativo:</strong> faltan ${fmt(Math.abs(neta))} para cubrir gastos fijos. Revisar ocupación.`}
+                Período: <strong>${per === '1-3' ? 'Meses 1–3 (10% admin)' : 'Meses 4+ (20% admin)'}</strong>.</div>
+            </div>`;
+    }
+
+    function calcularEsp() { renderEspTable(); }
+    function resetEsp() { espData = JSON.parse(JSON.stringify(ESP_DEFAULT)); renderEspTable(); }
+
+    function switchSimTab(tab) {
+        document.getElementById('sim-tab-global').style.display = tab === 'global' ? 'block' : 'none';
+        document.getElementById('sim-tab-esp').style.display   = tab === 'esp'    ? 'block' : 'none';
+        document.getElementById('stab-global').className = tab === 'global' ? 'btn btn-primary' : 'btn btn-sm';
+        document.getElementById('stab-esp').className    = tab === 'esp'    ? 'btn btn-primary' : 'btn btn-sm';
+        document.getElementById('stab-global').style.borderRadius = '12px';
+        document.getElementById('stab-esp').style.borderRadius = '12px';
+        if (tab === 'esp') renderEspTable();
+    }
+
+    window.calcularEsp = calcularEsp;
+    window.resetEsp = resetEsp;
+    window.switchSimTab = switchSimTab;
+
+    // ── KANBAN CON ESTADO EDITABLE ──
+    const KANBAN_NS = 'cs_kanban_v1_';
+    const KANBAN_PROS = [
+        { id:'k1', name:'Dr. Ivan Soule',        spec:'Traumatología',           note:'También gestiona la habilitación', status:'confirmed' },
+        { id:'k2', name:'Dra. Guadalupe Andrade', spec:'Kinesiología',            note:'',                                  status:'confirmed' },
+        { id:'k3', name:'A confirmar',            spec:'Oftalmología',            note:'Confirmado · nombre pendiente',     status:'confirmed' },
+        { id:'k4', name:'A confirmar',            spec:'Cardiología',             note:'En negociación activa',             status:'progress'  },
+        { id:'k5', name:'Marcelo (jubilado)',      spec:'Técnico en Imágenes',    note:'Equipo portátil propio · modalidad a definir', status:'progress' },
+        { id:'k6', name:'Dra. Wilant (opción A)', spec:'⚠️ Clínica Médica',      note:'Pilar diferenciador principal',     status:'pending'   },
+        { id:'k7', name:'Contactos de Clara',     spec:'⚠️ Pediatría',           note:'Pilar diferenciador secundario',    status:'pending'   },
+        { id:'k8', name:'Dr. Medina (opción A)',  spec:'Ginecología / Obstetricia', note:'',                               status:'pending'   },
+        { id:'k9', name:'2 opciones en agenda',   spec:'Nutrición',              note:'',                                  status:'pending'   },
+        { id:'k10',name:'A investigar',           spec:'Gastroenterología',       note:'',                                  status:'pending'   },
+    ];
+
+    const STATUS_CFG = {
+        confirmed: { col:'col-confirmed', label:'✔ Confirmado', cls:'badge-success' },
+        progress:  { col:'col-progress',  label:'⋯ En charla',  cls:'badge-warning' },
+        pending:   { col:'col-pending',   label:'○ Pendiente',  cls:'badge-danger'  },
+    };
+
+    function loadKanbanData() {
+        KANBAN_PROS.forEach(p => {
+            const saved = localStorage.getItem(KANBAN_NS + p.id);
+            if (saved) { const d = JSON.parse(saved); Object.assign(p, d); }
+        });
+    }
+
+    function saveKanbanCard(p) {
+        localStorage.setItem(KANBAN_NS + p.id, JSON.stringify({ name: p.name, spec: p.spec, note: p.note, status: p.status }));
+        markDirty();
+    }
+
+    function buildKanbanCard(p) {
+        const div = document.createElement('div');
+        div.className = 'kanban-card';
+        div.dataset.kid = p.id;
+        div.innerHTML = `
+            <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:8px;margin-bottom:6px;">
+                <div style="flex:1;">
+                    <div class="prof-name" contenteditable="true" data-save-key="${p.id}-name">${p.name}</div>
+                    <div class="prof-specialty" contenteditable="true" data-save-key="${p.id}-spec">${p.spec}</div>
+                </div>
+                <select class="kanban-status-sel" data-kid="${p.id}" title="Cambiar estado">
+                    <option value="confirmed" ${p.status==='confirmed'?'selected':''}>✔ Confirmado</option>
+                    <option value="progress"  ${p.status==='progress' ?'selected':''}>⋯ En charla</option>
+                    <option value="pending"   ${p.status==='pending'  ?'selected':''}>○ Pendiente</option>
+                </select>
+            </div>
+            ${p.note ? `<div class="prof-note" contenteditable="true" data-save-key="${p.id}-note">${p.note}</div>` : `<div class="prof-note" contenteditable="true" data-save-key="${p.id}-note" style="min-height:18px;"></div>`}`;
+        return div;
+    }
+
+    function renderKanban() {
+        ['confirmed','progress','pending'].forEach(s => {
+            const col = document.getElementById('col-' + s);
+            col.querySelectorAll('.kanban-card').forEach(c => c.remove());
+        });
+        KANBAN_PROS.forEach(p => {
+            const col = document.getElementById('col-' + p.status);
+            if (col) col.appendChild(buildKanbanCard(p));
+        });
+        updateKanbanBadges();
+        // listen for inline name/spec edits
+        document.querySelectorAll('.kanban-card [contenteditable]').forEach(el => {
+            el.addEventListener('blur', () => {
+                const card = el.closest('.kanban-card');
+                const p = KANBAN_PROS.find(x => x.id === card.dataset.kid);
+                if (!p) return;
+                if (el.classList.contains('prof-name'))      p.name = el.innerText.trim();
+                else if (el.classList.contains('prof-specialty')) p.spec = el.innerText.trim();
+                else if (el.classList.contains('prof-note'))      p.note = el.innerText.trim();
+                saveKanbanCard(p);
+            });
+        });
+    }
+
+    function updateKanbanBadges() {
+        const counts = { confirmed:0, progress:0, pending:0 };
+        KANBAN_PROS.forEach(p => counts[p.status]++);
+        document.getElementById('kb-confirmed').textContent = counts.confirmed + ' confirmados';
+        document.getElementById('kb-progress').textContent  = counts.progress  + ' en charla';
+        document.getElementById('kb-pending').textContent   = counts.pending   + ' pendientes';
+    }
+
+    document.addEventListener('change', e => {
+        if (!e.target.classList.contains('kanban-status-sel')) return;
+        const kid = e.target.dataset.kid;
+        const p = KANBAN_PROS.find(x => x.id === kid);
+        if (!p) return;
+        p.status = e.target.value;
+        saveKanbanCard(p);
+        renderKanban();
+    });
+
+    // CSS para el selector de estado dentro del card
+    (function() {
+        const s = document.createElement('style');
+        s.textContent = `.kanban-status-sel {
+            font-family: 'Source Serif 4', serif; font-size: 0.7rem;
+            border: 1px solid var(--rule); background: var(--ivory);
+            color: var(--ink-muted); padding: 3px 6px; cursor: pointer;
+            flex-shrink: 0; max-width: 110px;
+        }
+        .kanban-status-sel:focus { outline: none; border-color: var(--ink); }`;
+        document.head.appendChild(s);
+    })();
+
+    loadKanbanData();
+    renderKanban();
+
+    // ── HAMBURGER DRAWER ──
+    function openDrawer() {
+        document.getElementById('navDrawer').classList.add('open');
+        document.getElementById('navOverlay').classList.add('open');
+        document.body.style.overflow = 'hidden';
+    }
+    function closeDrawer() {
+        document.getElementById('navDrawer').classList.remove('open');
+        document.getElementById('navOverlay').classList.remove('open');
+        document.body.style.overflow = '';
+    }
+    function goTab(id) {
+        // activate desktop tabs
+        document.querySelectorAll('.nav-tab').forEach(t => {
+            t.classList.toggle('active', t.getAttribute('data-tab') === id);
+        });
+        // activate drawer tabs
+        document.querySelectorAll('.drawer-tab').forEach(t => {
+            t.classList.toggle('active', t.getAttribute('data-tab') === id);
+        });
+        // show pane
+        document.querySelectorAll('.content-pane').forEach(p => p.classList.remove('active'));
+        const pane = document.getElementById(id);
+        if (pane) pane.classList.add('active');
+        closeDrawer();
+        window.scrollTo(0, 0);
+        if (id === 'simulador') calcularSimulacion();
+    }
+    // wire desktop tabs to also sync drawer state
+    document.querySelectorAll('.nav-tab').forEach(tab => {
+        tab.addEventListener('click', () => {
+            const id = tab.getAttribute('data-tab');
+            document.querySelectorAll('.drawer-tab').forEach(t =>
+                t.classList.toggle('active', t.getAttribute('data-tab') === id)
+            );
+        });
+    });
+    window.openDrawer  = openDrawer;
+    window.closeDrawer = closeDrawer;
+    window.goTab       = goTab;
+
+    // ── AUTO-SAVE / RESTORE ──
+    const SAVE_NS = 'cs_dashboard_v1_';
+    let saveTimer = null;
+    let isDirty   = false;
+
+    function markDirty() {
+        isDirty = true;
+        const bar = document.getElementById('saveBar');
+        const dot = document.getElementById('saveDot');
+        const msg = document.getElementById('saveMsg');
+        bar.classList.add('visible');
+        dot.classList.remove('saved');
+        msg.textContent = 'Cambios sin guardar';
+        clearTimeout(saveTimer);
+        saveTimer = setTimeout(saveContent, 3000); // auto-save 3s
+    }
+
+    function saveContent() {
+        document.querySelectorAll('[data-save-key]').forEach(el => {
+            localStorage.setItem(SAVE_NS + el.dataset.saveKey, el.innerHTML);
+        });
+        // also save checklist (already handled separately, skip)
+        isDirty = false;
+        const dot = document.getElementById('saveDot');
+        const msg = document.getElementById('saveMsg');
+        dot.classList.add('saved');
+        msg.textContent = 'Guardado ✓';
+        setTimeout(() => {
+            document.getElementById('saveBar').classList.remove('visible');
+        }, 2000);
+    }
+
+    function resetContent() {
+        if (!confirm('¿Deshacer todos los cambios guardados y volver al contenido original?')) return;
+        document.querySelectorAll('[data-save-key]').forEach(el => {
+            localStorage.removeItem(SAVE_NS + el.dataset.saveKey);
+        });
+        location.reload();
+    }
+
+    function restoreContent() {
+        document.querySelectorAll('[data-save-key]').forEach(el => {
+            const saved = localStorage.getItem(SAVE_NS + el.dataset.saveKey);
+            if (saved !== null) el.innerHTML = saved;
+        });
+    }
+
+    // listen for edits on all contenteditable elements
+    document.addEventListener('input', e => {
+        if (e.target.hasAttribute('data-save-key')) markDirty();
+    });
+
+    // prevent Enter from creating <div> in single-line fields
+    document.addEventListener('keydown', e => {
+        if (e.key === 'Enter' && e.target.hasAttribute('data-save-key')) {
+            const tag = e.target.className;
+            if (tag.includes('prof-name') || tag.includes('prof-specialty') || tag.includes('stat-number')) {
+                e.preventDefault();
+                e.target.blur();
+            }
+        }
+        // Ctrl+S / Cmd+S to save
+        if ((e.ctrlKey || e.metaKey) && e.key === 's') {
+            e.preventDefault();
+            saveContent();
+        }
+    });
+
+    // restore on load
+    restoreContent();
+
+    window.saveContent   = saveContent;
+    window.resetContent  = resetContent;
+
+    // ── PENDIENTES ──
+    const PEND_NS = 'cs_pend_v1_';
+
+    function pendId(el) { return el.getAttribute('data-pend-key'); }
+
+    function savePendCheck(key, checked) {
+        localStorage.setItem(PEND_NS + 'chk_' + key, checked ? '1' : '0');
+    }
+    function loadPendChecks() {
+        document.querySelectorAll('.pend-check').forEach(cb => {
+            const key = pendId(cb);
+            const val = localStorage.getItem(PEND_NS + 'chk_' + key);
+            if (val === '1') {
+                cb.checked = true;
+                cb.closest('.pend-item').classList.add('done');
+            }
+        });
+    }
+    function updatePendCounters() {
+        const all   = document.querySelectorAll('.pend-item');
+        const done  = document.querySelectorAll('.pend-item.done');
+        const crit  = document.querySelectorAll('.pend-item[data-prio="critico"]:not(.done)');
+        const open  = all.length - done.length;
+        const pct   = all.length ? Math.round(done.length / all.length * 100) : 0;
+        document.getElementById('pend-count').textContent   = open;
+        document.getElementById('pend-critico').textContent = crit.length;
+        document.getElementById('pend-done').textContent    = done.length;
+        document.getElementById('pend-pct').textContent     = pct + '%';
+    }
+
+    document.addEventListener('change', e => {
+        if (!e.target.classList.contains('pend-check')) return;
+        const item = e.target.closest('.pend-item');
+        item.classList.toggle('done', e.target.checked);
+        savePendCheck(pendId(e.target), e.target.checked);
+        updatePendCounters();
+    });
+
+    let pendCustomCount = parseInt(localStorage.getItem(PEND_NS + 'custom_count') || '0');
+
+    function addPendiente() {
+        const txt   = document.getElementById('new-pend-text').value.trim();
+        const prio  = document.getElementById('new-pend-prio').value;
+        const sec   = document.getElementById('new-pend-sec').value;
+        if (!txt) { document.getElementById('new-pend-text').focus(); return; }
+        pendCustomCount++;
+        const key = 'custom-' + pendCustomCount;
+        const prioLabel = { critico: '<span class="badge badge-danger">CRÍTICO</span>', alta: '<span class="badge badge-warning">Alta</span>', normal: '<span class="badge badge-neutral">Normal</span>' };
+        const div = document.createElement('div');
+        div.className = 'pend-item';
+        div.setAttribute('data-prio', prio);
+        div.setAttribute('data-pend-key', key);
+        div.innerHTML = `
+            <input type="checkbox" class="pend-check" data-pend-key="${key}">
+            <div class="pend-body">
+                <div class="pend-title" contenteditable="true" data-save-key="pend-${key}-t">${txt}</div>
+                <div class="pend-meta">${prioLabel[prio]} <span style="color:var(--ink-light);font-size:0.7rem;">Agregado hoy</span></div>
+            </div>`;
+        document.getElementById(sec).appendChild(div);
+        document.getElementById('new-pend-text').value = '';
+        localStorage.setItem(PEND_NS + 'custom_count', pendCustomCount);
+        // persist the new item text via save system
+        saveContent();
+        updatePendCounters();
+    }
+
+    function restoreCustomTasks() {
+        const count = parseInt(localStorage.getItem(PEND_NS + 'custom_count') || '0');
+        // custom tasks are restored via contenteditable save-key mechanism already
+        // just ensure count is synced
+        pendCustomCount = count;
+    }
+
+    window.addPendiente = addPendiente;
+
+    // init
+    loadPendChecks();
+    restoreCustomTasks();
+    updatePendCounters();
+</script>
+</body>
 </html>
