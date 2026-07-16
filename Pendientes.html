@@ -1,0 +1,537 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Policlínica Serrano · Pendientes</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700;800&family=Source+Serif+4:ital,wght@0,300;0,400;0,600;1,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<style>
+:root {
+    --ivory:      #f5f0e6;
+    --ivory-dark: #ede6d4;
+    --ivory-mid:  #f0e9d8;
+    --ink:        #111111;
+    --ink-soft:   #2a2a2a;
+    --ink-muted:  #555555;
+    --ink-light:  #888888;
+    --rule:       #bbb09a;
+    --rule-dark:  #7a7060;
+    --accent:     #7a3a18;
+    --danger:     #8b1a1a;
+    --warning:    #7a5c10;
+    --success:    #1a5c2a;
+    --card-bg:    #faf7f0;
+    --shadow-md:  0 2px 8px rgba(0,0,0,0.10);
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+body { font-family:'Source Serif 4', Georgia, serif; background:var(--ivory); color:var(--ink); line-height:1.6; min-height:100vh; padding-bottom:70px; }
+.page-wrap { max-width:1100px; margin:0 auto; padding:28px 24px; }
+
+.main-header { border-top:5px solid var(--ink); border-bottom:3px double var(--ink); padding:20px 0 16px; margin-bottom:22px; display:flex; align-items:flex-end; justify-content:space-between; gap:16px; flex-wrap:wrap; }
+.logo-area h1 { font-family:'Playfair Display', serif; font-size:2.3rem; font-weight:800; letter-spacing:-1px; display:flex; align-items:center; gap:12px; }
+.logo-icon { width:42px; height:42px; background:var(--ink); color:var(--ivory); display:flex; align-items:center; justify-content:center; font-size:1.15rem; }
+.subtitle { color:var(--ink-muted); margin-top:6px; font-size:0.85rem; font-style:italic; border-top:1px solid var(--rule); padding-top:6px; }
+.back-link { font-size:0.78rem; color:var(--ink-muted); text-decoration:none; border:1px solid var(--rule-dark); padding:6px 12px; text-transform:uppercase; letter-spacing:0.4px; display:inline-flex; align-items:center; gap:6px; }
+.back-link:hover { background:var(--ivory-dark); color:var(--ink); }
+
+.grid-4 { display:grid; grid-template-columns:repeat(4,1fr); gap:16px; }
+.stat-card { background:var(--card-bg); border:1px solid var(--rule); border-top:3px solid var(--ink); padding:16px 18px; text-align:center; }
+.stat-number { font-family:'Playfair Display', serif; font-size:2.2rem; font-weight:800; line-height:1; }
+.stat-label { font-size:0.7rem; color:var(--ink-muted); margin-top:6px; font-weight:600; text-transform:uppercase; letter-spacing:0.5px; }
+
+.mb-20 { margin-bottom:20px; }
+
+.filter-bar { display:flex; gap:10px; flex-wrap:wrap; align-items:flex-end; background:var(--card-bg); border:1px solid var(--rule); padding:14px 16px; }
+.filter-bar .form-control { min-width:150px; }
+
+.form-label { font-size:0.68rem; font-weight:700; color:var(--ink-muted); margin-bottom:4px; display:block; text-transform:uppercase; letter-spacing:0.5px; }
+.form-control { width:100%; padding:8px 10px; border:1px solid var(--rule-dark); background:#fff; font-family:inherit; font-size:0.85rem; color:var(--ink); }
+.form-control:focus { outline:none; border-color:var(--ink); }
+
+.btn { padding:8px 16px; border:1px solid var(--ink); background:transparent; font-family:inherit; font-weight:700; font-size:0.78rem; cursor:pointer; text-transform:uppercase; letter-spacing:0.4px; }
+.btn-primary { background:var(--ink); color:var(--ivory); }
+.btn-primary:hover { background:#333; }
+.btn-sm { background:var(--ivory); color:var(--ink-muted); border:1px solid var(--rule-dark); padding:6px 12px; font-size:0.72rem; }
+.btn-sm:hover { background:var(--ivory-dark); color:var(--ink); border-color:var(--ink); }
+
+.card { background:var(--card-bg); padding:20px 22px; border:1px solid var(--rule); margin-bottom:18px; }
+.card-header { display:flex; align-items:center; justify-content:space-between; margin-bottom:14px; padding-bottom:9px; border-bottom:2px solid var(--ink); }
+.card-title { font-family:'Playfair Display', serif; font-weight:700; font-size:1.02rem; display:flex; align-items:center; gap:9px; }
+.card-count { font-size:0.72rem; color:var(--ink-muted); font-family:'Source Serif 4', serif; font-style:italic; }
+
+.badge { padding:3px 9px; font-size:0.68rem; font-weight:700; letter-spacing:0.5px; display:inline-flex; align-items:center; gap:5px; text-transform:uppercase; border:1px solid; }
+.badge-danger  { background:#f9e8e8; color:var(--danger);  border-color:#d9a0a0; }
+.badge-warning { background:#f9f3e0; color:var(--warning); border-color:#d4b870; }
+.badge-neutral { background:var(--ivory-mid); color:var(--ink-muted); border-color:var(--rule); }
+
+.pend-item { display:flex; align-items:flex-start; gap:12px; padding:11px 0; border-bottom:1px solid var(--ivory-dark); }
+.pend-item:last-child { border-bottom:none; }
+.pend-item:hover { background:var(--ivory-mid); }
+.pend-item.done .pend-title { text-decoration:line-through; color:var(--ink-light); }
+.pend-item.done { opacity:0.55; }
+.pend-item.hidden { display:none; }
+.pend-check { width:17px; height:17px; margin-top:3px; accent-color:var(--ink); cursor:pointer; flex-shrink:0; }
+.pend-body { flex:1; min-width:0; }
+.pend-title { font-size:0.9rem; color:var(--ink-soft); line-height:1.4; }
+.pend-title[contenteditable="true"]:focus { background:#fffff8; outline:1px dashed var(--rule-dark); }
+.pend-meta { margin-top:4px; font-size:0.74rem; color:var(--ink-light); font-style:italic; display:flex; gap:6px; align-items:center; flex-wrap:wrap; }
+.pend-meta[contenteditable="true"] { min-width:60px; }
+.pend-meta[contenteditable="true"]:focus { background:#fffff8; outline:1px dashed var(--rule-dark); font-style:normal; }
+.pend-meta:empty::before { content:"añadir nota…"; color:#c9c0ac; }
+.pend-controls { display:flex; align-items:center; gap:6px; flex-shrink:0; }
+.pend-prio-select { font-family:inherit; font-size:0.68rem; border:1px solid var(--rule-dark); background:#fff; padding:3px 4px; text-transform:uppercase; }
+.pend-del { background:none; border:none; color:var(--ink-light); cursor:pointer; font-size:0.85rem; padding:4px; }
+.pend-del:hover { color:var(--danger); }
+
+.section-empty { font-size:0.82rem; color:var(--ink-light); font-style:italic; padding:8px 0; }
+
+.new-task-card { border:2px dashed var(--rule); }
+.new-task-row { display:flex; gap:10px; flex-wrap:wrap; align-items:flex-end; }
+.new-task-row > div:first-child { flex:1; min-width:220px; }
+
+.save-bar { position:fixed; bottom:0; left:0; right:0; background:var(--ink); color:var(--ivory); padding:11px 24px; display:flex; align-items:center; justify-content:space-between; font-size:0.82rem; transform:translateY(100%); transition:transform 0.25s; z-index:50; }
+.save-bar.visible { transform:translateY(0); }
+.save-status { display:flex; align-items:center; gap:8px; }
+.save-dot { width:7px; height:7px; border-radius:50%; background:#f59e0b; display:inline-block; }
+.save-dot.saved { background:#6ee7b7; }
+.save-actions { display:flex; gap:10px; }
+.save-btn { background:var(--ivory); color:var(--ink); border:none; padding:6px 16px; font-family:inherit; font-weight:700; font-size:0.78rem; cursor:pointer; text-transform:uppercase; letter-spacing:0.4px; }
+.save-btn:hover { background:#e8e3d8; }
+.reset-btn, .export-btn, .import-btn { background:transparent; color:var(--ivory); border:1px solid var(--ivory); opacity:0.8; padding:5px 12px; font-family:inherit; font-size:0.75rem; cursor:pointer; }
+.reset-btn { color:#f87171; border-color:#f87171; opacity:1; }
+.reset-btn:hover { background:rgba(248,113,113,0.15); }
+.export-btn:hover, .import-btn:hover { background:rgba(255,255,255,0.1); opacity:1; }
+
+@media (max-width:720px) {
+    .grid-4 { grid-template-columns:repeat(2,1fr); }
+    .logo-area h1 { font-size:1.7rem; }
+    .save-bar { flex-direction:column; gap:8px; align-items:flex-start; }
+}
+</style>
+</head>
+<body>
+<div class="page-wrap">
+
+    <div class="main-header">
+        <div class="logo-area">
+            <h1><span class="logo-icon"><i class="fas fa-tasks"></i></span> Pendientes</h1>
+            <div class="subtitle">Policlínica Serrano · lista de tareas de apertura</div>
+        </div>
+        <a class="back-link" href="Resumen completo CS.html"><i class="fas fa-arrow-left"></i> Volver al dashboard</a>
+    </div>
+
+    <div class="grid-4 mb-20">
+        <div class="stat-card" style="border-top-color:var(--danger);">
+            <div class="stat-number" id="pend-count" style="color:var(--danger);">—</div>
+            <div class="stat-label">Tareas abiertas</div>
+        </div>
+        <div class="stat-card" style="border-top-color:var(--accent);">
+            <div class="stat-number" id="pend-critico" style="color:var(--accent);">—</div>
+            <div class="stat-label">Críticas / urgentes</div>
+        </div>
+        <div class="stat-card" style="border-top-color:var(--success);">
+            <div class="stat-number" id="pend-done" style="color:var(--success);">—</div>
+            <div class="stat-label">Completadas</div>
+        </div>
+        <div class="stat-card" style="border-top-color:var(--ink);">
+            <div class="stat-number" id="pend-pct" style="color:var(--ink);">—</div>
+            <div class="stat-label">Avance general</div>
+        </div>
+    </div>
+
+    <div class="filter-bar mb-20">
+        <div>
+            <label class="form-label">Buscar</label>
+            <input type="text" id="f-search" class="form-control" placeholder="Buscar tarea..." style="min-width:220px;">
+        </div>
+        <div>
+            <label class="form-label">Sección</label>
+            <select id="f-sec" class="form-control">
+                <option value="">Todas</option>
+                <option value="rrhh">RRHH</option>
+                <option value="hab">Habilitación</option>
+                <option value="ooss">Obras Sociales</option>
+                <option value="mkt">Marketing</option>
+                <option value="fin">Financiero</option>
+            </select>
+        </div>
+        <div>
+            <label class="form-label">Prioridad</label>
+            <select id="f-prio" class="form-control">
+                <option value="">Todas</option>
+                <option value="critico">🔴 Crítico</option>
+                <option value="alta">🟡 Alta</option>
+                <option value="normal">⚪ Normal</option>
+            </select>
+        </div>
+        <div>
+            <label class="form-label">Estado</label>
+            <select id="f-estado" class="form-control">
+                <option value="">Todas</option>
+                <option value="open">Abiertas</option>
+                <option value="done">Completadas</option>
+            </select>
+        </div>
+        <button class="btn btn-sm" onclick="clearFilters()"><i class="fas fa-times"></i> Limpiar</button>
+    </div>
+
+    <div id="sections-wrap"></div>
+
+    <div class="card new-task-card">
+        <div class="card-header" style="border-bottom:none;margin-bottom:8px;">
+            <div class="card-title" style="color:var(--ink-muted);"><i class="fas fa-plus-circle"></i> Nueva tarea</div>
+        </div>
+        <div class="new-task-row">
+            <div>
+                <label class="form-label">Descripción</label>
+                <input type="text" id="new-pend-text" class="form-control" placeholder="Ej: Llamar a Dr. Pérez esta semana">
+            </div>
+            <div>
+                <label class="form-label">Prioridad</label>
+                <select id="new-pend-prio" class="form-control" style="width:130px;">
+                    <option value="critico">🔴 Crítico</option>
+                    <option value="alta">🟡 Alta</option>
+                    <option value="normal" selected>⚪ Normal</option>
+                </select>
+            </div>
+            <div>
+                <label class="form-label">Sección</label>
+                <select id="new-pend-sec" class="form-control" style="width:160px;">
+                    <option value="rrhh">RRHH</option>
+                    <option value="hab">Habilitación</option>
+                    <option value="ooss">Obras Sociales</option>
+                    <option value="mkt">Marketing</option>
+                    <option value="fin">Financiero</option>
+                </select>
+            </div>
+            <button class="btn btn-primary" onclick="addPendiente()"><i class="fas fa-plus"></i> Agregar</button>
+        </div>
+    </div>
+
+</div>
+
+<div class="save-bar" id="saveBar">
+    <div class="save-status">
+        <span class="save-dot" id="saveDot"></span>
+        <span id="saveMsg">Cambios sin guardar</span>
+    </div>
+    <div class="save-actions">
+        <button class="export-btn" onclick="exportTasks()"><i class="fas fa-download"></i> Exportar backup</button>
+        <button class="import-btn" onclick="document.getElementById('import-file').click()"><i class="fas fa-upload"></i> Importar</button>
+        <input type="file" id="import-file" accept="application/json" style="display:none;">
+        <button class="reset-btn" onclick="resetContent()"><i class="fas fa-undo"></i> Restaurar original</button>
+        <button class="save-btn" onclick="saveContent(true)"><i class="fas fa-save"></i> Guardar</button>
+    </div>
+</div>
+
+<script>
+const NS = 'cs_pend_app_v1_';
+
+const SECTIONS = [
+    { key:'rrhh', title:'RRHH — Profesionales', icon:'fa-user-md', badge:'Bloquea apertura', badgeClass:'badge-danger' },
+    { key:'hab',  title:'Habilitación Municipal', icon:'fa-clipboard-list', badge:'Con Iván Soule', badgeClass:'badge-warning' },
+    { key:'ooss', title:'Obras Sociales', icon:'fa-id-card-alt' },
+    { key:'mkt',  title:'Marketing & Lanzamiento', icon:'fa-bullhorn' },
+    { key:'fin',  title:'Financiero & Operativo', icon:'fa-calculator' },
+];
+
+const DEFAULT_TASKS = [
+    {id:'rrhh-1', sec:'rrhh', prio:'critico', text:'Confirmar Clínica Médica — hablar con Dra. Wilant', meta:'Pilar diferenciador del proyecto', done:false},
+    {id:'rrhh-2', sec:'rrhh', prio:'critico', text:'Confirmar Pediatría — activar contactos de Clara', meta:'Segunda especialidad diferenciadora', done:false},
+    {id:'rrhh-3', sec:'rrhh', prio:'alta', text:'Cerrar negociación Cardiología', meta:'En charla activa', done:false},
+    {id:'rrhh-4', sec:'rrhh', prio:'alta', text:'Reunión con Marcelo — definir modalidad (a demanda vs. turno programado)', meta:'Imágenes portátiles · pendiente charla', done:false},
+    {id:'rrhh-5', sec:'rrhh', prio:'alta', text:'Tramitar habilitación Radiofísica Sanitaria para Marcelo (Art. 9.2.d)', meta:'Requerido para operar equipo de imágenes · Colegio de Médicos', done:false},
+    {id:'rrhh-6', sec:'rrhh', prio:'normal', text:'Confirmar Ginecología/Obstetricia — Dr. Medina (opción A)', meta:'', done:false},
+    {id:'rrhh-7', sec:'rrhh', prio:'normal', text:'Contactar opciones de Nutrición (2 candidatos en agenda)', meta:'', done:false},
+    {id:'rrhh-8', sec:'rrhh', prio:'normal', text:'Investigar candidato para Gastroenterología', meta:'', done:false},
+    {id:'hab-1', sec:'hab', prio:'critico', text:'Reunión con Iván Soule para arrancar trámite de habilitación', meta:'Primer paso formal · depende de fecha de apertura', done:false},
+    {id:'hab-2', sec:'hab', prio:'alta', text:'Obtener planos y documentación del local (medidas oficiales)', meta:'', done:false},
+    {id:'hab-3', sec:'hab', prio:'alta', text:'Certificado de habilitación eléctrica y gas', meta:'', done:false},
+    {id:'hab-4', sec:'hab', prio:'normal', text:'Confeccionar cartelería obligatoria (horarios, matrícula, derechos del paciente)', meta:'', done:false},
+    {id:'hab-5', sec:'hab', prio:'normal', text:'Contratar seguro de responsabilidad civil del establecimiento', meta:'', done:false},
+    {id:'ooss-1', sec:'ooss', prio:'critico', text:'Decidir modelo: particular o con OOSS', meta:'Define toda la estrategia comercial', done:false},
+    {id:'ooss-2', sec:'ooss', prio:'alta', text:'Si OOSS: iniciar gestión de convenio IOMA (prioridad zona)', meta:'', done:false},
+    {id:'ooss-3', sec:'ooss', prio:'alta', text:'Si OOSS: gestionar convenio PAMI', meta:'', done:false},
+    {id:'ooss-4', sec:'ooss', prio:'normal', text:'Charlar con cada profesional sobre su preferencia (particular vs OOSS)', meta:'', done:false},
+    {id:'mkt-1', sec:'mkt', prio:'alta', text:'Crear perfil Google My Business (Policlínica Serrano)', meta:'', done:false},
+    {id:'mkt-2', sec:'mkt', prio:'alta', text:'Abrir Instagram y Facebook del consultorio', meta:'', done:false},
+    {id:'mkt-3', sec:'mkt', prio:'normal', text:'Landing page / web simple con especialidades, horarios y turnos', meta:'', done:false},
+    {id:'mkt-4', sec:'mkt', prio:'normal', text:'Organizar Jornada de Salud Comunitaria para el lanzamiento (dic 2026)', meta:'', done:false},
+    {id:'mkt-5', sec:'mkt', prio:'normal', text:'Alianzas con farmacias y comercios del pueblo (puntos de info)', meta:'', done:false},
+    {id:'fin-1', sec:'fin', prio:'alta', text:'Confirmar valor final del alquiler y condiciones de contrato', meta:'', done:false},
+    {id:'fin-2', sec:'fin', prio:'alta', text:'Definir distribución de honorarios con cada profesional (porcentajes)', meta:'', done:false},
+    {id:'fin-3', sec:'fin', prio:'normal', text:'Contratar secretaria / administrativa (inicio estimado nov 2026)', meta:'', done:false},
+    {id:'fin-4', sec:'fin', prio:'normal', text:'Definir sistema de turnos / software de gestión de consultorios', meta:'', done:false},
+    {id:'fin-5', sec:'fin', prio:'normal', text:'Estrategia Concepción: definir si absorber o competir con consultorios vecinos', meta:'', done:false},
+];
+
+let tasks = [];
+let dirty = false;
+let saveTimer = null;
+
+function clone(obj) { return JSON.parse(JSON.stringify(obj)); }
+
+function loadTasks() {
+    const raw = localStorage.getItem(NS + 'tasks');
+    if (raw) {
+        try { tasks = JSON.parse(raw); return; } catch(e) {}
+    }
+    tasks = clone(DEFAULT_TASKS);
+    persist();
+}
+
+function persist() {
+    localStorage.setItem(NS + 'tasks', JSON.stringify(tasks));
+}
+
+function markDirty() {
+    dirty = true;
+    document.getElementById('saveBar').classList.add('visible');
+    document.getElementById('saveDot').classList.remove('saved');
+    document.getElementById('saveMsg').textContent = 'Cambios sin guardar';
+    clearTimeout(saveTimer);
+    saveTimer = setTimeout(() => saveContent(false), 3000);
+}
+
+function saveContent(manual) {
+    persist();
+    dirty = false;
+    document.getElementById('saveDot').classList.add('saved');
+    document.getElementById('saveMsg').textContent = 'Guardado ✓';
+    setTimeout(() => document.getElementById('saveBar').classList.remove('visible'), 2000);
+}
+
+function resetContent() {
+    if (!confirm('¿Restaurar la lista original de pendientes? Se perderán tareas nuevas y cambios hechos acá.')) return;
+    tasks = clone(DEFAULT_TASKS);
+    persist();
+    render();
+    markDirty();
+    saveContent(true);
+}
+
+function exportTasks() {
+    const blob = new Blob([JSON.stringify(tasks, null, 2)], {type:'application/json'});
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    const stamp = new Date().toISOString().slice(0,10);
+    a.href = url;
+    a.download = `pendientes-policlinica-serrano-${stamp}.json`;
+    a.click();
+    URL.revokeObjectURL(url);
+}
+
+document.getElementById('import-file').addEventListener('change', e => {
+    const file = e.target.files[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = () => {
+        try {
+            const parsed = JSON.parse(reader.result);
+            if (!Array.isArray(parsed)) throw new Error('formato inválido');
+            tasks = parsed;
+            persist();
+            render();
+            markDirty();
+            saveContent(true);
+        } catch(err) {
+            alert('No se pudo importar el archivo: ' + err.message);
+        }
+    };
+    reader.readAsText(file);
+    e.target.value = '';
+});
+
+const PRIO_BADGE = {
+    critico: '<span class="badge badge-danger">CRÍTICO</span>',
+    alta:    '<span class="badge badge-warning">Alta</span>',
+    normal:  '<span class="badge badge-neutral">Normal</span>',
+};
+const PRIO_ORDER = { critico:0, alta:1, normal:2 };
+
+function render() {
+    const wrap = document.getElementById('sections-wrap');
+    wrap.innerHTML = '';
+    SECTIONS.forEach(sec => {
+        const secTasks = tasks.filter(t => t.sec === sec.key)
+            .sort((a,b) => PRIO_ORDER[a.prio] - PRIO_ORDER[b.prio]);
+
+        const card = document.createElement('div');
+        card.className = 'card mb-20';
+        card.dataset.sectionCard = sec.key;
+
+        const badgeHtml = sec.badge ? `<span class="badge ${sec.badgeClass}">${sec.badge}</span>` : '';
+        card.innerHTML = `
+            <div class="card-header">
+                <div class="card-title"><i class="fas ${sec.icon}"></i> ${sec.title}</div>
+                ${badgeHtml}
+            </div>
+            <div class="pend-list" id="list-${sec.key}"></div>
+        `;
+        wrap.appendChild(card);
+
+        const list = card.querySelector('.pend-list');
+        if (secTasks.length === 0) {
+            list.innerHTML = '<div class="section-empty">Sin tareas en esta sección.</div>';
+        }
+        secTasks.forEach(t => list.appendChild(renderItem(t)));
+    });
+    updateCounters();
+    applyFilters();
+}
+
+function renderItem(t) {
+    const item = document.createElement('div');
+    item.className = 'pend-item' + (t.done ? ' done' : '');
+    item.dataset.id = t.id;
+    item.dataset.prio = t.prio;
+    item.dataset.sec = t.sec;
+    item.dataset.done = t.done ? '1' : '0';
+
+    item.innerHTML = `
+        <input type="checkbox" class="pend-check" ${t.done ? 'checked' : ''}>
+        <div class="pend-body">
+            <div class="pend-title" contenteditable="true">${escapeHtml(t.text)}</div>
+            <div class="pend-meta" contenteditable="true">${escapeHtml(t.meta || '')}</div>
+        </div>
+        <div class="pend-controls">
+            <select class="pend-prio-select">
+                <option value="critico" ${t.prio==='critico'?'selected':''}>Crítico</option>
+                <option value="alta" ${t.prio==='alta'?'selected':''}>Alta</option>
+                <option value="normal" ${t.prio==='normal'?'selected':''}>Normal</option>
+            </select>
+            <button class="pend-del" title="Eliminar tarea"><i class="fas fa-trash"></i></button>
+        </div>
+    `;
+
+    item.querySelector('.pend-check').addEventListener('change', e => {
+        t.done = e.target.checked;
+        item.classList.toggle('done', t.done);
+        item.dataset.done = t.done ? '1' : '0';
+        updateCounters();
+        markDirty();
+    });
+
+    item.querySelector('.pend-title').addEventListener('input', e => {
+        t.text = e.target.textContent;
+        markDirty();
+    });
+    item.querySelector('.pend-title').addEventListener('keydown', e => {
+        if (e.key === 'Enter') { e.preventDefault(); e.target.blur(); }
+    });
+
+    item.querySelector('.pend-meta').addEventListener('input', e => {
+        t.meta = e.target.textContent;
+        markDirty();
+    });
+    item.querySelector('.pend-meta').addEventListener('keydown', e => {
+        if (e.key === 'Enter') { e.preventDefault(); e.target.blur(); }
+    });
+
+    item.querySelector('.pend-prio-select').addEventListener('change', e => {
+        t.prio = e.target.value;
+        item.dataset.prio = t.prio;
+        render();
+        markDirty();
+    });
+
+    item.querySelector('.pend-del').addEventListener('click', () => {
+        if (!confirm('¿Eliminar esta tarea?')) return;
+        tasks = tasks.filter(x => x.id !== t.id);
+        persist();
+        render();
+        markDirty();
+        saveContent(true);
+    });
+
+    return item;
+}
+
+function escapeHtml(str) {
+    const div = document.createElement('div');
+    div.textContent = str;
+    return div.innerHTML;
+}
+
+function updateCounters() {
+    const all = tasks;
+    const done = all.filter(t => t.done);
+    const crit = all.filter(t => t.prio === 'critico' && !t.done);
+    const open = all.length - done.length;
+    const pct = all.length ? Math.round(done.length / all.length * 100) : 0;
+    document.getElementById('pend-count').textContent = open;
+    document.getElementById('pend-critico').textContent = crit.length;
+    document.getElementById('pend-done').textContent = done.length;
+    document.getElementById('pend-pct').textContent = pct + '%';
+}
+
+let pendCustomCount = 0;
+function addPendiente() {
+    const textEl = document.getElementById('new-pend-text');
+    const txt = textEl.value.trim();
+    const prio = document.getElementById('new-pend-prio').value;
+    const sec = document.getElementById('new-pend-sec').value;
+    if (!txt) { textEl.focus(); return; }
+    pendCustomCount++;
+    const id = 'custom-' + Date.now() + '-' + pendCustomCount;
+    tasks.push({ id, sec, prio, text: txt, meta: '', done: false });
+    textEl.value = '';
+    persist();
+    render();
+    markDirty();
+    saveContent(true);
+}
+
+function applyFilters() {
+    const search = document.getElementById('f-search').value.trim().toLowerCase();
+    const secF = document.getElementById('f-sec').value;
+    const prioF = document.getElementById('f-prio').value;
+    const estadoF = document.getElementById('f-estado').value;
+
+    document.querySelectorAll('.pend-item').forEach(item => {
+        let show = true;
+        if (secF && item.dataset.sec !== secF) show = false;
+        if (prioF && item.dataset.prio !== prioF) show = false;
+        if (estadoF === 'open' && item.dataset.done === '1') show = false;
+        if (estadoF === 'done' && item.dataset.done === '0') show = false;
+        if (search) {
+            const text = item.querySelector('.pend-title').textContent.toLowerCase();
+            const meta = item.querySelector('.pend-meta').textContent.toLowerCase();
+            if (!text.includes(search) && !meta.includes(search)) show = false;
+        }
+        item.classList.toggle('hidden', !show);
+    });
+
+    document.querySelectorAll('[data-section-card]').forEach(card => {
+        const visible = [...card.querySelectorAll('.pend-item')].some(i => !i.classList.contains('hidden'));
+        const hasItems = card.querySelectorAll('.pend-item').length > 0;
+        card.style.display = (hasItems && !visible) ? 'none' : '';
+    });
+}
+
+function clearFilters() {
+    document.getElementById('f-search').value = '';
+    document.getElementById('f-sec').value = '';
+    document.getElementById('f-prio').value = '';
+    document.getElementById('f-estado').value = '';
+    applyFilters();
+}
+
+['f-search','f-sec','f-prio','f-estado'].forEach(id => {
+    document.getElementById(id).addEventListener('input', applyFilters);
+    document.getElementById(id).addEventListener('change', applyFilters);
+});
+
+document.addEventListener('keydown', e => {
+    if ((e.ctrlKey || e.metaKey) && e.key === 's') {
+        e.preventDefault();
+        saveContent(true);
+    }
+});
+
+loadTasks();
+render();
+</script>
+</body>
+</html>
