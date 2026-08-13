@@ -21,6 +21,10 @@
     --normal-soft: #ECEAE0;
     --done: #5C7A5A;
     --done-soft: #E6EDE4;
+    --positive: #3E8B5C;
+    --positive-soft: #E1EFE0;
+    --negative: #B5482E;
+    --negative-soft: #F6E4DE;
     --focus: #3C6E58;
     --shadow: 0 1px 2px rgba(35,42,38,0.06), 0 1px 1px rgba(35,42,38,0.04);
     --serif: "Iowan Old Style", "Palatino Linotype", "Georgia", ui-serif, serif;
@@ -48,6 +52,10 @@
       --normal-soft: #2A2E27;
       --done: #8FB48D;
       --done-soft: #253026;
+      --positive: #7CC198;
+      --positive-soft: #243329;
+      --negative: #E58466;
+      --negative-soft: #3A2721;
       --shadow: 0 1px 3px rgba(0,0,0,0.4);
     }
   }
@@ -60,6 +68,8 @@
     --high: #D8AE5C; --high-soft: #3A311F;
     --normal: #A6A690; --normal-soft: #2A2E27;
     --done: #8FB48D; --done-soft: #253026;
+    --positive: #7CC198; --positive-soft: #243329;
+    --negative: #E58466; --negative-soft: #3A2721;
     --shadow: 0 1px 3px rgba(0,0,0,0.4);
   }
   :root[data-theme="light"] {
@@ -71,6 +81,8 @@
     --high: #A9791E; --high-soft: #F3E9D2;
     --normal: #6E6E5C; --normal-soft: #ECEAE0;
     --done: #5C7A5A; --done-soft: #E6EDE4;
+    --positive: #3E8B5C; --positive-soft: #E1EFE0;
+    --negative: #B5482E; --negative-soft: #F6E4DE;
     --shadow: 0 1px 2px rgba(35,42,38,0.06), 0 1px 1px rgba(35,42,38,0.04);
   }
 
@@ -270,10 +282,14 @@
     grid-template-columns: 22px 1fr auto;
     gap: 4px 12px;
     align-items: start;
-    padding: 11px 4px;
+    padding: 11px 4px 11px 9px;
     border-bottom: 1px solid var(--card-border);
+    border-left: 3px solid transparent;
+    transition: border-left-color 0.15s;
   }
   .task:last-child { border-bottom: none; }
+  .task.outcome-pos { border-left-color: var(--positive); }
+  .task.outcome-neg { border-left-color: var(--negative); }
 
   .task input[type="checkbox"] {
     appearance: none;
@@ -346,6 +362,86 @@
   }
   .task.done .task-date, .task.done .pill { opacity: 0.55; }
 
+  .outcome-badge {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    padding: 2px 7px;
+    border-radius: 999px;
+    white-space: nowrap;
+  }
+  .outcome-badge.pos { background: var(--positive-soft); color: var(--positive); }
+  .outcome-badge.neg { background: var(--negative-soft); color: var(--negative); }
+
+  .task-expand {
+    grid-column: 3 / 4;
+    justify-self: end;
+    background: none;
+    border: none;
+    padding: 2px 0;
+    font-family: var(--sans);
+    font-size: 11.5px;
+    color: var(--ink-faint);
+    cursor: pointer;
+    text-decoration: underline;
+    text-decoration-color: transparent;
+  }
+  .task-expand:hover { color: var(--accent); text-decoration-color: var(--accent); }
+  .task-expand:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; }
+
+  .task-detail {
+    grid-column: 1 / -1;
+    display: none;
+    flex-direction: column;
+    gap: 8px;
+    margin: 4px 0 2px 30px;
+    padding: 10px 12px;
+    background: var(--normal-soft);
+    border-radius: 8px;
+  }
+  .task-detail.open { display: flex; }
+  .outcome-buttons { display: flex; gap: 8px; }
+  .outcome-btn {
+    font-family: var(--sans);
+    font-size: 12.5px;
+    padding: 5px 12px;
+    border-radius: 7px;
+    border: 1px solid var(--card-border);
+    background: var(--card);
+    color: var(--ink-soft);
+    cursor: pointer;
+  }
+  .outcome-btn:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; }
+  .outcome-btn.pos.active { background: var(--positive-soft); color: var(--positive); border-color: var(--positive); }
+  .outcome-btn.neg.active { background: var(--negative-soft); color: var(--negative); border-color: var(--negative); }
+  .task-annotation {
+    width: 100%;
+    resize: vertical;
+    min-height: 52px;
+    font-family: var(--sans);
+    font-size: 13px;
+    color: var(--ink);
+    background: var(--card);
+    border: 1px solid var(--card-border);
+    border-radius: 7px;
+    padding: 8px 10px;
+  }
+  .task-annotation:focus-visible { outline: 2px solid var(--focus); outline-offset: 1px; }
+  .task-annotation::placeholder { color: var(--ink-faint); }
+
+  .outcome-tally {
+    display: none;
+    gap: 14px;
+    font-family: var(--mono);
+    font-size: 12.5px;
+    color: var(--ink-soft);
+    margin: -6px 0 16px;
+  }
+  .outcome-tally.show { display: flex; }
+  .outcome-tally .pos { color: var(--positive); }
+  .outcome-tally .neg { color: var(--negative); }
+
   .task.hidden { display: none; }
   .section.hidden { display: none; }
 
@@ -364,6 +460,8 @@
     h1 { font-size: 25px; }
     .task { grid-template-columns: 20px 1fr; }
     .task-meta { grid-column: 2; flex-direction: row; align-items: center; margin-top: 2px; }
+    .task-expand { grid-column: 1 / -1; justify-self: start; margin-left: 30px; }
+    .task-detail { margin-left: 0; }
   }
 </style>
 
@@ -390,6 +488,10 @@
       </div>
 
       <div class="progress-track"><div class="progress-fill" id="progress-fill" style="width:0%"></div></div>
+      <div class="outcome-tally" id="outcome-tally">
+        <span class="pos">🟢 <span id="tally-pos">0</span> positivas</span>
+        <span class="neg">🔴 <span id="tally-neg">0</span> negativas</span>
+      </div>
 
       <div class="constraints">
         <span><b>Lun–Jue</b> · bloque de 2hs (9–11, flexible hasta 22)</span>
@@ -410,6 +512,8 @@
     <button class="chip" data-filter="critico">Críticas</button>
     <button class="chip" data-filter="pending">Sin hacer</button>
     <button class="chip" data-filter="done">Completadas</button>
+    <button class="chip" data-filter="pos">🟢 Positivas</button>
+    <button class="chip" data-filter="neg">🔴 Negativas</button>
   </div>
 
   <main id="sections"></main>
@@ -455,15 +559,36 @@
   ];
 
   var DEADLINE = new Date("2026-12-10T00:00:00-03:00");
-  var STORAGE_KEY = "serranos-pendientes-v1";
+  var STORAGE_KEY = "serranos-pendientes-v2";
+  var STORAGE_KEY_OLD = "serranos-pendientes-v1";
   var PRIO_LABEL = {critico:"Crítico", alta:"Alta", normal:"Normal"};
 
-  function loadDone() {
-    try { return JSON.parse(localStorage.getItem(STORAGE_KEY)) || {}; }
-    catch (e) { return {}; }
+  function emptyEntry() { return {done:false, outcome:null, note:""}; }
+
+  function loadState() {
+    try {
+      var raw = JSON.parse(localStorage.getItem(STORAGE_KEY));
+      if (raw) return raw;
+    } catch (e) {}
+    // migrar desde la versión anterior (solo done: true/false)
+    try {
+      var old = JSON.parse(localStorage.getItem(STORAGE_KEY_OLD));
+      if (old) {
+        var migrated = {};
+        Object.keys(old).forEach(function (id) {
+          migrated[id] = {done: !!old[id], outcome: null, note: ""};
+        });
+        return migrated;
+      }
+    } catch (e) {}
+    return {};
   }
-  function saveDone(done) {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(done));
+  function saveState() {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+  }
+  function entryFor(id) {
+    if (!state[id]) state[id] = emptyEntry();
+    return state[id];
   }
 
   function fmtDate(iso) {
@@ -472,8 +597,14 @@
     return d.getDate() + " " + months[d.getMonth()];
   }
 
-  var doneState = loadDone();
+  var state = loadState();
   var currentFilter = "all";
+  var expandedIds = {};
+  var saveTimer = null;
+  function saveStateDebounced() {
+    clearTimeout(saveTimer);
+    saveTimer = setTimeout(saveState, 250);
+  }
 
   function render() {
     var sections = [];
@@ -497,22 +628,29 @@
 
       var head = document.createElement("div");
       head.className = "section-head";
-      var doneCount = items.filter(function (t) { return doneState[t.id]; }).length;
+      var doneCount = items.filter(function (t) { return entryFor(t.id).done; }).length;
       head.innerHTML = "<h2>" + secName + "</h2><span class=\"section-count\">" + doneCount + "/" + items.length + "</span>";
       sec.appendChild(head);
 
       items.forEach(function (t) {
+        var entry = entryFor(t.id);
+        var isDone = !!entry.done;
+        var isOpen = !!expandedIds[t.id];
+
         var row = document.createElement("div");
-        var isDone = !!doneState[t.id];
-        row.className = "task" + (isDone ? " done" : "") + (matchesFilter(t) ? "" : " hidden");
+        row.className = "task"
+          + (isDone ? " done" : "")
+          + (entry.outcome === "pos" ? " outcome-pos" : "")
+          + (entry.outcome === "neg" ? " outcome-neg" : "")
+          + (matchesFilter(t) ? "" : " hidden");
 
         var cb = document.createElement("input");
         cb.type = "checkbox";
         cb.checked = isDone;
         cb.setAttribute("aria-label", "Marcar completada: " + t.title);
         cb.addEventListener("change", function () {
-          doneState[t.id] = cb.checked;
-          saveDone(doneState);
+          entry.done = cb.checked;
+          saveState();
           render();
         });
 
@@ -539,11 +677,68 @@
         dateEl.className = "task-date";
         dateEl.textContent = fmtDate(t.date);
         metaCol.appendChild(pill);
+        if (entry.outcome) {
+          var outcomeBadge = document.createElement("span");
+          outcomeBadge.className = "outcome-badge " + entry.outcome;
+          outcomeBadge.textContent = entry.outcome === "pos" ? "🟢 Positivo" : "🔴 Negativo";
+          metaCol.appendChild(outcomeBadge);
+        }
         metaCol.appendChild(dateEl);
+
+        var expandBtn = document.createElement("button");
+        expandBtn.type = "button";
+        expandBtn.className = "task-expand";
+        var hasContent = entry.outcome || (entry.note && entry.note.trim());
+        expandBtn.textContent = isOpen ? "ocultar" : (hasContent ? "ver anotación" : "+ anotación");
+        expandBtn.addEventListener("click", function () {
+          expandedIds[t.id] = !expandedIds[t.id];
+          render();
+        });
+
+        var detail = document.createElement("div");
+        detail.className = "task-detail" + (isOpen ? " open" : "");
+
+        var outcomeButtons = document.createElement("div");
+        outcomeButtons.className = "outcome-buttons";
+        var posBtn = document.createElement("button");
+        posBtn.type = "button";
+        posBtn.className = "outcome-btn pos" + (entry.outcome === "pos" ? " active" : "");
+        posBtn.textContent = "🟢 Positivo";
+        posBtn.addEventListener("click", function () {
+          entry.outcome = entry.outcome === "pos" ? null : "pos";
+          saveState();
+          render();
+        });
+        var negBtn = document.createElement("button");
+        negBtn.type = "button";
+        negBtn.className = "outcome-btn neg" + (entry.outcome === "neg" ? " active" : "");
+        negBtn.textContent = "🔴 Negativo";
+        negBtn.addEventListener("click", function () {
+          entry.outcome = entry.outcome === "neg" ? null : "neg";
+          saveState();
+          render();
+        });
+        outcomeButtons.appendChild(posBtn);
+        outcomeButtons.appendChild(negBtn);
+
+        var textarea = document.createElement("textarea");
+        textarea.className = "task-annotation";
+        textarea.placeholder = "Cómo salió, con quién hablaste, próximo paso...";
+        textarea.value = entry.note || "";
+        textarea.addEventListener("input", function () {
+          entry.note = textarea.value;
+          saveStateDebounced();
+        });
+        textarea.addEventListener("blur", saveState);
+
+        detail.appendChild(outcomeButtons);
+        detail.appendChild(textarea);
 
         row.appendChild(cb);
         row.appendChild(mainCol);
         row.appendChild(metaCol);
+        row.appendChild(expandBtn);
+        row.appendChild(detail);
         sec.appendChild(row);
       });
 
@@ -554,22 +749,30 @@
   }
 
   function matchesFilter(t) {
-    var isDone = !!doneState[t.id];
+    var entry = entryFor(t.id);
     if (currentFilter === "all") return true;
     if (currentFilter === "critico") return t.priority === "critico";
-    if (currentFilter === "pending") return !isDone;
-    if (currentFilter === "done") return isDone;
+    if (currentFilter === "pending") return !entry.done;
+    if (currentFilter === "done") return entry.done;
+    if (currentFilter === "pos") return entry.outcome === "pos";
+    if (currentFilter === "neg") return entry.outcome === "neg";
     return true;
   }
 
   function updateStats() {
     var total = DATA.length;
-    var doneCount = DATA.filter(function (t) { return doneState[t.id]; }).length;
-    var criticalOpen = DATA.filter(function (t) { return t.priority === "critico" && !doneState[t.id]; }).length;
+    var doneCount = DATA.filter(function (t) { return entryFor(t.id).done; }).length;
+    var criticalOpen = DATA.filter(function (t) { return t.priority === "critico" && !entryFor(t.id).done; }).length;
+    var posCount = DATA.filter(function (t) { return entryFor(t.id).outcome === "pos"; }).length;
+    var negCount = DATA.filter(function (t) { return entryFor(t.id).outcome === "neg"; }).length;
 
     document.getElementById("stat-done").textContent = doneCount + "/" + total;
     document.getElementById("stat-critical").textContent = criticalOpen;
     document.getElementById("progress-fill").style.width = Math.round((doneCount / total) * 100) + "%";
+
+    document.getElementById("tally-pos").textContent = posCount;
+    document.getElementById("tally-neg").textContent = negCount;
+    document.getElementById("outcome-tally").classList.toggle("show", posCount + negCount > 0);
 
     var today = new Date();
     today.setHours(0,0,0,0);
@@ -577,7 +780,7 @@
     document.getElementById("stat-days").textContent = daysLeft >= 0 ? daysLeft : "0";
 
     var upcoming = DATA
-      .filter(function (t) { return !doneState[t.id]; })
+      .filter(function (t) { return !entryFor(t.id).done; })
       .sort(function (a, b) { return a.date < b.date ? -1 : (a.date > b.date ? 1 : 0); })[0];
 
     var nextUp = document.getElementById("next-up");
