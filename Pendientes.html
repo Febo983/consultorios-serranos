@@ -1,770 +1,604 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Policlínica Serrano · Pendientes</title>
-<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 <style>
-:root {
-    --sky:          #5c94fc;
-    --sky-light:    #8fb8ff;
-    --brick:        #c84c0c;
-    --brick-dark:   #7a2e08;
-    --brick-mortar: #f8d898;
-    --block:        #f5940c;
-    --block-dark:   #7a4400;
-    --block-used:   #8a5a2a;
-    --block-used-dk:#5c3a18;
-    --pipe:         #00a800;
-    --pipe-dark:    #007800;
-    --star:         #f5940c;
-    --coin:         #ff8c1a;
-    --white:        #fcfcfc;
-    --black:        #101010;
-    --danger:       #f83800;
-    --warning:      #f5940c;
-    --success:      #00a800;
-    --panel:        #fdf6e3;
-    --panel-dark:   #f0e0b8;
-    --ink:          #201008;
-    --ink-muted:    #6a4a2a;
-    --ink-light:    #9a7a50;
-}
-* { margin:0; padding:0; box-sizing:border-box; image-rendering:pixelated; }
-html { scroll-behavior:smooth; }
-body {
-    font-family:'VT323', monospace;
-    font-size:1.15rem;
-    background:
-        radial-gradient(circle at 8% 12%, rgba(255,255,255,0.95) 0 22px, transparent 23px) no-repeat,
-        radial-gradient(circle at 14% 14%, rgba(255,255,255,0.95) 0 16px, transparent 17px) no-repeat,
-        radial-gradient(circle at 20% 12%, rgba(255,255,255,0.95) 0 20px, transparent 21px) no-repeat,
-        radial-gradient(circle at 70% 6%, rgba(255,255,255,0.9) 0 18px, transparent 19px) no-repeat,
-        radial-gradient(circle at 76% 8%, rgba(255,255,255,0.9) 0 14px, transparent 15px) no-repeat,
-        radial-gradient(circle at 82% 6%, rgba(255,255,255,0.9) 0 16px, transparent 17px) no-repeat,
-        radial-gradient(circle at 45% 20%, rgba(255,255,255,0.85) 0 15px, transparent 16px) no-repeat,
-        radial-gradient(circle at 50% 22%, rgba(255,255,255,0.85) 0 12px, transparent 13px) no-repeat,
-        linear-gradient(var(--sky), var(--sky-light) 60%, var(--sky-light) 100%);
-    background-attachment:fixed;
-    color:var(--ink);
-    min-height:100vh;
-    padding-bottom:110px;
-}
-.page-wrap { max-width:1100px; margin:0 auto; padding:24px 20px; }
+  :root {
+    --bg: #F1EFE7;
+    --bg-hill-1: #E4E1D3;
+    --bg-hill-2: #D6D2BF;
+    --card: #FBFAF5;
+    --card-border: #DEDACB;
+    --ink: #232A26;
+    --ink-soft: #5B6259;
+    --ink-faint: #8B8B79;
+    --accent: #3C6E58;
+    --accent-soft: #E4EDE6;
+    --critical: #B5482E;
+    --critical-soft: #F6E4DE;
+    --high: #A9791E;
+    --high-soft: #F3E9D2;
+    --normal: #6E6E5C;
+    --normal-soft: #ECEAE0;
+    --done: #5C7A5A;
+    --done-soft: #E6EDE4;
+    --focus: #3C6E58;
+    --shadow: 0 1px 2px rgba(35,42,38,0.06), 0 1px 1px rgba(35,42,38,0.04);
+    --serif: "Iowan Old Style", "Palatino Linotype", "Georgia", ui-serif, serif;
+    --sans: -apple-system, "SF Pro Text", "Segoe UI", Roboto, ui-sans-serif, sans-serif;
+    --mono: ui-monospace, "SF Mono", "Cascadia Code", Menlo, monospace;
+  }
 
-/* ── HUD HEADER ── */
-.main-header {
-    background:var(--black);
-    border:4px solid var(--black);
-    box-shadow:0 4px 0 rgba(0,0,0,0.4), inset 0 0 0 2px #3a3a3a;
-    padding:18px 22px;
-    margin-bottom:22px;
-    display:flex; align-items:center; justify-content:space-between; gap:16px; flex-wrap:wrap;
-}
-.logo-area h1 {
-    font-family:'Press Start 2P', monospace;
-    font-size:1.5rem;
-    color:var(--block);
-    text-shadow:3px 3px 0 var(--brick-dark);
-    letter-spacing:1px;
-    display:flex; align-items:center; gap:14px;
-}
-.logo-area h1 i { color:var(--danger); }
-.subtitle {
-    font-family:'VT323', monospace;
-    color:var(--white);
-    margin-top:8px;
-    font-size:1.05rem;
-    letter-spacing:0.5px;
-}
-.subtitle .coin-i { color:var(--coin); }
-.back-link {
-    font-family:'Press Start 2P', monospace;
-    font-size:0.62rem;
-    color:var(--black);
-    text-decoration:none;
-    background:var(--block);
-    border:3px solid var(--black);
-    box-shadow:3px 3px 0 var(--black);
-    padding:10px 14px;
-    display:inline-flex; align-items:center; gap:8px;
-    transition:transform 0.08s;
-}
-.back-link:hover { background:#ffab40; }
-.back-link:active { transform:translate(3px,3px); box-shadow:0 0 0 var(--black); }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #1B211D;
+      --bg-hill-1: #212820;
+      --bg-hill-2: #283024;
+      --card: #212822;
+      --card-border: #34402F;
+      --ink: #EAE7DC;
+      --ink-soft: #ABB3A5;
+      --ink-faint: #798174;
+      --accent: #79B197;
+      --accent-soft: #26332B;
+      --critical: #E58466;
+      --critical-soft: #3A2721;
+      --high: #D8AE5C;
+      --high-soft: #3A311F;
+      --normal: #A6A690;
+      --normal-soft: #2A2E27;
+      --done: #8FB48D;
+      --done-soft: #253026;
+      --shadow: 0 1px 3px rgba(0,0,0,0.4);
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #1B211D; --bg-hill-1: #212820; --bg-hill-2: #283024;
+    --card: #212822; --card-border: #34402F;
+    --ink: #EAE7DC; --ink-soft: #ABB3A5; --ink-faint: #798174;
+    --accent: #79B197; --accent-soft: #26332B;
+    --critical: #E58466; --critical-soft: #3A2721;
+    --high: #D8AE5C; --high-soft: #3A311F;
+    --normal: #A6A690; --normal-soft: #2A2E27;
+    --done: #8FB48D; --done-soft: #253026;
+    --shadow: 0 1px 3px rgba(0,0,0,0.4);
+  }
+  :root[data-theme="light"] {
+    --bg: #F1EFE7; --bg-hill-1: #E4E1D3; --bg-hill-2: #D6D2BF;
+    --card: #FBFAF5; --card-border: #DEDACB;
+    --ink: #232A26; --ink-soft: #5B6259; --ink-faint: #8B8B79;
+    --accent: #3C6E58; --accent-soft: #E4EDE6;
+    --critical: #B5482E; --critical-soft: #F6E4DE;
+    --high: #A9791E; --high-soft: #F3E9D2;
+    --normal: #6E6E5C; --normal-soft: #ECEAE0;
+    --done: #5C7A5A; --done-soft: #E6EDE4;
+    --shadow: 0 1px 2px rgba(35,42,38,0.06), 0 1px 1px rgba(35,42,38,0.04);
+  }
 
-/* ── HUD STAT COUNTERS ── */
-.grid-4 { display:grid; grid-template-columns:repeat(4,1fr); gap:14px; }
-.stat-card {
-    background:var(--black);
-    border:3px solid var(--black);
-    box-shadow:0 4px 0 rgba(0,0,0,0.35);
-    padding:14px 10px;
-    text-align:center;
-}
-.stat-number {
-    font-family:'Press Start 2P', monospace;
-    font-size:1.5rem;
-    color:var(--coin);
-    text-shadow:2px 2px 0 #7a3a00;
-    line-height:1.3;
-}
-.stat-label {
-    font-size:0.95rem;
-    color:var(--white);
-    margin-top:6px;
-    letter-spacing:0.5px;
-    display:flex; align-items:center; justify-content:center; gap:6px;
-}
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--ink);
+    font-family: var(--sans);
+    font-size: 15px;
+    line-height: 1.5;
+  }
+  .wrap {
+    max-width: 760px;
+    margin: 0 auto;
+    padding: 0 20px 64px;
+  }
 
-.mb-20 { margin-bottom:20px; }
+  /* Header with layered sierra silhouette */
+  header {
+    position: relative;
+    overflow: hidden;
+    background: linear-gradient(180deg, var(--bg) 0%, var(--bg) 60%, var(--bg-hill-1) 100%);
+    padding: 40px 20px 28px;
+    margin: 0 -20px 28px;
+    border-bottom: 1px solid var(--card-border);
+  }
+  header::before, header::after {
+    content: "";
+    position: absolute;
+    left: -5%;
+    right: -5%;
+    height: 90px;
+    border-radius: 50% 50% 0 0 / 100% 100% 0 0;
+    opacity: 0.6;
+  }
+  header::before {
+    bottom: -40px;
+    background: var(--bg-hill-1);
+    transform: scaleX(1.3);
+  }
+  header::after {
+    bottom: -55px;
+    background: var(--bg-hill-2);
+    transform: scaleX(1.6) translateX(6%);
+    opacity: 0.5;
+  }
+  .header-inner { position: relative; max-width: 720px; margin: 0 auto; }
+  .eyebrow {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.09em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin: 0 0 8px;
+  }
+  h1 {
+    font-family: var(--serif);
+    font-weight: 500;
+    font-size: 30px;
+    letter-spacing: -0.01em;
+    margin: 0 0 4px;
+    text-wrap: balance;
+  }
+  .subtitle {
+    color: var(--ink-soft);
+    font-size: 14.5px;
+    margin: 0 0 22px;
+  }
 
-/* ── FILTER PANEL ── */
-.filter-bar {
-    display:flex; gap:12px; flex-wrap:wrap; align-items:flex-end;
-    background:var(--panel);
-    border:4px solid var(--black);
-    box-shadow:0 4px 0 rgba(0,0,0,0.25), inset -4px -4px 0 rgba(0,0,0,0.08), inset 4px 4px 0 rgba(255,255,255,0.5);
-    padding:14px 16px;
-}
-.filter-bar .form-control { min-width:150px; }
+  .stat-row {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    margin-bottom: 18px;
+  }
+  .stat {
+    background: var(--card);
+    border: 1px solid var(--card-border);
+    border-radius: 10px;
+    padding: 12px 14px;
+    box-shadow: var(--shadow);
+  }
+  .stat-num {
+    font-family: var(--serif);
+    font-size: 22px;
+    font-variant-numeric: tabular-nums;
+    line-height: 1;
+  }
+  .stat-label {
+    font-size: 11.5px;
+    color: var(--ink-faint);
+    margin-top: 4px;
+  }
 
-.form-label {
-    font-family:'Press Start 2P', monospace;
-    font-size:0.58rem;
-    color:var(--ink-muted);
-    margin-bottom:6px;
-    display:block;
-    letter-spacing:0.5px;
-}
-.form-control {
-    width:100%; padding:8px 10px;
-    border:3px solid var(--black);
-    background:#fff;
-    font-family:'VT323', monospace;
-    font-size:1.05rem;
-    color:var(--ink);
-    box-shadow:2px 2px 0 rgba(0,0,0,0.2);
-}
-.form-control:focus { outline:none; border-color:var(--brick); }
+  .progress-track {
+    height: 8px;
+    border-radius: 5px;
+    background: var(--normal-soft);
+    overflow: hidden;
+    margin-bottom: 10px;
+  }
+  .progress-fill {
+    height: 100%;
+    background: var(--accent);
+    border-radius: 5px;
+    transition: width 0.4s ease;
+  }
 
-/* ── BUTTONS (pixel-block style) ── */
-.btn {
-    padding:9px 16px;
-    border:3px solid var(--black);
-    background:var(--white);
-    font-family:'Press Start 2P', monospace;
-    font-weight:400;
-    font-size:0.65rem;
-    cursor:pointer;
-    letter-spacing:0.5px;
-    box-shadow:3px 3px 0 var(--black);
-    transition:transform 0.08s;
-}
-.btn:active { transform:translate(3px,3px); box-shadow:0 0 0 var(--black); }
-.btn-primary { background:var(--pipe); color:var(--white); }
-.btn-primary:hover { background:#00c400; }
-.btn-sm { background:var(--panel); color:var(--ink-muted); padding:8px 12px; font-size:0.6rem; }
-.btn-sm:hover { background:var(--panel-dark); color:var(--ink); }
+  .constraints {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px 18px;
+    font-size: 12.5px;
+    color: var(--ink-soft);
+    font-family: var(--mono);
+  }
+  .constraints span { white-space: normal; }
+  .constraints b { color: var(--ink); font-weight: 600; }
 
-/* ── SECTION CARDS ── */
-.card {
-    background:var(--panel);
-    padding:18px 20px 6px;
-    border:4px solid var(--black);
-    box-shadow:0 5px 0 rgba(0,0,0,0.25);
-    margin-bottom:20px;
-    position:relative;
-}
-.card::before {
-    content:'';
-    position:absolute; top:-4px; left:-4px; right:-4px; height:8px;
-    background:repeating-linear-gradient(90deg, var(--brick) 0 18px, var(--brick-dark) 18px 20px);
-    border-bottom:2px solid var(--black);
-}
-.card-header {
-    display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:8px;
-    margin-bottom:14px; padding-bottom:10px; padding-top:6px;
-    border-bottom:3px dashed var(--ink-light);
-}
-.card-title {
-    font-family:'Press Start 2P', monospace;
-    font-weight:400;
-    font-size:0.82rem;
-    color:var(--ink);
-    display:flex; align-items:center; gap:10px;
-}
-.card-title i { color:var(--brick); }
+  /* Next up callout */
+  .next-up {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    background: var(--accent-soft);
+    border: 1px solid var(--accent);
+    border-radius: 10px;
+    padding: 12px 16px;
+    margin-bottom: 24px;
+  }
+  .next-up-tag {
+    font-family: var(--mono);
+    font-size: 10.5px;
+    letter-spacing: 0.07em;
+    text-transform: uppercase;
+    color: var(--accent);
+    font-weight: 600;
+    flex-shrink: 0;
+  }
+  .next-up-text { font-size: 14px; }
+  .next-up-text b { font-weight: 600; }
+  .next-up-date { margin-left: auto; font-family: var(--mono); font-size: 12.5px; color: var(--ink-soft); flex-shrink: 0; }
 
-.badge {
-    padding:4px 10px; font-size:0.62rem; font-weight:400; letter-spacing:0.5px;
-    display:inline-flex; align-items:center; gap:5px;
-    font-family:'Press Start 2P', monospace;
-    border:2px solid var(--black);
-    box-shadow:2px 2px 0 rgba(0,0,0,0.3);
-}
-.badge-danger  { background:var(--danger);  color:var(--white); }
-.badge-warning { background:var(--block);   color:var(--ink); }
-.badge-neutral { background:var(--panel-dark); color:var(--ink-muted); }
+  /* Filters */
+  .filters {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-bottom: 22px;
+  }
+  .chip {
+    font-family: var(--sans);
+    font-size: 12.5px;
+    padding: 6px 12px;
+    border-radius: 999px;
+    border: 1px solid var(--card-border);
+    background: var(--card);
+    color: var(--ink-soft);
+    cursor: pointer;
+    transition: background 0.15s, color 0.15s, border-color 0.15s;
+  }
+  .chip:hover { border-color: var(--accent); }
+  .chip:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; }
+  .chip.active {
+    background: var(--ink);
+    color: var(--bg);
+    border-color: var(--ink);
+  }
 
-/* ── TASK ITEMS ── */
-.pend-item {
-    display:flex; align-items:flex-start; gap:12px; padding:12px 6px;
-    border-bottom:2px dotted var(--ink-light);
-    border-left:6px solid var(--panel-dark);
-    transition:background 0.1s;
-}
-.pend-item[data-prio="critico"] { border-left-color:var(--danger); }
-.pend-item[data-prio="alta"]    { border-left-color:var(--block-dark); }
-.pend-item[data-prio="normal"]  { border-left-color:var(--pipe); }
-.pend-item:last-child { border-bottom:none; }
-.pend-item:hover { background:rgba(0,0,0,0.04); }
-.pend-item.done { opacity:0.6; }
-.pend-item.done .pend-title { text-decoration:line-through; color:var(--ink-light); }
-.pend-item.hidden { display:none; }
+  /* Sections */
+  .section {
+    margin-bottom: 28px;
+  }
+  .section-head {
+    display: flex;
+    align-items: baseline;
+    gap: 8px;
+    margin-bottom: 10px;
+    padding-bottom: 6px;
+    border-bottom: 1px solid var(--card-border);
+  }
+  .section-head h2 {
+    font-family: var(--serif);
+    font-weight: 500;
+    font-size: 16.5px;
+    margin: 0;
+  }
+  .section-count {
+    font-family: var(--mono);
+    font-size: 11.5px;
+    color: var(--ink-faint);
+  }
 
-/* checkbox as a Mario "?" block that turns into a used block when checked */
-.pend-check {
-    appearance:none; -webkit-appearance:none;
-    width:26px; height:26px; flex-shrink:0; margin-top:2px;
-    background:var(--block);
-    border:3px solid var(--black);
-    box-shadow:inset -3px -3px 0 rgba(0,0,0,0.3), inset 3px 3px 0 rgba(255,255,255,0.5), 2px 2px 0 rgba(0,0,0,0.3);
-    position:relative; cursor:pointer;
-}
-.pend-check::after {
-    content:'?';
-    font-family:'Press Start 2P', monospace;
-    font-size:0.65rem;
-    color:var(--block-dark);
-    position:absolute; inset:0; display:flex; align-items:center; justify-content:center;
-}
-.pend-check:checked {
-    background:var(--block-used);
-    box-shadow:inset -3px -3px 0 rgba(0,0,0,0.35), inset 3px 3px 0 rgba(255,255,255,0.15), 2px 2px 0 rgba(0,0,0,0.3);
-}
-.pend-check:checked::after { content:'★'; color:var(--coin); font-size:0.7rem; }
+  .task {
+    display: grid;
+    grid-template-columns: 22px 1fr auto;
+    gap: 4px 12px;
+    align-items: start;
+    padding: 11px 4px;
+    border-bottom: 1px solid var(--card-border);
+  }
+  .task:last-child { border-bottom: none; }
 
-.pend-body { flex:1; min-width:0; }
-.pend-title {
-    font-family:'VT323', monospace;
-    font-size:1.15rem;
-    color:var(--ink);
-    line-height:1.35;
-}
-.pend-title[contenteditable="true"]:focus { background:#fffef0; outline:2px dashed var(--ink-light); }
-.pend-meta {
-    margin-top:4px; font-size:0.95rem; color:var(--ink-light);
-    font-style:italic; display:flex; gap:6px; align-items:center; flex-wrap:wrap;
-}
-.pend-meta[contenteditable="true"]:focus { background:#fffef0; outline:2px dashed var(--ink-light); font-style:normal; }
-.pend-meta:empty::before { content:"añadir nota…"; color:#c9b898; }
+  .task input[type="checkbox"] {
+    appearance: none;
+    width: 19px;
+    height: 19px;
+    border-radius: 5px;
+    border: 1.5px solid var(--ink-faint);
+    background: var(--card);
+    cursor: pointer;
+    margin-top: 1px;
+    position: relative;
+    flex-shrink: 0;
+  }
+  .task input[type="checkbox"]:hover { border-color: var(--accent); }
+  .task input[type="checkbox"]:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; }
+  .task input[type="checkbox"]:checked {
+    background: var(--done);
+    border-color: var(--done);
+  }
+  .task input[type="checkbox"]:checked::after {
+    content: "";
+    position: absolute;
+    left: 5px; top: 1.5px;
+    width: 5px; height: 9px;
+    border: solid var(--card);
+    border-width: 0 2px 2px 0;
+    transform: rotate(45deg);
+  }
 
-.pend-controls { display:flex; align-items:center; gap:8px; flex-shrink:0; }
-.pend-prio-select {
-    font-family:'Press Start 2P', monospace;
-    font-size:0.55rem;
-    border:2px solid var(--black);
-    background:#fff; padding:5px 4px;
-    box-shadow:2px 2px 0 rgba(0,0,0,0.25);
-}
-.pend-del {
-    background:var(--danger); border:2px solid var(--black); color:var(--white);
-    cursor:pointer; font-size:0.75rem; padding:6px 8px;
-    box-shadow:2px 2px 0 rgba(0,0,0,0.3);
-}
-.pend-del:hover { background:#c82000; }
+  .task-main { min-width: 0; }
+  .task-title {
+    font-size: 14.5px;
+    color: var(--ink);
+    cursor: pointer;
+  }
+  .task.done .task-title {
+    color: var(--ink-faint);
+    text-decoration: line-through;
+    text-decoration-color: var(--ink-faint);
+  }
+  .task-note {
+    font-size: 12.5px;
+    color: var(--ink-faint);
+    margin-top: 2px;
+  }
 
-.section-empty { font-size:1rem; color:var(--ink-light); font-style:italic; padding:8px 0 14px; }
+  .task-meta {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 4px;
+  }
+  .pill {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    padding: 2px 7px;
+    border-radius: 999px;
+    white-space: nowrap;
+  }
+  .pill.critico { background: var(--critical-soft); color: var(--critical); }
+  .pill.alta { background: var(--high-soft); color: var(--high); }
+  .pill.normal { background: var(--normal-soft); color: var(--normal); }
+  .task-date {
+    font-family: var(--mono);
+    font-size: 11.5px;
+    color: var(--ink-faint);
+    white-space: nowrap;
+  }
+  .task.done .task-date, .task.done .pill { opacity: 0.55; }
 
-/* ── NEW TASK / WARP PIPE PANEL ── */
-.new-task-card { border:4px dashed var(--pipe-dark); background:#eef8ee; }
-.new-task-card::before { background:repeating-linear-gradient(90deg, var(--pipe) 0 18px, var(--pipe-dark) 18px 20px); }
-.new-task-row { display:flex; gap:12px; flex-wrap:wrap; align-items:flex-end; padding-bottom:16px; }
-.new-task-row > div:first-child { flex:1; min-width:220px; }
+  .task.hidden { display: none; }
+  .section.hidden { display: none; }
 
-/* ── SAVE HUD BAR ── */
-.save-bar {
-    position:fixed; bottom:0; left:0; right:0;
-    background:var(--black);
-    border-top:4px solid var(--brick);
-    color:var(--white);
-    padding:12px 22px;
-    display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:10px;
-    font-family:'Press Start 2P', monospace;
-    font-size:0.62rem;
-    transform:translateY(100%); transition:transform 0.25s;
-    z-index:50;
-}
-.save-bar.visible { transform:translateY(0); }
-.save-status { display:flex; align-items:center; gap:10px; }
-.save-dot { width:12px; height:12px; background:var(--danger); display:inline-block; border:2px solid var(--white); animation:blink 1s infinite steps(2); }
-.save-dot.saved { background:var(--success); animation:none; }
-@keyframes blink { 50% { opacity:0.3; } }
-.save-actions { display:flex; gap:8px; flex-wrap:wrap; }
-.save-btn, .reset-btn, .export-btn, .import-btn {
-    font-family:'Press Start 2P', monospace;
-    font-size:0.58rem;
-    padding:8px 12px;
-    border:2px solid var(--white);
-    background:transparent; color:var(--white);
-    cursor:pointer;
-}
-.save-btn { background:var(--pipe); border-color:var(--black); box-shadow:2px 2px 0 var(--black); }
-.save-btn:hover { background:#00c400; }
-.reset-btn { color:var(--danger); border-color:var(--danger); }
-.reset-btn:hover { background:rgba(248,56,0,0.15); }
-.export-btn:hover, .import-btn:hover { background:rgba(255,255,255,0.12); }
+  footer {
+    text-align: center;
+    font-size: 12px;
+    color: var(--ink-faint);
+    margin-top: 36px;
+    padding-top: 16px;
+    border-top: 1px solid var(--card-border);
+  }
 
-/* ── GROUND STRIP ── */
-.ground-strip {
-    position:fixed; left:0; right:0; bottom:52px; height:14px;
-    background:repeating-linear-gradient(90deg, var(--brick) 0 20px, var(--brick-dark) 20px 22px);
-    border-top:3px solid var(--black);
-    z-index:40;
-}
-@media (max-width: 640px) { .ground-strip { display:none; } }
-
-@media (max-width:720px) {
-    .grid-4 { grid-template-columns:repeat(2,1fr); }
-    .logo-area h1 { font-size:1rem; }
-    .save-bar { flex-direction:column; align-items:flex-start; }
-}
-@media (max-width:520px) {
-    .pend-item { flex-wrap:wrap; }
-    .pend-body { flex-basis:100%; min-width:100%; }
-    .pend-controls { flex-basis:100%; margin-left:38px; margin-top:8px; }
-}
+  @media (max-width: 480px) {
+    .stat-row { grid-template-columns: repeat(3, 1fr); gap: 8px; }
+    .stat { padding: 10px 10px; }
+    h1 { font-size: 25px; }
+    .task { grid-template-columns: 20px 1fr; }
+    .task-meta { grid-column: 2; flex-direction: row; align-items: center; margin-top: 2px; }
+  }
 </style>
-</head>
-<body>
-<div class="page-wrap">
 
-    <div class="main-header">
-        <div class="logo-area">
-            <h1><i class="fas fa-mushroom"></i> PENDIENTES</h1>
-            <div class="subtitle"><i class="fas fa-coins coin-i"></i> Policlínica Serrano · World 1-1</div>
+<div class="wrap">
+  <header>
+    <div class="header-inner">
+      <p class="eyebrow">Sierra de los Padres · Mar del Plata</p>
+      <h1>Policlínica Serrano — Pendientes</h1>
+      <p class="subtitle">Rumbo a la apertura de diciembre. 2hs por día, de lunes a jueves.</p>
+
+      <div class="stat-row">
+        <div class="stat">
+          <div class="stat-num" id="stat-days">—</div>
+          <div class="stat-label">días para el 10/12</div>
         </div>
-        <a class="back-link" href="Resumen completo CS.html"><i class="fas fa-arrow-left"></i> MAPA</a>
+        <div class="stat">
+          <div class="stat-num" id="stat-done">0/29</div>
+          <div class="stat-label">completadas</div>
+        </div>
+        <div class="stat">
+          <div class="stat-num" id="stat-critical">5</div>
+          <div class="stat-label">críticas abiertas</div>
+        </div>
+      </div>
+
+      <div class="progress-track"><div class="progress-fill" id="progress-fill" style="width:0%"></div></div>
+
+      <div class="constraints">
+        <span><b>Lun–Jue</b> · bloque de 2hs (9–11, flexible hasta 22)</span>
+        <span><b>Viernes</b> libre</span>
+        <span><b>9–27 oct</b> viaje, sin trabajo</span>
+      </div>
     </div>
+  </header>
 
-    <div class="grid-4 mb-20">
-        <div class="stat-card">
-            <div class="stat-number" id="pend-count">—</div>
-            <div class="stat-label"><i class="fas fa-list-check"></i> Abiertas</div>
-        </div>
-        <div class="stat-card">
-            <div class="stat-number" id="pend-critico">—</div>
-            <div class="stat-label"><i class="fas fa-fire"></i> Críticas</div>
-        </div>
-        <div class="stat-card">
-            <div class="stat-number" id="pend-done">—</div>
-            <div class="stat-label"><i class="fas fa-flag-checkered"></i> Hechas</div>
-        </div>
-        <div class="stat-card">
-            <div class="stat-number" id="pend-pct">—</div>
-            <div class="stat-label"><i class="fas fa-bolt"></i> Avance</div>
-        </div>
-    </div>
+  <div class="next-up" id="next-up" style="display:none">
+    <span class="next-up-tag">Siguiente</span>
+    <span class="next-up-text" id="next-up-text"></span>
+    <span class="next-up-date" id="next-up-date"></span>
+  </div>
 
-    <div class="filter-bar mb-20">
-        <div>
-            <label class="form-label">Buscar</label>
-            <input type="text" id="f-search" class="form-control" placeholder="Buscar tarea..." style="min-width:220px;">
-        </div>
-        <div>
-            <label class="form-label">Sección</label>
-            <select id="f-sec" class="form-control">
-                <option value="">Todas</option>
-                <option value="rrhh">RRHH</option>
-                <option value="hab">Habilitación</option>
-                <option value="ooss">Obras Sociales</option>
-                <option value="mkt">Marketing</option>
-                <option value="fin">Financiero</option>
-            </select>
-        </div>
-        <div>
-            <label class="form-label">Prioridad</label>
-            <select id="f-prio" class="form-control">
-                <option value="">Todas</option>
-                <option value="critico">🔴 Crítico</option>
-                <option value="alta">⭐ Alta</option>
-                <option value="normal">🟢 Normal</option>
-            </select>
-        </div>
-        <div>
-            <label class="form-label">Estado</label>
-            <select id="f-estado" class="form-control">
-                <option value="">Todas</option>
-                <option value="open">Abiertas</option>
-                <option value="done">Completadas</option>
-            </select>
-        </div>
-        <button class="btn btn-sm" onclick="clearFilters()"><i class="fas fa-times"></i> Limpiar</button>
-    </div>
+  <div class="filters" id="filters">
+    <button class="chip active" data-filter="all">Todas</button>
+    <button class="chip" data-filter="critico">Críticas</button>
+    <button class="chip" data-filter="pending">Sin hacer</button>
+    <button class="chip" data-filter="done">Completadas</button>
+  </div>
 
-    <div id="sections-wrap"></div>
+  <main id="sections"></main>
 
-    <div class="card new-task-card">
-        <div class="card-header" style="border-bottom:none;margin-bottom:8px;">
-            <div class="card-title" style="color:var(--pipe-dark);"><i class="fas fa-plus-circle"></i> Nueva tarea</div>
-        </div>
-        <div class="new-task-row">
-            <div>
-                <label class="form-label">Descripción</label>
-                <input type="text" id="new-pend-text" class="form-control" placeholder="Ej: Llamar a Dr. Pérez esta semana">
-            </div>
-            <div>
-                <label class="form-label">Prioridad</label>
-                <select id="new-pend-prio" class="form-control" style="width:140px;">
-                    <option value="critico">🔴 Crítico</option>
-                    <option value="alta">⭐ Alta</option>
-                    <option value="normal" selected>🟢 Normal</option>
-                </select>
-            </div>
-            <div>
-                <label class="form-label">Sección</label>
-                <select id="new-pend-sec" class="form-control" style="width:170px;">
-                    <option value="rrhh">RRHH</option>
-                    <option value="hab">Habilitación</option>
-                    <option value="ooss">Obras Sociales</option>
-                    <option value="mkt">Marketing</option>
-                    <option value="fin">Financiero</option>
-                </select>
-            </div>
-            <button class="btn btn-primary" onclick="addPendiente()"><i class="fas fa-plus"></i> Agregar</button>
-        </div>
-    </div>
-
-</div>
-
-<div class="ground-strip"></div>
-
-<div class="save-bar" id="saveBar">
-    <div class="save-status">
-        <span class="save-dot" id="saveDot"></span>
-        <span id="saveMsg">Cambios sin guardar</span>
-    </div>
-    <div class="save-actions">
-        <button class="export-btn" onclick="exportTasks()"><i class="fas fa-download"></i> Backup</button>
-        <button class="import-btn" onclick="document.getElementById('import-file').click()"><i class="fas fa-upload"></i> Importar</button>
-        <input type="file" id="import-file" accept="application/json" style="display:none;">
-        <button class="reset-btn" onclick="resetContent()"><i class="fas fa-undo"></i> Reiniciar</button>
-        <button class="save-btn" onclick="saveContent(true)"><i class="fas fa-save"></i> Guardar</button>
-    </div>
+  <footer>Extraído de la solapa Pendientes · Policlínica Serrano · Se guarda en este navegador</footer>
 </div>
 
 <script>
-const NS = 'cs_pend_app_v1_';
+  var DATA = [
+    {id:1, section:"RRHH", title:"Fijar fecha límite go/no-go (15/09/2026)", note:"Si no se confirman a tiempo, activar plan B de lanzamiento en fases", priority:"critico", date:"2026-08-17"},
+    {id:2, section:"RRHH", title:"Confirmar Clínica Médica — hablar con Dra. Wilant", note:"Pilar diferenciador del proyecto", priority:"critico", date:"2026-08-18"},
+    {id:3, section:"RRHH", title:"Confirmar Pediatría — activar contactos de Clara", note:"Segunda especialidad diferenciadora", priority:"critico", date:"2026-08-19"},
+    {id:4, section:"RRHH", title:"Cerrar negociación Cardiología", note:"En charla activa", priority:"alta", date:"2026-08-25"},
+    {id:5, section:"RRHH", title:"Reunión con Marcelo — definir modalidad", note:"A demanda vs. turno programado · imágenes portátiles", priority:"alta", date:"2026-08-26"},
+    {id:6, section:"RRHH", title:"Tramitar habilitación Radiofísica Sanitaria (Marcelo)", note:"Art. 9.2.d · Colegio de Médicos", priority:"alta", date:"2026-08-27"},
+    {id:7, section:"RRHH", title:"Confirmar Ginecología/Obstetricia — Dr. Medina", note:"Opción A", priority:"normal", date:"2026-09-01"},
+    {id:8, section:"RRHH", title:"Contactar candidatos de Nutrición", note:"2 candidatos en agenda", priority:"normal", date:"2026-09-02"},
+    {id:9, section:"RRHH", title:"Investigar candidato para Gastroenterología", note:"", priority:"normal", date:"2026-09-03"},
 
-const SECTIONS = [
-    { key:'rrhh', title:'RRHH — Profesionales', icon:'fa-user-md', badge:'Bloquea apertura', badgeClass:'badge-danger' },
-    { key:'hab',  title:'Habilitación Municipal', icon:'fa-clipboard-list', badge:'Con Iván Soule', badgeClass:'badge-warning' },
-    { key:'ooss', title:'Obras Sociales', icon:'fa-id-card-alt' },
-    { key:'mkt',  title:'Marketing & Lanzamiento', icon:'fa-bullhorn' },
-    { key:'fin',  title:'Financiero & Operativo', icon:'fa-calculator' },
-];
+    {id:10, section:"Habilitación Municipal", title:"Reunión con Iván Soule — arrancar trámite", note:"Primer paso formal, depende de la fecha de apertura", priority:"critico", date:"2026-08-20"},
+    {id:11, section:"Habilitación Municipal", title:"Obtener planos y documentación del local", note:"Medidas oficiales", priority:"alta", date:"2026-09-07"},
+    {id:12, section:"Habilitación Municipal", title:"Certificado de habilitación eléctrica y gas", note:"", priority:"alta", date:"2026-09-08"},
+    {id:13, section:"Habilitación Municipal", title:"Confeccionar cartelería obligatoria", note:"Horarios, matrícula, derechos del paciente", priority:"normal", date:"2026-09-21"},
+    {id:14, section:"Habilitación Municipal", title:"Contratar seguro de responsabilidad civil", note:"", priority:"normal", date:"2026-09-22"},
 
-const DEFAULT_TASKS = [
-    {id:'rrhh-1', sec:'rrhh', prio:'critico', text:'Confirmar Clínica Médica — hablar con Dra. Wilant', meta:'Pilar diferenciador del proyecto', done:false},
-    {id:'rrhh-2', sec:'rrhh', prio:'critico', text:'Confirmar Pediatría — activar contactos de Clara', meta:'Segunda especialidad diferenciadora', done:false},
-    {id:'rrhh-9', sec:'rrhh', prio:'critico', text:'Fijar fecha límite go/no-go para Clínica Médica y Pediatría (sugerido: 15/09/2026)', meta:'Análisis 6 sombreros: si no se confirman a tiempo, activar plan B de lanzamiento en fases', done:false},
-    {id:'rrhh-3', sec:'rrhh', prio:'alta', text:'Cerrar negociación Cardiología', meta:'En charla activa', done:false},
-    {id:'rrhh-4', sec:'rrhh', prio:'alta', text:'Reunión con Marcelo — definir modalidad (a demanda vs. turno programado)', meta:'Imágenes portátiles · pendiente charla', done:false},
-    {id:'rrhh-5', sec:'rrhh', prio:'alta', text:'Tramitar habilitación Radiofísica Sanitaria para Marcelo (Art. 9.2.d)', meta:'Requerido para operar equipo de imágenes · Colegio de Médicos', done:false},
-    {id:'rrhh-6', sec:'rrhh', prio:'normal', text:'Confirmar Ginecología/Obstetricia — Dr. Medina (opción A)', meta:'', done:false},
-    {id:'rrhh-7', sec:'rrhh', prio:'normal', text:'Contactar opciones de Nutrición (2 candidatos en agenda)', meta:'', done:false},
-    {id:'rrhh-8', sec:'rrhh', prio:'normal', text:'Investigar candidato para Gastroenterología', meta:'', done:false},
-    {id:'hab-1', sec:'hab', prio:'critico', text:'Reunión con Iván Soule para arrancar trámite de habilitación', meta:'Primer paso formal · depende de fecha de apertura', done:false},
-    {id:'hab-2', sec:'hab', prio:'alta', text:'Obtener planos y documentación del local (medidas oficiales)', meta:'', done:false},
-    {id:'hab-3', sec:'hab', prio:'alta', text:'Certificado de habilitación eléctrica y gas', meta:'', done:false},
-    {id:'hab-4', sec:'hab', prio:'normal', text:'Confeccionar cartelería obligatoria (horarios, matrícula, derechos del paciente)', meta:'', done:false},
-    {id:'hab-5', sec:'hab', prio:'normal', text:'Contratar seguro de responsabilidad civil del establecimiento', meta:'', done:false},
-    {id:'ooss-1', sec:'ooss', prio:'critico', text:'Decidir modelo: particular o con OOSS', meta:'Define toda la estrategia comercial', done:false},
-    {id:'ooss-2', sec:'ooss', prio:'alta', text:'Si OOSS: iniciar gestión de convenio IOMA (prioridad zona)', meta:'', done:false},
-    {id:'ooss-3', sec:'ooss', prio:'alta', text:'Si OOSS: gestionar convenio PAMI', meta:'', done:false},
-    {id:'ooss-4', sec:'ooss', prio:'normal', text:'Charlar con cada profesional sobre su preferencia (particular vs OOSS)', meta:'', done:false},
-    {id:'mkt-1', sec:'mkt', prio:'alta', text:'Crear perfil Google My Business (Policlínica Serrano)', meta:'', done:false},
-    {id:'mkt-2', sec:'mkt', prio:'alta', text:'Abrir Instagram y Facebook del consultorio', meta:'', done:false},
-    {id:'mkt-3', sec:'mkt', prio:'normal', text:'Landing page / web simple con especialidades, horarios y turnos', meta:'', done:false},
-    {id:'mkt-4', sec:'mkt', prio:'normal', text:'Organizar Jornada de Salud Comunitaria para el lanzamiento (dic 2026)', meta:'', done:false},
-    {id:'mkt-5', sec:'mkt', prio:'normal', text:'Alianzas con farmacias y comercios del pueblo (puntos de info)', meta:'', done:false},
-    {id:'mkt-6', sec:'mkt', prio:'alta', text:'Diseñar plan de lanzamiento en fases (sin Clínica Médica/Pediatría) como contingencia', meta:'Plan B — sombrero verde: abrir con las especialidades confirmadas y sumar el resto después', done:false},
-    {id:'fin-1', sec:'fin', prio:'alta', text:'Confirmar valor final del alquiler y condiciones de contrato', meta:'', done:false},
-    {id:'fin-2', sec:'fin', prio:'alta', text:'Definir distribución de honorarios con cada profesional (porcentajes)', meta:'', done:false},
-    {id:'fin-3', sec:'fin', prio:'normal', text:'Contratar secretaria / administrativa (inicio estimado nov 2026)', meta:'', done:false},
-    {id:'fin-4', sec:'fin', prio:'normal', text:'Definir sistema de turnos / software de gestión de consultorios', meta:'', done:false},
-    {id:'fin-5', sec:'fin', prio:'normal', text:'Estrategia Concepción: definir si absorber o competir con consultorios vecinos', meta:'', done:false},
-];
+    {id:15, section:"Obras Sociales", title:"Decidir modelo: particular o con OOSS", note:"Define toda la estrategia comercial", priority:"critico", date:"2026-08-24"},
+    {id:16, section:"Obras Sociales", title:"Si OOSS: iniciar gestión convenio IOMA", note:"Prioridad zona", priority:"alta", date:"2026-09-09"},
+    {id:17, section:"Obras Sociales", title:"Si OOSS: gestionar convenio PAMI", note:"", priority:"alta", date:"2026-09-10"},
+    {id:18, section:"Obras Sociales", title:"Charlar con cada profesional sobre su preferencia", note:"Particular vs. OOSS", priority:"normal", date:"2026-09-17"},
 
-let tasks = [];
-let dirty = false;
-let saveTimer = null;
+    {id:19, section:"Marketing & Lanzamiento", title:"Diseñar plan de lanzamiento en fases", note:"Contingencia — sombrero verde", priority:"alta", date:"2026-09-16"},
+    {id:20, section:"Marketing & Lanzamiento", title:"Crear perfil Google My Business", note:"Policlínica Serrano", priority:"alta", date:"2026-09-28"},
+    {id:21, section:"Marketing & Lanzamiento", title:"Abrir Instagram y Facebook", note:"", priority:"alta", date:"2026-09-29"},
+    {id:22, section:"Marketing & Lanzamiento", title:"Landing page / web simple", note:"Especialidades, horarios y turnos", priority:"normal", date:"2026-09-30"},
+    {id:23, section:"Marketing & Lanzamiento", title:"Organizar Jornada de Salud Comunitaria", note:"Lanzamiento, diciembre 2026", priority:"normal", date:"2026-10-29"},
+    {id:24, section:"Marketing & Lanzamiento", title:"Alianzas con farmacias y comercios del pueblo", note:"Puntos de info", priority:"normal", date:"2026-11-02"},
 
-function clone(obj) { return JSON.parse(JSON.stringify(obj)); }
+    {id:25, section:"Financiero & Operativo", title:"Confirmar valor final del alquiler y condiciones", note:"", priority:"alta", date:"2026-09-23"},
+    {id:26, section:"Financiero & Operativo", title:"Definir distribución de honorarios por profesional", note:"Porcentajes", priority:"alta", date:"2026-09-24"},
+    {id:27, section:"Financiero & Operativo", title:"Definir sistema de turnos / software de gestión", note:"", priority:"normal", date:"2026-10-01"},
+    {id:28, section:"Financiero & Operativo", title:"Estrategia Concepción: absorber o competir", note:"Con consultorios vecinos", priority:"normal", date:"2026-10-05"},
+    {id:29, section:"Financiero & Operativo", title:"Contratar secretaria/administrativa", note:"Inicio estimado noviembre 2026", priority:"normal", date:"2026-11-03"}
+  ];
 
-function loadTasks() {
-    const raw = localStorage.getItem(NS + 'tasks');
-    if (raw) {
-        try { tasks = JSON.parse(raw); return; } catch(e) {}
+  var DEADLINE = new Date("2026-12-10T00:00:00-03:00");
+  var STORAGE_KEY = "serranos-pendientes-v1";
+  var PRIO_LABEL = {critico:"Crítico", alta:"Alta", normal:"Normal"};
+
+  function loadDone() {
+    try { return JSON.parse(localStorage.getItem(STORAGE_KEY)) || {}; }
+    catch (e) { return {}; }
+  }
+  function saveDone(done) {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(done));
+  }
+
+  function fmtDate(iso) {
+    var d = new Date(iso + "T00:00:00-03:00");
+    var months = ["ene","feb","mar","abr","may","jun","jul","ago","sep","oct","nov","dic"];
+    return d.getDate() + " " + months[d.getMonth()];
+  }
+
+  var doneState = loadDone();
+  var currentFilter = "all";
+
+  function render() {
+    var sections = [];
+    var sectionMap = {};
+    DATA.forEach(function (t) {
+      if (!sectionMap[t.section]) {
+        sectionMap[t.section] = [];
+        sections.push(t.section);
+      }
+      sectionMap[t.section].push(t);
+    });
+
+    var main = document.getElementById("sections");
+    main.innerHTML = "";
+
+    sections.forEach(function (secName) {
+      var items = sectionMap[secName];
+      var visibleItems = items.filter(function (t) { return matchesFilter(t); });
+      var sec = document.createElement("div");
+      sec.className = "section" + (visibleItems.length === 0 ? " hidden" : "");
+
+      var head = document.createElement("div");
+      head.className = "section-head";
+      var doneCount = items.filter(function (t) { return doneState[t.id]; }).length;
+      head.innerHTML = "<h2>" + secName + "</h2><span class=\"section-count\">" + doneCount + "/" + items.length + "</span>";
+      sec.appendChild(head);
+
+      items.forEach(function (t) {
+        var row = document.createElement("div");
+        var isDone = !!doneState[t.id];
+        row.className = "task" + (isDone ? " done" : "") + (matchesFilter(t) ? "" : " hidden");
+
+        var cb = document.createElement("input");
+        cb.type = "checkbox";
+        cb.checked = isDone;
+        cb.setAttribute("aria-label", "Marcar completada: " + t.title);
+        cb.addEventListener("change", function () {
+          doneState[t.id] = cb.checked;
+          saveDone(doneState);
+          render();
+        });
+
+        var mainCol = document.createElement("div");
+        mainCol.className = "task-main";
+        var titleEl = document.createElement("div");
+        titleEl.className = "task-title";
+        titleEl.textContent = t.title;
+        titleEl.addEventListener("click", function () { cb.click(); });
+        mainCol.appendChild(titleEl);
+        if (t.note) {
+          var noteEl = document.createElement("div");
+          noteEl.className = "task-note";
+          noteEl.textContent = t.note;
+          mainCol.appendChild(noteEl);
+        }
+
+        var metaCol = document.createElement("div");
+        metaCol.className = "task-meta";
+        var pill = document.createElement("span");
+        pill.className = "pill " + t.priority;
+        pill.textContent = PRIO_LABEL[t.priority];
+        var dateEl = document.createElement("span");
+        dateEl.className = "task-date";
+        dateEl.textContent = fmtDate(t.date);
+        metaCol.appendChild(pill);
+        metaCol.appendChild(dateEl);
+
+        row.appendChild(cb);
+        row.appendChild(mainCol);
+        row.appendChild(metaCol);
+        sec.appendChild(row);
+      });
+
+      main.appendChild(sec);
+    });
+
+    updateStats();
+  }
+
+  function matchesFilter(t) {
+    var isDone = !!doneState[t.id];
+    if (currentFilter === "all") return true;
+    if (currentFilter === "critico") return t.priority === "critico";
+    if (currentFilter === "pending") return !isDone;
+    if (currentFilter === "done") return isDone;
+    return true;
+  }
+
+  function updateStats() {
+    var total = DATA.length;
+    var doneCount = DATA.filter(function (t) { return doneState[t.id]; }).length;
+    var criticalOpen = DATA.filter(function (t) { return t.priority === "critico" && !doneState[t.id]; }).length;
+
+    document.getElementById("stat-done").textContent = doneCount + "/" + total;
+    document.getElementById("stat-critical").textContent = criticalOpen;
+    document.getElementById("progress-fill").style.width = Math.round((doneCount / total) * 100) + "%";
+
+    var today = new Date();
+    today.setHours(0,0,0,0);
+    var daysLeft = Math.ceil((DEADLINE - today) / 86400000);
+    document.getElementById("stat-days").textContent = daysLeft >= 0 ? daysLeft : "0";
+
+    var upcoming = DATA
+      .filter(function (t) { return !doneState[t.id]; })
+      .sort(function (a, b) { return a.date < b.date ? -1 : (a.date > b.date ? 1 : 0); })[0];
+
+    var nextUp = document.getElementById("next-up");
+    if (upcoming) {
+      nextUp.style.display = "flex";
+      document.getElementById("next-up-text").innerHTML = "<b>" + upcoming.title + "</b> — " + upcoming.section;
+      document.getElementById("next-up-date").textContent = fmtDate(upcoming.date);
+    } else {
+      nextUp.style.display = "none";
     }
-    tasks = clone(DEFAULT_TASKS);
-    persist();
-}
+  }
 
-function persist() {
-    localStorage.setItem(NS + 'tasks', JSON.stringify(tasks));
-}
-
-function markDirty() {
-    dirty = true;
-    document.getElementById('saveBar').classList.add('visible');
-    document.getElementById('saveDot').classList.remove('saved');
-    document.getElementById('saveMsg').textContent = 'Cambios sin guardar';
-    clearTimeout(saveTimer);
-    saveTimer = setTimeout(() => saveContent(false), 3000);
-}
-
-function saveContent(manual) {
-    persist();
-    dirty = false;
-    document.getElementById('saveDot').classList.add('saved');
-    document.getElementById('saveMsg').textContent = 'Guardado ✓';
-    setTimeout(() => document.getElementById('saveBar').classList.remove('visible'), 2000);
-}
-
-function resetContent() {
-    if (!confirm('¿Restaurar la lista original de pendientes? Se perderán tareas nuevas y cambios hechos acá.')) return;
-    tasks = clone(DEFAULT_TASKS);
-    persist();
+  document.getElementById("filters").addEventListener("click", function (e) {
+    var btn = e.target.closest(".chip");
+    if (!btn) return;
+    currentFilter = btn.getAttribute("data-filter");
+    Array.prototype.forEach.call(document.querySelectorAll(".chip"), function (c) {
+      c.classList.toggle("active", c === btn);
+    });
     render();
-    markDirty();
-    saveContent(true);
-}
+  });
 
-function exportTasks() {
-    const blob = new Blob([JSON.stringify(tasks, null, 2)], {type:'application/json'});
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    const stamp = new Date().toISOString().slice(0,10);
-    a.href = url;
-    a.download = `pendientes-policlinica-serrano-${stamp}.json`;
-    a.click();
-    URL.revokeObjectURL(url);
-}
-
-document.getElementById('import-file').addEventListener('change', e => {
-    const file = e.target.files[0];
-    if (!file) return;
-    const reader = new FileReader();
-    reader.onload = () => {
-        try {
-            const parsed = JSON.parse(reader.result);
-            if (!Array.isArray(parsed)) throw new Error('formato inválido');
-            tasks = parsed;
-            persist();
-            render();
-            markDirty();
-            saveContent(true);
-        } catch(err) {
-            alert('No se pudo importar el archivo: ' + err.message);
-        }
-    };
-    reader.readAsText(file);
-    e.target.value = '';
-});
-
-const PRIO_BADGE = {
-    critico: '<span class="badge badge-danger">CRÍTICO</span>',
-    alta:    '<span class="badge badge-warning">Alta</span>',
-    normal:  '<span class="badge badge-neutral">Normal</span>',
-};
-const PRIO_ORDER = { critico:0, alta:1, normal:2 };
-
-function render() {
-    const wrap = document.getElementById('sections-wrap');
-    wrap.innerHTML = '';
-    SECTIONS.forEach(sec => {
-        const secTasks = tasks.filter(t => t.sec === sec.key)
-            .sort((a,b) => PRIO_ORDER[a.prio] - PRIO_ORDER[b.prio]);
-
-        const card = document.createElement('div');
-        card.className = 'card mb-20';
-        card.dataset.sectionCard = sec.key;
-
-        const badgeHtml = sec.badge ? `<span class="badge ${sec.badgeClass}">${sec.badge}</span>` : '';
-        card.innerHTML = `
-            <div class="card-header">
-                <div class="card-title"><i class="fas ${sec.icon}"></i> ${sec.title}</div>
-                ${badgeHtml}
-            </div>
-            <div class="pend-list" id="list-${sec.key}"></div>
-        `;
-        wrap.appendChild(card);
-
-        const list = card.querySelector('.pend-list');
-        if (secTasks.length === 0) {
-            list.innerHTML = '<div class="section-empty">Sin tareas en esta sección.</div>';
-        }
-        secTasks.forEach(t => list.appendChild(renderItem(t)));
-    });
-    updateCounters();
-    applyFilters();
-}
-
-function renderItem(t) {
-    const item = document.createElement('div');
-    item.className = 'pend-item' + (t.done ? ' done' : '');
-    item.dataset.id = t.id;
-    item.dataset.prio = t.prio;
-    item.dataset.sec = t.sec;
-    item.dataset.done = t.done ? '1' : '0';
-
-    item.innerHTML = `
-        <input type="checkbox" class="pend-check" ${t.done ? 'checked' : ''}>
-        <div class="pend-body">
-            <div class="pend-title" contenteditable="true">${escapeHtml(t.text)}</div>
-            <div class="pend-meta" contenteditable="true">${escapeHtml(t.meta || '')}</div>
-        </div>
-        <div class="pend-controls">
-            <select class="pend-prio-select">
-                <option value="critico" ${t.prio==='critico'?'selected':''}>Crítico</option>
-                <option value="alta" ${t.prio==='alta'?'selected':''}>Alta</option>
-                <option value="normal" ${t.prio==='normal'?'selected':''}>Normal</option>
-            </select>
-            <button class="pend-del" title="Eliminar tarea"><i class="fas fa-trash"></i></button>
-        </div>
-    `;
-
-    item.querySelector('.pend-check').addEventListener('change', e => {
-        t.done = e.target.checked;
-        item.classList.toggle('done', t.done);
-        item.dataset.done = t.done ? '1' : '0';
-        updateCounters();
-        markDirty();
-    });
-
-    item.querySelector('.pend-title').addEventListener('input', e => {
-        t.text = e.target.textContent;
-        markDirty();
-    });
-    item.querySelector('.pend-title').addEventListener('keydown', e => {
-        if (e.key === 'Enter') { e.preventDefault(); e.target.blur(); }
-    });
-
-    item.querySelector('.pend-meta').addEventListener('input', e => {
-        t.meta = e.target.textContent;
-        markDirty();
-    });
-    item.querySelector('.pend-meta').addEventListener('keydown', e => {
-        if (e.key === 'Enter') { e.preventDefault(); e.target.blur(); }
-    });
-
-    item.querySelector('.pend-prio-select').addEventListener('change', e => {
-        t.prio = e.target.value;
-        item.dataset.prio = t.prio;
-        render();
-        markDirty();
-    });
-
-    item.querySelector('.pend-del').addEventListener('click', () => {
-        if (!confirm('¿Eliminar esta tarea?')) return;
-        tasks = tasks.filter(x => x.id !== t.id);
-        persist();
-        render();
-        markDirty();
-        saveContent(true);
-    });
-
-    return item;
-}
-
-function escapeHtml(str) {
-    const div = document.createElement('div');
-    div.textContent = str;
-    return div.innerHTML;
-}
-
-function updateCounters() {
-    const all = tasks;
-    const done = all.filter(t => t.done);
-    const crit = all.filter(t => t.prio === 'critico' && !t.done);
-    const open = all.length - done.length;
-    const pct = all.length ? Math.round(done.length / all.length * 100) : 0;
-    document.getElementById('pend-count').textContent = open;
-    document.getElementById('pend-critico').textContent = crit.length;
-    document.getElementById('pend-done').textContent = done.length;
-    document.getElementById('pend-pct').textContent = pct + '%';
-}
-
-let pendCustomCount = 0;
-function addPendiente() {
-    const textEl = document.getElementById('new-pend-text');
-    const txt = textEl.value.trim();
-    const prio = document.getElementById('new-pend-prio').value;
-    const sec = document.getElementById('new-pend-sec').value;
-    if (!txt) { textEl.focus(); return; }
-    pendCustomCount++;
-    const id = 'custom-' + Date.now() + '-' + pendCustomCount;
-    tasks.push({ id, sec, prio, text: txt, meta: '', done: false });
-    textEl.value = '';
-    persist();
-    render();
-    markDirty();
-    saveContent(true);
-}
-
-function applyFilters() {
-    const search = document.getElementById('f-search').value.trim().toLowerCase();
-    const secF = document.getElementById('f-sec').value;
-    const prioF = document.getElementById('f-prio').value;
-    const estadoF = document.getElementById('f-estado').value;
-
-    document.querySelectorAll('.pend-item').forEach(item => {
-        let show = true;
-        if (secF && item.dataset.sec !== secF) show = false;
-        if (prioF && item.dataset.prio !== prioF) show = false;
-        if (estadoF === 'open' && item.dataset.done === '1') show = false;
-        if (estadoF === 'done' && item.dataset.done === '0') show = false;
-        if (search) {
-            const text = item.querySelector('.pend-title').textContent.toLowerCase();
-            const meta = item.querySelector('.pend-meta').textContent.toLowerCase();
-            if (!text.includes(search) && !meta.includes(search)) show = false;
-        }
-        item.classList.toggle('hidden', !show);
-    });
-
-    document.querySelectorAll('[data-section-card]').forEach(card => {
-        const visible = [...card.querySelectorAll('.pend-item')].some(i => !i.classList.contains('hidden'));
-        const hasItems = card.querySelectorAll('.pend-item').length > 0;
-        card.style.display = (hasItems && !visible) ? 'none' : '';
-    });
-}
-
-function clearFilters() {
-    document.getElementById('f-search').value = '';
-    document.getElementById('f-sec').value = '';
-    document.getElementById('f-prio').value = '';
-    document.getElementById('f-estado').value = '';
-    applyFilters();
-}
-
-['f-search','f-sec','f-prio','f-estado'].forEach(id => {
-    document.getElementById(id).addEventListener('input', applyFilters);
-    document.getElementById(id).addEventListener('change', applyFilters);
-});
-
-document.addEventListener('keydown', e => {
-    if ((e.ctrlKey || e.metaKey) && e.key === 's') {
-        e.preventDefault();
-        saveContent(true);
-    }
-});
-
-loadTasks();
-render();
+  render();
 </script>
-</body>
-</html>
