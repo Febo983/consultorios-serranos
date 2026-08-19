@@ -1,503 +1,311 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Policlínica Serrano · Pendientes</title>
 <style>
-  :root {
-    --bg: #F1EFE7;
-    --bg-hill-1: #E4E1D3;
-    --bg-hill-2: #D6D2BF;
-    --card: #FBFAF5;
-    --card-border: #DEDACB;
-    --ink: #232A26;
-    --ink-soft: #5B6259;
-    --ink-faint: #8B8B79;
-    --accent: #3C6E58;
-    --accent-soft: #E4EDE6;
-    --critical: #B5482E;
-    --critical-soft: #F6E4DE;
-    --high: #A9791E;
-    --high-soft: #F3E9D2;
-    --normal: #6E6E5C;
-    --normal-soft: #ECEAE0;
-    --done: #5C7A5A;
-    --done-soft: #E6EDE4;
-    --positive: #3E8B5C;
-    --positive-soft: #E1EFE0;
-    --negative: #B5482E;
-    --negative-soft: #F6E4DE;
-    --focus: #3C6E58;
-    --shadow: 0 1px 2px rgba(35,42,38,0.06), 0 1px 1px rgba(35,42,38,0.04);
-    --serif: "Iowan Old Style", "Palatino Linotype", "Georgia", ui-serif, serif;
-    --sans: -apple-system, "SF Pro Text", "Segoe UI", Roboto, ui-sans-serif, sans-serif;
-    --mono: ui-monospace, "SF Mono", "Cascadia Code", Menlo, monospace;
+  :root{
+    --bg:#060907;
+    --surface:#0b120c;
+    --surface-2:#0e160f;
+    --text:#cdebd2;
+    --text-dim:#6f9878;
+    --text-faint:#4c6b57;
+    --accent:#43e881;
+    --accent-dim:#1f5c39;
+    --info:#5fc2ea;
+    --border:#1c2e1f;
+    --danger:#ef6a5a;
+    --danger-dim:#5c2a22;
+    --warning:#d8ae5c;
+    --warning-dim:#4a3a1c;
+  }
+  *{box-sizing:border-box}
+  html{background:var(--bg)}
+  body{
+    margin:0;
+    background:var(--bg);
+    color:var(--text);
+    font-family:Consolas,"Cascadia Mono","Courier New",monospace;
+    font-size:14.5px;
+    line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+    padding-bottom:64px;
+  }
+  body::before{
+    content:"";
+    position:fixed; inset:0; pointer-events:none;
+    background:repeating-linear-gradient(to bottom, rgba(0,0,0,0) 0px, rgba(0,0,0,0) 2px, rgba(0,0,0,0.12) 3px);
+    z-index:40;
   }
 
-  @media (prefers-color-scheme: dark) {
-    :root {
-      --bg: #1B211D;
-      --bg-hill-1: #212820;
-      --bg-hill-2: #283024;
-      --card: #212822;
-      --card-border: #34402F;
-      --ink: #EAE7DC;
-      --ink-soft: #ABB3A5;
-      --ink-faint: #798174;
-      --accent: #79B197;
-      --accent-soft: #26332B;
-      --critical: #E58466;
-      --critical-soft: #3A2721;
-      --high: #D8AE5C;
-      --high-soft: #3A311F;
-      --normal: #A6A690;
-      --normal-soft: #2A2E27;
-      --done: #8FB48D;
-      --done-soft: #253026;
-      --positive: #7CC198;
-      --positive-soft: #243329;
-      --negative: #E58466;
-      --negative-soft: #3A2721;
-      --shadow: 0 1px 3px rgba(0,0,0,0.4);
-    }
+  .titlebar{
+    position:sticky; top:0; z-index:41;
+    display:flex; align-items:center; gap:.9rem;
+    background:var(--surface-2); border-bottom:1px solid var(--border);
+    padding:.55rem 1rem; font-size:.8rem; color:var(--text-dim);
   }
-  :root[data-theme="dark"] {
-    --bg: #1B211D; --bg-hill-1: #212820; --bg-hill-2: #283024;
-    --card: #212822; --card-border: #34402F;
-    --ink: #EAE7DC; --ink-soft: #ABB3A5; --ink-faint: #798174;
-    --accent: #79B197; --accent-soft: #26332B;
-    --critical: #E58466; --critical-soft: #3A2721;
-    --high: #D8AE5C; --high-soft: #3A311F;
-    --normal: #A6A690; --normal-soft: #2A2E27;
-    --done: #8FB48D; --done-soft: #253026;
-    --positive: #7CC198; --positive-soft: #243329;
-    --negative: #E58466; --negative-soft: #3A2721;
-    --shadow: 0 1px 3px rgba(0,0,0,0.4);
+  .titlebar-path b{ color:var(--accent); font-weight:400; }
+  .titlebar-back{
+    margin-left:auto; color:var(--text-dim); text-decoration:none; font-size:.78rem;
+    border:1px solid var(--border); padding:.3rem .6rem; transition:border-color .1s,color .1s;
   }
-  :root[data-theme="light"] {
-    --bg: #F1EFE7; --bg-hill-1: #E4E1D3; --bg-hill-2: #D6D2BF;
-    --card: #FBFAF5; --card-border: #DEDACB;
-    --ink: #232A26; --ink-soft: #5B6259; --ink-faint: #8B8B79;
-    --accent: #3C6E58; --accent-soft: #E4EDE6;
-    --critical: #B5482E; --critical-soft: #F6E4DE;
-    --high: #A9791E; --high-soft: #F3E9D2;
-    --normal: #6E6E5C; --normal-soft: #ECEAE0;
-    --done: #5C7A5A; --done-soft: #E6EDE4;
-    --positive: #3E8B5C; --positive-soft: #E1EFE0;
-    --negative: #B5482E; --negative-soft: #F6E4DE;
-    --shadow: 0 1px 2px rgba(35,42,38,0.06), 0 1px 1px rgba(35,42,38,0.04);
-  }
+  .titlebar-back:hover{ border-color:var(--accent); color:var(--accent); }
+  .titlebar-dots{ display:flex; gap:.4rem; }
+  .titlebar-dots span{ width:9px; height:9px; border:1px solid var(--border); display:block; }
 
-  * { box-sizing: border-box; }
-  body {
-    margin: 0;
-    background: var(--bg);
-    color: var(--ink);
-    font-family: var(--sans);
-    font-size: 15px;
-    line-height: 1.5;
-  }
-  .wrap {
-    max-width: 760px;
-    margin: 0 auto;
-    padding: 0 20px 64px;
-  }
+  .wrap{ max-width:760px; margin:0 auto; padding:0 20px 40px; }
 
-  /* Header with layered sierra silhouette */
-  header {
-    position: relative;
-    overflow: hidden;
-    background: linear-gradient(180deg, var(--bg) 0%, var(--bg) 60%, var(--bg-hill-1) 100%);
-    padding: 40px 20px 28px;
-    margin: 0 -20px 28px;
-    border-bottom: 1px solid var(--card-border);
-  }
-  header::before, header::after {
-    content: "";
-    position: absolute;
-    left: -5%;
-    right: -5%;
-    height: 90px;
-    border-radius: 50% 50% 0 0 / 100% 100% 0 0;
-    opacity: 0.6;
-  }
-  header::before {
-    bottom: -40px;
-    background: var(--bg-hill-1);
-    transform: scaleX(1.3);
-  }
-  header::after {
-    bottom: -55px;
-    background: var(--bg-hill-2);
-    transform: scaleX(1.6) translateX(6%);
-    opacity: 0.5;
-  }
-  .header-inner { position: relative; max-width: 720px; margin: 0 auto; }
-  .eyebrow {
-    font-family: var(--mono);
-    font-size: 11px;
-    letter-spacing: 0.09em;
-    text-transform: uppercase;
-    color: var(--accent);
-    margin: 0 0 8px;
-  }
-  h1 {
-    font-family: var(--serif);
-    font-weight: 500;
-    font-size: 30px;
-    letter-spacing: -0.01em;
-    margin: 0 0 4px;
-    text-wrap: balance;
-  }
-  .subtitle {
-    color: var(--ink-soft);
-    font-size: 14.5px;
-    margin: 0 0 22px;
-  }
+  header{ padding:2.25rem 0 1.5rem; border-bottom:1px dashed var(--border); margin-bottom:1.75rem; }
+  .eyebrow{ font-size:.78rem; color:var(--text-dim); margin:0 0 .5rem; letter-spacing:.02em; }
+  .eyebrow b{ color:var(--accent); font-weight:400; }
+  h1{ font-size:1.55rem; font-weight:400; color:var(--accent); margin:0 0 .35rem; letter-spacing:-.01em; }
+  .subtitle{ color:var(--text-dim); font-size:.9rem; margin:0 0 1.4rem; }
 
-  .stat-row {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 10px;
-    margin-bottom: 18px;
-  }
-  .stat {
-    background: var(--card);
-    border: 1px solid var(--card-border);
-    border-radius: 10px;
-    padding: 12px 14px;
-    box-shadow: var(--shadow);
-  }
-  .stat-num {
-    font-family: var(--serif);
-    font-size: 22px;
-    font-variant-numeric: tabular-nums;
-    line-height: 1;
-  }
-  .stat-label {
-    font-size: 11.5px;
-    color: var(--ink-faint);
-    margin-top: 4px;
-  }
+  .stat-row{ display:grid; grid-template-columns:repeat(3,1fr); gap:1px; background:var(--border); border:1px solid var(--border); margin-bottom:1rem; }
+  .stat{ background:var(--surface); padding:.8rem .9rem; }
+  .stat-num{ font-size:1.4rem; color:var(--text); font-variant-numeric:tabular-nums; }
+  .stat-label{ font-size:.68rem; color:var(--text-dim); margin-top:.25rem; text-transform:uppercase; letter-spacing:.04em; }
 
-  .progress-track {
-    height: 8px;
-    border-radius: 5px;
-    background: var(--normal-soft);
-    overflow: hidden;
-    margin-bottom: 10px;
-  }
-  .progress-fill {
-    height: 100%;
-    background: var(--accent);
-    border-radius: 5px;
-    transition: width 0.4s ease;
-  }
+  .progress-track{ height:6px; background:var(--surface); border:1px solid var(--border); overflow:hidden; margin-bottom:.7rem; }
+  .progress-fill{ height:100%; background:var(--accent); transition:width .3s ease; }
 
-  .constraints {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 8px 18px;
-    font-size: 12.5px;
-    color: var(--ink-soft);
-    font-family: var(--mono);
-  }
-  .constraints span { white-space: normal; }
-  .constraints b { color: var(--ink); font-weight: 600; }
+  .outcome-tally{ display:none; gap:1rem; font-size:.78rem; color:var(--text-dim); margin-bottom:.9rem; }
+  .outcome-tally.show{ display:flex; }
+  .outcome-tally .pos{ color:var(--accent); }
+  .outcome-tally .neg{ color:var(--danger); }
 
-  /* Next up callout */
-  .next-up {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    background: var(--accent-soft);
-    border: 1px solid var(--accent);
-    border-radius: 10px;
-    padding: 12px 16px;
-    margin-bottom: 24px;
-  }
-  .next-up-tag {
-    font-family: var(--mono);
-    font-size: 10.5px;
-    letter-spacing: 0.07em;
-    text-transform: uppercase;
-    color: var(--accent);
-    font-weight: 600;
-    flex-shrink: 0;
-  }
-  .next-up-text { font-size: 14px; }
-  .next-up-text b { font-weight: 600; }
-  .next-up-date { margin-left: auto; font-family: var(--mono); font-size: 12.5px; color: var(--ink-soft); flex-shrink: 0; }
+  .constraints{ display:flex; flex-wrap:wrap; gap:.4rem 1.1rem; font-size:.78rem; color:var(--text-dim); }
+  .constraints b{ color:var(--text); font-weight:400; }
 
-  /* Filters */
-  .filters {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 6px;
-    margin-bottom: 22px;
+  .next-up{
+    display:flex; align-items:center; gap:.8rem; flex-wrap:wrap;
+    background:var(--surface); border:1px solid var(--accent-dim);
+    padding:.7rem 1rem; margin:1.4rem 0;
   }
-  .chip {
-    font-family: var(--sans);
-    font-size: 12.5px;
-    padding: 6px 12px;
-    border-radius: 999px;
-    border: 1px solid var(--card-border);
-    background: var(--card);
-    color: var(--ink-soft);
-    cursor: pointer;
-    transition: background 0.15s, color 0.15s, border-color 0.15s;
-  }
-  .chip:hover { border-color: var(--accent); }
-  .chip:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; }
-  .chip.active {
-    background: var(--ink);
-    color: var(--bg);
-    border-color: var(--ink);
-  }
+  .next-up-tag{ font-size:.68rem; letter-spacing:.06em; text-transform:uppercase; color:var(--accent); flex-shrink:0; }
+  .next-up-text{ font-size:.85rem; color:var(--text); }
+  .next-up-text b{ color:var(--accent); font-weight:400; }
+  .next-up-date{ margin-left:auto; font-size:.78rem; color:var(--text-dim); }
 
-  /* Sections */
-  .section {
-    margin-bottom: 28px;
+  .filters{ display:flex; flex-wrap:wrap; gap:.4rem; margin-bottom:1.6rem; }
+  .chip{
+    font-family:inherit; font-size:.75rem; padding:.4rem .7rem;
+    border:1px solid var(--border); background:var(--surface); color:var(--text-dim);
+    cursor:pointer; transition:border-color .1s,color .1s,background .1s;
   }
-  .section-head {
-    display: flex;
-    align-items: baseline;
-    gap: 8px;
-    margin-bottom: 10px;
-    padding-bottom: 6px;
-    border-bottom: 1px solid var(--card-border);
-  }
-  .section-head h2 {
-    font-family: var(--serif);
-    font-weight: 500;
-    font-size: 16.5px;
-    margin: 0;
-  }
-  .section-count {
-    font-family: var(--mono);
-    font-size: 11.5px;
-    color: var(--ink-faint);
-  }
+  .chip:hover{ border-color:var(--accent); color:var(--text); }
+  .chip.active{ border-color:var(--accent); color:var(--accent); background:var(--accent-dim); }
 
-  .task {
-    display: grid;
-    grid-template-columns: 22px 1fr auto;
-    gap: 4px 12px;
-    align-items: start;
-    padding: 11px 4px 11px 9px;
-    border-bottom: 1px solid var(--card-border);
-    border-left: 3px solid transparent;
-    transition: border-left-color 0.15s;
+  .section{ margin-bottom:1.6rem; }
+  .section-head{
+    display:flex; align-items:baseline; gap:.6rem; margin-bottom:.1rem;
+    padding-bottom:.4rem; border-bottom:1px solid var(--border);
   }
-  .task:last-child { border-bottom: none; }
-  .task.outcome-pos { border-left-color: var(--positive); }
-  .task.outcome-neg { border-left-color: var(--negative); }
+  .section-head h2{ font-size:.85rem; font-weight:400; color:var(--info); margin:0; text-transform:uppercase; letter-spacing:.03em; }
+  .section-head h2 i{ color:var(--text-faint); font-style:normal; margin-right:.3rem; }
+  .section-count{ font-size:.72rem; color:var(--text-faint); }
+  .section-empty{ font-size:.8rem; color:var(--text-faint); font-style:normal; padding:.6rem 0; }
+  .section.hidden{ display:none; }
 
-  .task input[type="checkbox"] {
-    appearance: none;
-    width: 19px;
-    height: 19px;
-    border-radius: 5px;
-    border: 1.5px solid var(--ink-faint);
-    background: var(--card);
-    cursor: pointer;
-    margin-top: 1px;
-    position: relative;
-    flex-shrink: 0;
+  .task{
+    padding:.65rem .1rem;
+    border-bottom:1px solid var(--border);
+    border-left:2px solid transparent;
   }
-  .task input[type="checkbox"]:hover { border-color: var(--accent); }
-  .task input[type="checkbox"]:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; }
-  .task input[type="checkbox"]:checked {
-    background: var(--done);
-    border-color: var(--done);
-  }
-  .task input[type="checkbox"]:checked::after {
-    content: "";
-    position: absolute;
-    left: 5px; top: 1.5px;
-    width: 5px; height: 9px;
-    border: solid var(--card);
-    border-width: 0 2px 2px 0;
-    transform: rotate(45deg);
-  }
+  .task:last-child{ border-bottom:none; }
+  .task.outcome-pos{ border-left-color:var(--accent); }
+  .task.outcome-neg{ border-left-color:var(--danger); }
+  .task.hidden{ display:none; }
 
-  .task-main { min-width: 0; }
-  .task-title {
-    font-size: 14.5px;
-    color: var(--ink);
-    cursor: pointer;
-  }
-  .task.done .task-title {
-    color: var(--ink-faint);
-    text-decoration: line-through;
-    text-decoration-color: var(--ink-faint);
-  }
-  .task-note {
-    font-size: 12.5px;
-    color: var(--ink-faint);
-    margin-top: 2px;
-  }
+  .task-row{ display:grid; grid-template-columns:20px 1fr auto; gap:.3rem .7rem; align-items:start; }
 
-  .task-meta {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-end;
-    gap: 4px;
+  .task-check{
+    appearance:none; -webkit-appearance:none;
+    width:19px; height:19px; flex-shrink:0; margin-top:1px;
+    border:1px solid var(--text-faint); background:var(--surface);
+    cursor:pointer; position:relative;
   }
-  .pill {
-    font-family: var(--mono);
-    font-size: 10px;
-    letter-spacing: 0.04em;
-    text-transform: uppercase;
-    padding: 2px 7px;
-    border-radius: 999px;
-    white-space: nowrap;
+  .task-check:hover{ border-color:var(--accent); }
+  .task-check::after{
+    content:''; position:absolute; inset:0;
+    display:flex; align-items:center; justify-content:center;
+    font-size:12px; color:var(--accent); line-height:1;
   }
-  .pill.critico { background: var(--critical-soft); color: var(--critical); }
-  .pill.alta { background: var(--high-soft); color: var(--high); }
-  .pill.normal { background: var(--normal-soft); color: var(--normal); }
-  .task-date {
-    font-family: var(--mono);
-    font-size: 11.5px;
-    color: var(--ink-faint);
-    white-space: nowrap;
-  }
-  .task.done .task-date, .task.done .pill { opacity: 0.55; }
+  .task-check:checked{ border-color:var(--accent-dim); }
+  .task-check:checked::after{ content:'✓'; }
 
-  .outcome-badge {
-    font-family: var(--mono);
-    font-size: 10px;
-    letter-spacing: 0.04em;
-    text-transform: uppercase;
-    padding: 2px 7px;
-    border-radius: 999px;
-    white-space: nowrap;
+  .task-main{ min-width:0; }
+  .task-title{
+    font-size:.9rem; color:var(--text); cursor:text;
+    outline:none; padding:1px 2px; margin:-1px -2px;
   }
-  .outcome-badge.pos { background: var(--positive-soft); color: var(--positive); }
-  .outcome-badge.neg { background: var(--negative-soft); color: var(--negative); }
+  .task-title:hover{ background:var(--surface); }
+  .task-title:focus{ background:var(--surface); box-shadow:0 0 0 1px var(--accent-dim); }
+  .task.done .task-title{ color:var(--text-faint); text-decoration:line-through; text-decoration-color:var(--text-faint); }
+  .task-note{
+    font-size:.78rem; color:var(--text-dim); margin-top:.2rem;
+    cursor:text; outline:none; padding:1px 2px; margin-left:-2px; min-height:1em;
+  }
+  .task-note:hover{ background:var(--surface); }
+  .task-note:focus{ background:var(--surface); box-shadow:0 0 0 1px var(--accent-dim); }
+  .task-note:empty::before{ content:'añadir nota…'; color:var(--text-faint); }
 
-  .task-expand {
-    grid-column: 3 / 4;
-    justify-self: end;
-    background: none;
-    border: none;
-    padding: 2px 0;
-    font-family: var(--sans);
-    font-size: 11.5px;
-    color: var(--ink-faint);
-    cursor: pointer;
-    text-decoration: underline;
-    text-decoration-color: transparent;
+  .task-meta{ display:flex; flex-direction:column; align-items:flex-end; gap:.3rem; }
+  .pill{
+    font-size:.62rem; letter-spacing:.04em; text-transform:uppercase;
+    padding:1px 6px; border:1px solid; white-space:nowrap; line-height:1.5;
   }
-  .task-expand:hover { color: var(--accent); text-decoration-color: var(--accent); }
-  .task-expand:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; }
+  .pill.critico{ color:var(--danger); border-color:var(--danger); }
+  .pill.alta{ color:var(--warning); border-color:var(--warning); }
+  .pill.normal{ color:var(--text-dim); border-color:var(--border); }
+  .task-date{ font-size:.72rem; color:var(--text-faint); white-space:nowrap; }
+  .task.done .task-date, .task.done .pill{ opacity:.5; }
 
-  .task-detail {
-    grid-column: 1 / -1;
-    display: none;
-    flex-direction: column;
-    gap: 8px;
-    margin: 4px 0 2px 30px;
-    padding: 10px 12px;
-    background: var(--normal-soft);
-    border-radius: 8px;
+  .outcome-badge{
+    font-size:.62rem; letter-spacing:.04em; text-transform:uppercase;
+    padding:1px 6px; border:1px solid; white-space:nowrap;
   }
-  .task-detail.open { display: flex; }
-  .outcome-buttons { display: flex; gap: 8px; }
-  .outcome-btn {
-    font-family: var(--sans);
-    font-size: 12.5px;
-    padding: 5px 12px;
-    border-radius: 7px;
-    border: 1px solid var(--card-border);
-    background: var(--card);
-    color: var(--ink-soft);
-    cursor: pointer;
-  }
-  .outcome-btn:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; }
-  .outcome-btn.pos.active { background: var(--positive-soft); color: var(--positive); border-color: var(--positive); }
-  .outcome-btn.neg.active { background: var(--negative-soft); color: var(--negative); border-color: var(--negative); }
-  .task-annotation {
-    width: 100%;
-    resize: vertical;
-    min-height: 52px;
-    font-family: var(--sans);
-    font-size: 13px;
-    color: var(--ink);
-    background: var(--card);
-    border: 1px solid var(--card-border);
-    border-radius: 7px;
-    padding: 8px 10px;
-  }
-  .task-annotation:focus-visible { outline: 2px solid var(--focus); outline-offset: 1px; }
-  .task-annotation::placeholder { color: var(--ink-faint); }
+  .outcome-badge.pos{ color:var(--accent); border-color:var(--accent-dim); }
+  .outcome-badge.neg{ color:var(--danger); border-color:var(--danger-dim); }
 
-  .outcome-tally {
-    display: none;
-    gap: 14px;
-    font-family: var(--mono);
-    font-size: 12.5px;
-    color: var(--ink-soft);
-    margin: -6px 0 16px;
+  .task-expand{
+    grid-column:3/4; justify-self:end;
+    background:none; border:none; padding:1px 0;
+    font-family:inherit; font-size:.72rem; color:var(--text-faint);
+    cursor:pointer; text-decoration:underline; text-decoration-color:transparent;
   }
-  .outcome-tally.show { display: flex; }
-  .outcome-tally .pos { color: var(--positive); }
-  .outcome-tally .neg { color: var(--negative); }
+  .task-expand:hover{ color:var(--accent); text-decoration-color:var(--accent); }
 
-  .task.hidden { display: none; }
-  .section.hidden { display: none; }
-
-  footer {
-    text-align: center;
-    font-size: 12px;
-    color: var(--ink-faint);
-    margin-top: 36px;
-    padding-top: 16px;
-    border-top: 1px solid var(--card-border);
+  .task-detail{
+    grid-column:1/-1; display:none; flex-direction:column; gap:.7rem;
+    margin:.5rem 0 0 28px; padding:.8rem .9rem;
+    background:var(--surface); border:1px solid var(--border);
   }
+  .task-detail.open{ display:flex; }
+  .detail-label{ font-size:.65rem; color:var(--text-faint); text-transform:uppercase; letter-spacing:.05em; margin-bottom:.35rem; }
 
-  @media (max-width: 480px) {
-    .stat-row { grid-template-columns: repeat(3, 1fr); gap: 8px; }
-    .stat { padding: 10px 10px; }
-    h1 { font-size: 25px; }
-    .task { grid-template-columns: 20px 1fr; }
-    .task-meta { grid-column: 2; flex-direction: row; align-items: center; margin-top: 2px; }
-    .task-expand { grid-column: 1 / -1; justify-self: start; margin-left: 30px; }
-    .task-detail { margin-left: 0; }
+  .outcome-buttons{ display:flex; gap:.5rem; }
+  .outcome-btn{
+    font-family:inherit; font-size:.75rem; padding:.35rem .7rem;
+    border:1px solid var(--border); background:var(--surface-2); color:var(--text-dim); cursor:pointer;
+  }
+  .outcome-btn.pos.active{ background:var(--accent-dim); color:var(--accent); border-color:var(--accent); }
+  .outcome-btn.neg.active{ background:var(--danger-dim); color:var(--danger); border-color:var(--danger); }
+
+  .task-annotation{
+    width:100%; resize:vertical; min-height:48px;
+    font-family:inherit; font-size:.8rem; color:var(--text);
+    background:var(--surface-2); border:1px solid var(--border); padding:.5rem .6rem;
+  }
+  .task-annotation:focus{ outline:none; border-color:var(--accent-dim); }
+  .task-annotation::placeholder{ color:var(--text-faint); }
+
+  .edit-row{ display:flex; flex-wrap:wrap; gap:.6rem; align-items:flex-end; }
+  .field{ display:flex; flex-direction:column; gap:.3rem; }
+  .field label{ font-size:.62rem; color:var(--text-faint); text-transform:uppercase; letter-spacing:.04em; }
+  select, input[type="date"], input[type="text"]{
+    font-family:inherit; font-size:.78rem; color:var(--text);
+    background:var(--surface-2); border:1px solid var(--border);
+    padding:.4rem .5rem;
+  }
+  select:focus, input:focus{ outline:none; border-color:var(--accent-dim); }
+  .task-del{
+    font-family:inherit; font-size:.72rem; padding:.4rem .7rem;
+    border:1px solid var(--danger-dim); background:var(--surface-2); color:var(--danger); cursor:pointer;
+    margin-left:auto;
+  }
+  .task-del:hover{ background:var(--danger-dim); }
+
+  .new-task{ border:1px dashed var(--accent-dim); background:var(--surface); padding:1rem 1.1rem; margin-bottom:1.8rem; }
+  .new-task-title{ font-size:.78rem; color:var(--accent); margin-bottom:.7rem; }
+  .new-task-row{ display:flex; flex-wrap:wrap; gap:.6rem; align-items:flex-end; }
+  .new-task-row .field:first-child{ flex:1; min-width:220px; }
+
+  .btn{
+    display:inline-flex; align-items:center; gap:.4em;
+    border:1px solid var(--accent); color:var(--accent); background:transparent;
+    font-family:inherit; font-size:.78rem; padding:.45em .9em; cursor:pointer;
+    transition:background .1s,color .1s;
+  }
+  .btn:hover{ background:var(--accent); color:var(--bg); }
+
+  footer{ text-align:center; font-size:.72rem; color:var(--text-faint); margin-top:1.5rem; padding-top:1rem; border-top:1px solid var(--border); }
+
+  .save-bar{
+    position:fixed; bottom:0; left:0; right:0; z-index:50;
+    background:var(--surface-2); border-top:1px solid var(--border);
+    color:var(--text-dim); padding:.6rem 1rem;
+    display:flex; align-items:center; justify-content:space-between; gap:.8rem; flex-wrap:wrap;
+    font-size:.75rem;
+    transform:translateY(100%); transition:transform .2s;
+  }
+  .save-bar.visible{ transform:translateY(0); }
+  .save-status{ display:flex; align-items:center; gap:.5rem; }
+  .save-dot{ width:9px; height:9px; border:1px solid var(--danger); background:var(--danger); display:inline-block; }
+  .save-dot.saved{ background:var(--accent); border-color:var(--accent); }
+  .save-actions{ display:flex; gap:.5rem; flex-wrap:wrap; }
+  .save-actions button{
+    font-family:inherit; font-size:.72rem; padding:.4rem .7rem;
+    border:1px solid var(--border); background:transparent; color:var(--text-dim); cursor:pointer;
+  }
+  .save-actions button:hover{ border-color:var(--accent); color:var(--accent); }
+  .save-actions .save-btn{ border-color:var(--accent); color:var(--accent); }
+  .save-actions .save-btn:hover{ background:var(--accent); color:var(--bg); }
+  .save-actions .reset-btn{ border-color:var(--danger-dim); color:var(--danger); }
+  .save-actions .reset-btn:hover{ background:var(--danger-dim); }
+
+  @media (max-width:480px){
+    .stat-row{ grid-template-columns:repeat(3,1fr); }
+    h1{ font-size:1.25rem; }
+    .task-row{ grid-template-columns:18px 1fr; }
+    .task-meta{ grid-column:2; flex-direction:row; align-items:center; margin-top:.25rem; }
+    .task-expand{ grid-column:1/-1; justify-self:start; margin-left:28px; }
+    .task-detail{ margin-left:0; }
+    .new-task-row .field{ width:100%; }
   }
 </style>
+</head>
+<body>
+
+<div class="titlebar">
+  <span class="titlebar-path">C:\POLICLINICA_SERRANO&gt; <b>type pendientes.log</b></span>
+  <div class="titlebar-dots"><span></span><span></span><span></span></div>
+  <a class="titlebar-back" href="Resumen completo CS.html">‹ volver al mapa</a>
+</div>
 
 <div class="wrap">
   <header>
-    <div class="header-inner">
-      <p class="eyebrow">Sierra de los Padres · Mar del Plata</p>
-      <h1>Policlínica Serrano — Pendientes</h1>
-      <p class="subtitle">Rumbo a la apertura de diciembre. 2hs por día, de lunes a jueves.</p>
+    <p class="eyebrow">Sierra de los Padres · Mar del Plata &mdash; <b>rumbo a la apertura de diciembre</b></p>
+    <h1>&gt; pendientes_</h1>
+    <p class="subtitle">2hs por día, de lunes a jueves. Click en cualquier texto para editarlo.</p>
 
-      <div class="stat-row">
-        <div class="stat">
-          <div class="stat-num" id="stat-days">—</div>
-          <div class="stat-label">días para el 10/12</div>
-        </div>
-        <div class="stat">
-          <div class="stat-num" id="stat-done">0/29</div>
-          <div class="stat-label">completadas</div>
-        </div>
-        <div class="stat">
-          <div class="stat-num" id="stat-critical">5</div>
-          <div class="stat-label">críticas abiertas</div>
-        </div>
+    <div class="stat-row">
+      <div class="stat">
+        <div class="stat-num" id="stat-days">—</div>
+        <div class="stat-label">días para el 10/12</div>
       </div>
+      <div class="stat">
+        <div class="stat-num" id="stat-done">0/0</div>
+        <div class="stat-label">completadas</div>
+      </div>
+      <div class="stat">
+        <div class="stat-num" id="stat-critical">0</div>
+        <div class="stat-label">críticas abiertas</div>
+      </div>
+    </div>
 
-      <div class="progress-track"><div class="progress-fill" id="progress-fill" style="width:0%"></div></div>
-      <div class="outcome-tally" id="outcome-tally">
-        <span class="pos">🟢 <span id="tally-pos">0</span> positivas</span>
-        <span class="neg">🔴 <span id="tally-neg">0</span> negativas</span>
-      </div>
+    <div class="progress-track"><div class="progress-fill" id="progress-fill" style="width:0%"></div></div>
+    <div class="outcome-tally" id="outcome-tally">
+      <span class="pos">+ <span id="tally-pos">0</span> positivas</span>
+      <span class="neg">- <span id="tally-neg">0</span> negativas</span>
+    </div>
 
-      <div class="constraints">
-        <span><b>Lun–Jue</b> · bloque de 2hs (9–11, flexible hasta 22)</span>
-        <span><b>Viernes</b> libre</span>
-        <span><b>9–27 oct</b> viaje, sin trabajo</span>
-      </div>
+    <div class="constraints">
+      <span><b>Lun-Jue</b> · bloque de 2hs (9-11, flexible hasta 22)</span>
+      <span><b>Viernes</b> libre</span>
+      <span><b>9-27 oct</b> viaje, sin trabajo</span>
     </div>
   </header>
 
@@ -508,267 +316,446 @@
   </div>
 
   <div class="filters" id="filters">
-    <button class="chip active" data-filter="all">Todas</button>
-    <button class="chip" data-filter="critico">Críticas</button>
-    <button class="chip" data-filter="pending">Sin hacer</button>
-    <button class="chip" data-filter="done">Completadas</button>
-    <button class="chip" data-filter="pos">🟢 Positivas</button>
-    <button class="chip" data-filter="neg">🔴 Negativas</button>
+    <button class="chip active" data-filter="all">todas</button>
+    <button class="chip" data-filter="critico">críticas</button>
+    <button class="chip" data-filter="pending">sin hacer</button>
+    <button class="chip" data-filter="done">completadas</button>
+    <button class="chip" data-filter="pos">+ positivas</button>
+    <button class="chip" data-filter="neg">- negativas</button>
   </div>
 
   <main id="sections"></main>
 
-  <footer>Extraído de la solapa Pendientes · Policlínica Serrano · Se guarda en este navegador</footer>
+  <div class="new-task">
+    <div class="new-task-title">$ nueva_tarea --agregar</div>
+    <div class="new-task-row">
+      <div class="field">
+        <label>descripción</label>
+        <input type="text" id="new-task-title" placeholder="Ej: Llamar a Dr. Pérez esta semana">
+      </div>
+      <div class="field">
+        <label>sección</label>
+        <select id="new-task-section"></select>
+      </div>
+      <div class="field">
+        <label>prioridad</label>
+        <select id="new-task-priority">
+          <option value="critico">Crítico</option>
+          <option value="alta">Alta</option>
+          <option value="normal" selected>Normal</option>
+        </select>
+      </div>
+      <div class="field">
+        <label>fecha</label>
+        <input type="date" id="new-task-date">
+      </div>
+      <button class="btn" onclick="addTask()">+ agregar</button>
+    </div>
+  </div>
+
+  <footer>Policlínica Serrano · Pendientes · Se guarda en este navegador</footer>
+</div>
+
+<div class="save-bar" id="saveBar">
+  <div class="save-status">
+    <span class="save-dot" id="saveDot"></span>
+    <span id="saveMsg">cambios sin guardar</span>
+  </div>
+  <div class="save-actions">
+    <button onclick="exportTasks()">backup .json</button>
+    <button onclick="document.getElementById('import-file').click()">importar</button>
+    <input type="file" id="import-file" accept="application/json" style="display:none;">
+    <button class="reset-btn" onclick="resetTasks()">reiniciar</button>
+    <button class="save-btn" onclick="saveNow()">guardar</button>
+  </div>
 </div>
 
 <script>
-  var DATA = [
-    {id:1, section:"RRHH", title:"Fijar fecha límite go/no-go (15/09/2026)", note:"Si no se confirman a tiempo, activar plan B de lanzamiento en fases", priority:"critico", date:"2026-08-17"},
-    {id:2, section:"RRHH", title:"Confirmar Clínica Médica — hablar con Dra. Wilant", note:"Pilar diferenciador del proyecto", priority:"critico", date:"2026-08-18"},
-    {id:3, section:"RRHH", title:"Confirmar Pediatría — activar contactos de Clara", note:"Segunda especialidad diferenciadora", priority:"critico", date:"2026-08-19"},
-    {id:4, section:"RRHH", title:"Cerrar negociación Cardiología", note:"En charla activa", priority:"alta", date:"2026-08-25"},
-    {id:5, section:"RRHH", title:"Reunión con Marcelo — definir modalidad", note:"A demanda vs. turno programado · imágenes portátiles", priority:"alta", date:"2026-08-26"},
-    {id:6, section:"RRHH", title:"Tramitar habilitación Radiofísica Sanitaria (Marcelo)", note:"Art. 9.2.d · Colegio de Médicos", priority:"alta", date:"2026-08-27"},
-    {id:7, section:"RRHH", title:"Confirmar Ginecología/Obstetricia — Dr. Medina", note:"Opción A", priority:"normal", date:"2026-09-01"},
-    {id:8, section:"RRHH", title:"Contactar candidatos de Nutrición", note:"2 candidatos en agenda", priority:"normal", date:"2026-09-02"},
-    {id:9, section:"RRHH", title:"Investigar candidato para Gastroenterología", note:"", priority:"normal", date:"2026-09-03"},
+  var SECTIONS = [
+    {key:"rrhh", name:"RRHH"},
+    {key:"hab",  name:"Habilitación Municipal"},
+    {key:"ooss", name:"Obras Sociales"},
+    {key:"mkt",  name:"Marketing & Lanzamiento"},
+    {key:"fin",  name:"Financiero & Operativo"}
+  ];
 
-    {id:10, section:"Habilitación Municipal", title:"Reunión con Iván Soule — arrancar trámite", note:"Primer paso formal, depende de la fecha de apertura", priority:"critico", date:"2026-08-20"},
-    {id:11, section:"Habilitación Municipal", title:"Obtener planos y documentación del local", note:"Medidas oficiales", priority:"alta", date:"2026-09-07"},
-    {id:12, section:"Habilitación Municipal", title:"Certificado de habilitación eléctrica y gas", note:"", priority:"alta", date:"2026-09-08"},
-    {id:13, section:"Habilitación Municipal", title:"Confeccionar cartelería obligatoria", note:"Horarios, matrícula, derechos del paciente", priority:"normal", date:"2026-09-21"},
-    {id:14, section:"Habilitación Municipal", title:"Contratar seguro de responsabilidad civil", note:"", priority:"normal", date:"2026-09-22"},
+  var DEFAULT_TASKS = [
+    {id:"t1", section:"rrhh", title:"Fijar fecha límite go/no-go (15/09/2026)", note:"Si no se confirman a tiempo, activar plan B de lanzamiento en fases", priority:"critico", date:"2026-08-17", done:false, journal:"", outcome:null},
+    {id:"t2", section:"rrhh", title:"Confirmar Clínica Médica — hablar con Dra. Wilant", note:"Pilar diferenciador del proyecto", priority:"critico", date:"2026-08-18", done:false, journal:"", outcome:null},
+    {id:"t3", section:"rrhh", title:"Confirmar Pediatría — activar contactos de Clara", note:"Segunda especialidad diferenciadora", priority:"critico", date:"2026-08-19", done:false, journal:"", outcome:null},
+    {id:"t4", section:"rrhh", title:"Cerrar negociación Cardiología", note:"En charla activa", priority:"alta", date:"2026-08-25", done:false, journal:"", outcome:null},
+    {id:"t5", section:"rrhh", title:"Reunión con Marcelo — definir modalidad", note:"A demanda vs. turno programado · imágenes portátiles", priority:"alta", date:"2026-08-26", done:false, journal:"", outcome:null},
+    {id:"t6", section:"rrhh", title:"Tramitar habilitación Radiofísica Sanitaria (Marcelo)", note:"Art. 9.2.d · Colegio de Médicos", priority:"alta", date:"2026-08-27", done:false, journal:"", outcome:null},
+    {id:"t7", section:"rrhh", title:"Confirmar Ginecología/Obstetricia — Dr. Medina", note:"Opción A", priority:"normal", date:"2026-09-01", done:false, journal:"", outcome:null},
+    {id:"t8", section:"rrhh", title:"Contactar candidatos de Nutrición", note:"2 candidatos en agenda", priority:"normal", date:"2026-09-02", done:false, journal:"", outcome:null},
+    {id:"t9", section:"rrhh", title:"Investigar candidato para Gastroenterología", note:"", priority:"normal", date:"2026-09-03", done:false, journal:"", outcome:null},
 
-    {id:15, section:"Obras Sociales", title:"Decidir modelo: particular o con OOSS", note:"Define toda la estrategia comercial", priority:"critico", date:"2026-08-24"},
-    {id:16, section:"Obras Sociales", title:"Si OOSS: iniciar gestión convenio IOMA", note:"Prioridad zona", priority:"alta", date:"2026-09-09"},
-    {id:17, section:"Obras Sociales", title:"Si OOSS: gestionar convenio PAMI", note:"", priority:"alta", date:"2026-09-10"},
-    {id:18, section:"Obras Sociales", title:"Charlar con cada profesional sobre su preferencia", note:"Particular vs. OOSS", priority:"normal", date:"2026-09-17"},
+    {id:"t10", section:"hab", title:"Reunión con Iván Soule — arrancar trámite", note:"Primer paso formal, depende de la fecha de apertura", priority:"critico", date:"2026-08-20", done:false, journal:"", outcome:null},
+    {id:"t11", section:"hab", title:"Obtener planos y documentación del local", note:"Medidas oficiales", priority:"alta", date:"2026-09-07", done:false, journal:"", outcome:null},
+    {id:"t12", section:"hab", title:"Certificado de habilitación eléctrica y gas", note:"", priority:"alta", date:"2026-09-08", done:false, journal:"", outcome:null},
+    {id:"t13", section:"hab", title:"Confeccionar cartelería obligatoria", note:"Horarios, matrícula, derechos del paciente", priority:"normal", date:"2026-09-21", done:false, journal:"", outcome:null},
+    {id:"t14", section:"hab", title:"Contratar seguro de responsabilidad civil", note:"", priority:"normal", date:"2026-09-22", done:false, journal:"", outcome:null},
 
-    {id:19, section:"Marketing & Lanzamiento", title:"Diseñar plan de lanzamiento en fases", note:"Contingencia — sombrero verde", priority:"alta", date:"2026-09-16"},
-    {id:20, section:"Marketing & Lanzamiento", title:"Crear perfil Google My Business", note:"Policlínica Serrano", priority:"alta", date:"2026-09-28"},
-    {id:21, section:"Marketing & Lanzamiento", title:"Abrir Instagram y Facebook", note:"", priority:"alta", date:"2026-09-29"},
-    {id:22, section:"Marketing & Lanzamiento", title:"Landing page / web simple", note:"Especialidades, horarios y turnos", priority:"normal", date:"2026-09-30"},
-    {id:23, section:"Marketing & Lanzamiento", title:"Organizar Jornada de Salud Comunitaria", note:"Lanzamiento, diciembre 2026", priority:"normal", date:"2026-10-29"},
-    {id:24, section:"Marketing & Lanzamiento", title:"Alianzas con farmacias y comercios del pueblo", note:"Puntos de info", priority:"normal", date:"2026-11-02"},
+    {id:"t15", section:"ooss", title:"Decidir modelo: particular o con OOSS", note:"Define toda la estrategia comercial", priority:"critico", date:"2026-08-24", done:false, journal:"", outcome:null},
+    {id:"t16", section:"ooss", title:"Si OOSS: iniciar gestión convenio IOMA", note:"Prioridad zona", priority:"alta", date:"2026-09-09", done:false, journal:"", outcome:null},
+    {id:"t17", section:"ooss", title:"Si OOSS: gestionar convenio PAMI", note:"", priority:"alta", date:"2026-09-10", done:false, journal:"", outcome:null},
+    {id:"t18", section:"ooss", title:"Charlar con cada profesional sobre su preferencia", note:"Particular vs. OOSS", priority:"normal", date:"2026-09-17", done:false, journal:"", outcome:null},
 
-    {id:25, section:"Financiero & Operativo", title:"Confirmar valor final del alquiler y condiciones", note:"", priority:"alta", date:"2026-09-23"},
-    {id:26, section:"Financiero & Operativo", title:"Definir distribución de honorarios por profesional", note:"Porcentajes", priority:"alta", date:"2026-09-24"},
-    {id:27, section:"Financiero & Operativo", title:"Definir sistema de turnos / software de gestión", note:"", priority:"normal", date:"2026-10-01"},
-    {id:28, section:"Financiero & Operativo", title:"Estrategia Concepción: absorber o competir", note:"Con consultorios vecinos", priority:"normal", date:"2026-10-05"},
-    {id:29, section:"Financiero & Operativo", title:"Contratar secretaria/administrativa", note:"Inicio estimado noviembre 2026", priority:"normal", date:"2026-11-03"}
+    {id:"t19", section:"mkt", title:"Diseñar plan de lanzamiento en fases", note:"Contingencia — sombrero verde", priority:"alta", date:"2026-09-16", done:false, journal:"", outcome:null},
+    {id:"t20", section:"mkt", title:"Crear perfil Google My Business", note:"Policlínica Serrano", priority:"alta", date:"2026-09-28", done:false, journal:"", outcome:null},
+    {id:"t21", section:"mkt", title:"Abrir Instagram y Facebook", note:"", priority:"alta", date:"2026-09-29", done:false, journal:"", outcome:null},
+    {id:"t22", section:"mkt", title:"Landing page / web simple", note:"Especialidades, horarios y turnos", priority:"normal", date:"2026-09-30", done:false, journal:"", outcome:null},
+    {id:"t23", section:"mkt", title:"Organizar Jornada de Salud Comunitaria", note:"Lanzamiento, diciembre 2026", priority:"normal", date:"2026-10-29", done:false, journal:"", outcome:null},
+    {id:"t24", section:"mkt", title:"Alianzas con farmacias y comercios del pueblo", note:"Puntos de info", priority:"normal", date:"2026-11-02", done:false, journal:"", outcome:null},
+
+    {id:"t25", section:"fin", title:"Confirmar valor final del alquiler y condiciones", note:"", priority:"alta", date:"2026-09-23", done:false, journal:"", outcome:null},
+    {id:"t26", section:"fin", title:"Definir distribución de honorarios por profesional", note:"Porcentajes", priority:"alta", date:"2026-09-24", done:false, journal:"", outcome:null},
+    {id:"t27", section:"fin", title:"Definir sistema de turnos / software de gestión", note:"", priority:"normal", date:"2026-10-01", done:false, journal:"", outcome:null},
+    {id:"t28", section:"fin", title:"Estrategia Concepción: absorber o competir", note:"Con consultorios vecinos", priority:"normal", date:"2026-10-05", done:false, journal:"", outcome:null},
+    {id:"t29", section:"fin", title:"Contratar secretaria/administrativa", note:"Inicio estimado noviembre 2026", priority:"normal", date:"2026-11-03", done:false, journal:"", outcome:null}
   ];
 
   var DEADLINE = new Date("2026-12-10T00:00:00-03:00");
-  var STORAGE_KEY = "serranos-pendientes-v2";
-  var STORAGE_KEY_OLD = "serranos-pendientes-v1";
+  var STORAGE_KEY = "serranos-pendientes-v3";
+  var STORAGE_KEY_OLD = "serranos-pendientes-v2";
   var PRIO_LABEL = {critico:"Crítico", alta:"Alta", normal:"Normal"};
 
-  function emptyEntry() { return {done:false, outcome:null, note:""}; }
+  function clone(o){ return JSON.parse(JSON.stringify(o)); }
 
-  function loadState() {
+  function migrateFromV2(){
     try {
-      var raw = JSON.parse(localStorage.getItem(STORAGE_KEY));
-      if (raw) return raw;
-    } catch (e) {}
-    // migrar desde la versión anterior (solo done: true/false)
-    try {
-      var old = JSON.parse(localStorage.getItem(STORAGE_KEY_OLD));
-      if (old) {
-        var migrated = {};
-        Object.keys(old).forEach(function (id) {
-          migrated[id] = {done: !!old[id], outcome: null, note: ""};
-        });
-        return migrated;
+      var raw = JSON.parse(localStorage.getItem(STORAGE_KEY_OLD));
+      if (!raw) return null;
+      return DEFAULT_TASKS.map(function(t){
+        var e = raw[t.id.replace("t","")] || raw[t.id];
+        if (!e) return clone(t);
+        var merged = clone(t);
+        merged.done = !!e.done;
+        merged.outcome = e.outcome || null;
+        merged.journal = e.note || "";
+        return merged;
+      });
+    } catch(e){ return null; }
+  }
+
+  function loadTasks(){
+    var raw = localStorage.getItem(STORAGE_KEY);
+    if (raw) {
+      try { return JSON.parse(raw); } catch(e){}
+    }
+    var migrated = migrateFromV2();
+    if (migrated) return migrated;
+    return clone(DEFAULT_TASKS);
+  }
+
+  var tasks = loadTasks();
+  var currentFilter = "all";
+  var expandedIds = {};
+  var dirty = false;
+  var saveTimer = null;
+
+  function persist(){ localStorage.setItem(STORAGE_KEY, JSON.stringify(tasks)); }
+
+  function markDirty(){
+    dirty = true;
+    document.getElementById("saveBar").classList.add("visible");
+    document.getElementById("saveDot").classList.remove("saved");
+    document.getElementById("saveMsg").textContent = "cambios sin guardar";
+    clearTimeout(saveTimer);
+    saveTimer = setTimeout(function(){ saveNow(true); }, 2000);
+  }
+
+  function saveNow(silent){
+    persist();
+    dirty = false;
+    document.getElementById("saveDot").classList.add("saved");
+    document.getElementById("saveMsg").textContent = "guardado ✓";
+    setTimeout(function(){
+      if (!dirty) document.getElementById("saveBar").classList.remove("visible");
+    }, 1800);
+  }
+
+  function resetTasks(){
+    if (!confirm("¿Restaurar la lista original de pendientes? Se perderán tareas nuevas y cambios hechos acá.")) return;
+    tasks = clone(DEFAULT_TASKS);
+    persist();
+    render();
+    markDirty();
+    saveNow();
+  }
+
+  function exportTasks(){
+    var blob = new Blob([JSON.stringify(tasks, null, 2)], {type:"application/json"});
+    var url = URL.createObjectURL(blob);
+    var a = document.createElement("a");
+    var stamp = new Date().toISOString().slice(0,10);
+    a.href = url;
+    a.download = "pendientes-policlinica-serrano-" + stamp + ".json";
+    a.click();
+    URL.revokeObjectURL(url);
+  }
+
+  document.getElementById("import-file").addEventListener("change", function(e){
+    var file = e.target.files[0];
+    if (!file) return;
+    var reader = new FileReader();
+    reader.onload = function(){
+      try {
+        var parsed = JSON.parse(reader.result);
+        if (!Array.isArray(parsed)) throw new Error("formato inválido");
+        tasks = parsed;
+        persist();
+        render();
+        markDirty();
+        saveNow();
+      } catch(err){
+        alert("No se pudo importar el archivo: " + err.message);
       }
-    } catch (e) {}
-    return {};
-  }
-  function saveState() {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
-  }
-  function entryFor(id) {
-    if (!state[id]) state[id] = emptyEntry();
-    return state[id];
-  }
+    };
+    reader.readAsText(file);
+    e.target.value = "";
+  });
 
-  function fmtDate(iso) {
+  function fmtDate(iso){
+    if (!iso) return "";
     var d = new Date(iso + "T00:00:00-03:00");
     var months = ["ene","feb","mar","abr","may","jun","jul","ago","sep","oct","nov","dic"];
     return d.getDate() + " " + months[d.getMonth()];
   }
 
-  var state = loadState();
-  var currentFilter = "all";
-  var expandedIds = {};
-  var saveTimer = null;
-  function saveStateDebounced() {
-    clearTimeout(saveTimer);
-    saveTimer = setTimeout(saveState, 250);
+  function sectionName(key){
+    for (var i=0;i<SECTIONS.length;i++) if (SECTIONS[i].key===key) return SECTIONS[i].name;
+    return key;
   }
 
-  function render() {
-    var sections = [];
-    var sectionMap = {};
-    DATA.forEach(function (t) {
-      if (!sectionMap[t.section]) {
-        sectionMap[t.section] = [];
-        sections.push(t.section);
-      }
-      sectionMap[t.section].push(t);
-    });
+  function matchesFilter(t){
+    if (currentFilter === "all") return true;
+    if (currentFilter === "critico") return t.priority === "critico";
+    if (currentFilter === "pending") return !t.done;
+    if (currentFilter === "done") return t.done;
+    if (currentFilter === "pos") return t.outcome === "pos";
+    if (currentFilter === "neg") return t.outcome === "neg";
+    return true;
+  }
 
+  function render(){
     var main = document.getElementById("sections");
     main.innerHTML = "";
 
-    sections.forEach(function (secName) {
-      var items = sectionMap[secName];
-      var visibleItems = items.filter(function (t) { return matchesFilter(t); });
-      var sec = document.createElement("div");
-      sec.className = "section" + (visibleItems.length === 0 ? " hidden" : "");
+    SECTIONS.forEach(function(secDef){
+      var items = tasks.filter(function(t){ return t.section === secDef.key; });
+      var visible = items.filter(matchesFilter);
 
+      var sec = document.createElement("div");
+      sec.className = "section" + (items.length && visible.length === 0 ? " hidden" : "");
+
+      var doneCount = items.filter(function(t){ return t.done; }).length;
       var head = document.createElement("div");
       head.className = "section-head";
-      var doneCount = items.filter(function (t) { return entryFor(t.id).done; }).length;
-      head.innerHTML = "<h2>" + secName + "</h2><span class=\"section-count\">" + doneCount + "/" + items.length + "</span>";
+      head.innerHTML = "<h2>" + secDef.name + "</h2><span class=\"section-count\">" + doneCount + "/" + items.length + "</span>";
       sec.appendChild(head);
 
-      items.forEach(function (t) {
-        var entry = entryFor(t.id);
-        var isDone = !!entry.done;
-        var isOpen = !!expandedIds[t.id];
+      if (items.length === 0) {
+        var empty = document.createElement("div");
+        empty.className = "section-empty";
+        empty.textContent = "Sin tareas en esta sección.";
+        sec.appendChild(empty);
+      }
 
-        var row = document.createElement("div");
-        row.className = "task"
-          + (isDone ? " done" : "")
-          + (entry.outcome === "pos" ? " outcome-pos" : "")
-          + (entry.outcome === "neg" ? " outcome-neg" : "")
-          + (matchesFilter(t) ? "" : " hidden");
-
-        var cb = document.createElement("input");
-        cb.type = "checkbox";
-        cb.checked = isDone;
-        cb.setAttribute("aria-label", "Marcar completada: " + t.title);
-        cb.addEventListener("change", function () {
-          entry.done = cb.checked;
-          saveState();
-          render();
-        });
-
-        var mainCol = document.createElement("div");
-        mainCol.className = "task-main";
-        var titleEl = document.createElement("div");
-        titleEl.className = "task-title";
-        titleEl.textContent = t.title;
-        titleEl.addEventListener("click", function () { cb.click(); });
-        mainCol.appendChild(titleEl);
-        if (t.note) {
-          var noteEl = document.createElement("div");
-          noteEl.className = "task-note";
-          noteEl.textContent = t.note;
-          mainCol.appendChild(noteEl);
-        }
-
-        var metaCol = document.createElement("div");
-        metaCol.className = "task-meta";
-        var pill = document.createElement("span");
-        pill.className = "pill " + t.priority;
-        pill.textContent = PRIO_LABEL[t.priority];
-        var dateEl = document.createElement("span");
-        dateEl.className = "task-date";
-        dateEl.textContent = fmtDate(t.date);
-        metaCol.appendChild(pill);
-        if (entry.outcome) {
-          var outcomeBadge = document.createElement("span");
-          outcomeBadge.className = "outcome-badge " + entry.outcome;
-          outcomeBadge.textContent = entry.outcome === "pos" ? "🟢 Positivo" : "🔴 Negativo";
-          metaCol.appendChild(outcomeBadge);
-        }
-        metaCol.appendChild(dateEl);
-
-        var expandBtn = document.createElement("button");
-        expandBtn.type = "button";
-        expandBtn.className = "task-expand";
-        var hasContent = entry.outcome || (entry.note && entry.note.trim());
-        expandBtn.textContent = isOpen ? "ocultar" : (hasContent ? "ver anotación" : "+ anotación");
-        expandBtn.addEventListener("click", function () {
-          expandedIds[t.id] = !expandedIds[t.id];
-          render();
-        });
-
-        var detail = document.createElement("div");
-        detail.className = "task-detail" + (isOpen ? " open" : "");
-
-        var outcomeButtons = document.createElement("div");
-        outcomeButtons.className = "outcome-buttons";
-        var posBtn = document.createElement("button");
-        posBtn.type = "button";
-        posBtn.className = "outcome-btn pos" + (entry.outcome === "pos" ? " active" : "");
-        posBtn.textContent = "🟢 Positivo";
-        posBtn.addEventListener("click", function () {
-          entry.outcome = entry.outcome === "pos" ? null : "pos";
-          saveState();
-          render();
-        });
-        var negBtn = document.createElement("button");
-        negBtn.type = "button";
-        negBtn.className = "outcome-btn neg" + (entry.outcome === "neg" ? " active" : "");
-        negBtn.textContent = "🔴 Negativo";
-        negBtn.addEventListener("click", function () {
-          entry.outcome = entry.outcome === "neg" ? null : "neg";
-          saveState();
-          render();
-        });
-        outcomeButtons.appendChild(posBtn);
-        outcomeButtons.appendChild(negBtn);
-
-        var textarea = document.createElement("textarea");
-        textarea.className = "task-annotation";
-        textarea.placeholder = "Cómo salió, con quién hablaste, próximo paso...";
-        textarea.value = entry.note || "";
-        textarea.addEventListener("input", function () {
-          entry.note = textarea.value;
-          saveStateDebounced();
-        });
-        textarea.addEventListener("blur", saveState);
-
-        detail.appendChild(outcomeButtons);
-        detail.appendChild(textarea);
-
-        row.appendChild(cb);
-        row.appendChild(mainCol);
-        row.appendChild(metaCol);
-        row.appendChild(expandBtn);
-        row.appendChild(detail);
-        sec.appendChild(row);
-      });
-
+      items.forEach(function(t){ sec.appendChild(renderTask(t)); });
       main.appendChild(sec);
     });
 
     updateStats();
   }
 
-  function matchesFilter(t) {
-    var entry = entryFor(t.id);
-    if (currentFilter === "all") return true;
-    if (currentFilter === "critico") return t.priority === "critico";
-    if (currentFilter === "pending") return !entry.done;
-    if (currentFilter === "done") return entry.done;
-    if (currentFilter === "pos") return entry.outcome === "pos";
-    if (currentFilter === "neg") return entry.outcome === "neg";
-    return true;
+  function renderTask(t){
+    var isOpen = !!expandedIds[t.id];
+    var row = document.createElement("div");
+    row.className = "task"
+      + (t.done ? " done" : "")
+      + (t.outcome === "pos" ? " outcome-pos" : "")
+      + (t.outcome === "neg" ? " outcome-neg" : "")
+      + (matchesFilter(t) ? "" : " hidden");
+
+    var grid = document.createElement("div");
+    grid.className = "task-row";
+
+    // checkbox
+    var cb = document.createElement("input");
+    cb.type = "checkbox";
+    cb.className = "task-check";
+    cb.checked = t.done;
+    cb.setAttribute("aria-label", "Marcar completada: " + t.title);
+    cb.addEventListener("change", function(){
+      t.done = cb.checked;
+      row.classList.toggle("done", t.done);
+      updateStats();
+      markDirty();
+    });
+
+    // title + note (editable)
+    var mainCol = document.createElement("div");
+    mainCol.className = "task-main";
+
+    var titleEl = document.createElement("div");
+    titleEl.className = "task-title";
+    titleEl.contentEditable = "true";
+    titleEl.textContent = t.title;
+    titleEl.addEventListener("input", function(){ t.title = titleEl.textContent; markDirty(); });
+    titleEl.addEventListener("keydown", function(e){ if (e.key === "Enter"){ e.preventDefault(); titleEl.blur(); } });
+    mainCol.appendChild(titleEl);
+
+    var noteEl = document.createElement("div");
+    noteEl.className = "task-note";
+    noteEl.contentEditable = "true";
+    noteEl.textContent = t.note || "";
+    noteEl.addEventListener("input", function(){ t.note = noteEl.textContent; markDirty(); });
+    noteEl.addEventListener("keydown", function(e){ if (e.key === "Enter"){ e.preventDefault(); noteEl.blur(); } });
+    mainCol.appendChild(noteEl);
+
+    // meta (pill + outcome + date)
+    var metaCol = document.createElement("div");
+    metaCol.className = "task-meta";
+    var pill = document.createElement("span");
+    pill.className = "pill " + t.priority;
+    pill.textContent = PRIO_LABEL[t.priority];
+    metaCol.appendChild(pill);
+    if (t.outcome) {
+      var badge = document.createElement("span");
+      badge.className = "outcome-badge " + t.outcome;
+      badge.textContent = t.outcome === "pos" ? "+ positivo" : "- negativo";
+      metaCol.appendChild(badge);
+    }
+    var dateEl = document.createElement("span");
+    dateEl.className = "task-date";
+    dateEl.textContent = fmtDate(t.date);
+    metaCol.appendChild(dateEl);
+
+    // expand
+    var expandBtn = document.createElement("button");
+    expandBtn.type = "button";
+    expandBtn.className = "task-expand";
+    expandBtn.textContent = isOpen ? "cerrar" : "editar / anotar";
+    expandBtn.addEventListener("click", function(){
+      expandedIds[t.id] = !expandedIds[t.id];
+      render();
+    });
+
+    // detail panel: outcome + journal + edit fields + delete
+    var detail = document.createElement("div");
+    detail.className = "task-detail" + (isOpen ? " open" : "");
+
+    var outcomeButtons = document.createElement("div");
+    outcomeButtons.className = "outcome-buttons";
+    var posBtn = document.createElement("button");
+    posBtn.type = "button";
+    posBtn.className = "outcome-btn pos" + (t.outcome === "pos" ? " active" : "");
+    posBtn.textContent = "+ positivo";
+    posBtn.addEventListener("click", function(){
+      t.outcome = t.outcome === "pos" ? null : "pos";
+      markDirty();
+      render();
+    });
+    var negBtn = document.createElement("button");
+    negBtn.type = "button";
+    negBtn.className = "outcome-btn neg" + (t.outcome === "neg" ? " active" : "");
+    negBtn.textContent = "- negativo";
+    negBtn.addEventListener("click", function(){
+      t.outcome = t.outcome === "neg" ? null : "neg";
+      markDirty();
+      render();
+    });
+    outcomeButtons.appendChild(posBtn);
+    outcomeButtons.appendChild(negBtn);
+    detail.appendChild(outcomeButtons);
+
+    var textarea = document.createElement("textarea");
+    textarea.className = "task-annotation";
+    textarea.placeholder = "Cómo salió, con quién hablaste, próximo paso...";
+    textarea.value = t.journal || "";
+    textarea.addEventListener("input", function(){ t.journal = textarea.value; markDirty(); });
+    detail.appendChild(textarea);
+
+    var editRow = document.createElement("div");
+    editRow.className = "edit-row";
+
+    var secField = document.createElement("div");
+    secField.className = "field";
+    var secLabel = document.createElement("label");
+    secLabel.textContent = "sección";
+    var secSelect = document.createElement("select");
+    SECTIONS.forEach(function(s){
+      var opt = document.createElement("option");
+      opt.value = s.key; opt.textContent = s.name;
+      if (s.key === t.section) opt.selected = true;
+      secSelect.appendChild(opt);
+    });
+    secSelect.addEventListener("change", function(){ t.section = secSelect.value; markDirty(); render(); });
+    secField.appendChild(secLabel); secField.appendChild(secSelect);
+
+    var prioField = document.createElement("div");
+    prioField.className = "field";
+    var prioLabel = document.createElement("label");
+    prioLabel.textContent = "prioridad";
+    var prioSelect = document.createElement("select");
+    ["critico","alta","normal"].forEach(function(p){
+      var opt = document.createElement("option");
+      opt.value = p; opt.textContent = PRIO_LABEL[p];
+      if (p === t.priority) opt.selected = true;
+      prioSelect.appendChild(opt);
+    });
+    prioSelect.addEventListener("change", function(){ t.priority = prioSelect.value; markDirty(); render(); });
+    prioField.appendChild(prioLabel); prioField.appendChild(prioSelect);
+
+    var dateField = document.createElement("div");
+    dateField.className = "field";
+    var dateLabel = document.createElement("label");
+    dateLabel.textContent = "fecha";
+    var dateInput = document.createElement("input");
+    dateInput.type = "date";
+    dateInput.value = t.date || "";
+    dateInput.addEventListener("change", function(){ t.date = dateInput.value; markDirty(); render(); });
+    dateField.appendChild(dateLabel); dateField.appendChild(dateInput);
+
+    var delBtn = document.createElement("button");
+    delBtn.type = "button";
+    delBtn.className = "task-del";
+    delBtn.textContent = "eliminar tarea";
+    delBtn.addEventListener("click", function(){
+      if (!confirm("¿Eliminar esta tarea?")) return;
+      tasks = tasks.filter(function(x){ return x.id !== t.id; });
+      persist();
+      render();
+      markDirty();
+      saveNow();
+    });
+
+    editRow.appendChild(secField);
+    editRow.appendChild(prioField);
+    editRow.appendChild(dateField);
+    editRow.appendChild(delBtn);
+    detail.appendChild(editRow);
+
+    grid.appendChild(cb);
+    grid.appendChild(mainCol);
+    grid.appendChild(metaCol);
+    grid.appendChild(expandBtn);
+    grid.appendChild(detail);
+    row.appendChild(grid);
+    return row;
   }
 
-  function updateStats() {
-    var total = DATA.length;
-    var doneCount = DATA.filter(function (t) { return entryFor(t.id).done; }).length;
-    var criticalOpen = DATA.filter(function (t) { return t.priority === "critico" && !entryFor(t.id).done; }).length;
-    var posCount = DATA.filter(function (t) { return entryFor(t.id).outcome === "pos"; }).length;
-    var negCount = DATA.filter(function (t) { return entryFor(t.id).outcome === "neg"; }).length;
+  function updateStats(){
+    var total = tasks.length;
+    var doneCount = tasks.filter(function(t){ return t.done; }).length;
+    var criticalOpen = tasks.filter(function(t){ return t.priority === "critico" && !t.done; }).length;
+    var posCount = tasks.filter(function(t){ return t.outcome === "pos"; }).length;
+    var negCount = tasks.filter(function(t){ return t.outcome === "neg"; }).length;
 
     document.getElementById("stat-done").textContent = doneCount + "/" + total;
     document.getElementById("stat-critical").textContent = criticalOpen;
-    document.getElementById("progress-fill").style.width = Math.round((doneCount / total) * 100) + "%";
+    document.getElementById("progress-fill").style.width = (total ? Math.round((doneCount/total)*100) : 0) + "%";
 
     document.getElementById("tally-pos").textContent = posCount;
     document.getElementById("tally-neg").textContent = negCount;
@@ -779,29 +766,78 @@
     var daysLeft = Math.ceil((DEADLINE - today) / 86400000);
     document.getElementById("stat-days").textContent = daysLeft >= 0 ? daysLeft : "0";
 
-    var upcoming = DATA
-      .filter(function (t) { return !entryFor(t.id).done; })
-      .sort(function (a, b) { return a.date < b.date ? -1 : (a.date > b.date ? 1 : 0); })[0];
+    var upcoming = tasks
+      .filter(function(t){ return !t.done; })
+      .sort(function(a,b){ return (a.date||"") < (b.date||"") ? -1 : ((a.date||"") > (b.date||"") ? 1 : 0); })[0];
 
     var nextUp = document.getElementById("next-up");
     if (upcoming) {
       nextUp.style.display = "flex";
-      document.getElementById("next-up-text").innerHTML = "<b>" + upcoming.title + "</b> — " + upcoming.section;
+      document.getElementById("next-up-text").innerHTML = "<b>" + escapeHtml(upcoming.title) + "</b> — " + sectionName(upcoming.section);
       document.getElementById("next-up-date").textContent = fmtDate(upcoming.date);
     } else {
       nextUp.style.display = "none";
     }
   }
 
-  document.getElementById("filters").addEventListener("click", function (e) {
+  function escapeHtml(str){
+    var div = document.createElement("div");
+    div.textContent = str;
+    return div.innerHTML;
+  }
+
+  var newTaskCounter = 0;
+  function addTask(){
+    var titleEl = document.getElementById("new-task-title");
+    var title = titleEl.value.trim();
+    if (!title) { titleEl.focus(); return; }
+    newTaskCounter++;
+    var id = "custom-" + Date.now() + "-" + newTaskCounter;
+    tasks.push({
+      id: id,
+      section: document.getElementById("new-task-section").value,
+      title: title,
+      note: "",
+      priority: document.getElementById("new-task-priority").value,
+      date: document.getElementById("new-task-date").value || "",
+      done: false,
+      journal: "",
+      outcome: null
+    });
+    titleEl.value = "";
+    persist();
+    render();
+    markDirty();
+    saveNow();
+  }
+
+  (function initNewTaskSection(){
+    var sel = document.getElementById("new-task-section");
+    SECTIONS.forEach(function(s){
+      var opt = document.createElement("option");
+      opt.value = s.key; opt.textContent = s.name;
+      sel.appendChild(opt);
+    });
+  })();
+
+  document.getElementById("filters").addEventListener("click", function(e){
     var btn = e.target.closest(".chip");
     if (!btn) return;
     currentFilter = btn.getAttribute("data-filter");
-    Array.prototype.forEach.call(document.querySelectorAll(".chip"), function (c) {
+    Array.prototype.forEach.call(document.querySelectorAll(".chip"), function(c){
       c.classList.toggle("active", c === btn);
     });
     render();
   });
 
+  document.addEventListener("keydown", function(e){
+    if ((e.ctrlKey || e.metaKey) && e.key === "s") {
+      e.preventDefault();
+      saveNow();
+    }
+  });
+
   render();
 </script>
+</body>
+</html>
